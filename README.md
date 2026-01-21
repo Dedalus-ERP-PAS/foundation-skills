@@ -49,6 +49,7 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 | **postgres** | Requêtes SQL lecture seule sur PostgreSQL |
 | **pptx** | Création, édition et analyse de présentations PowerPoint (.pptx) |
 | **react-best-practices** | Guidelines performance React/Next.js |
+| **toxic-manager-translator** | Transforme les messages émotionnels en réponses professionnelles pour gérer les managers toxiques |
 | **vue-best-practices** | Best practices Vue.js 3/Nuxt - Composition API, patterns et organisation |
 | **webapp-testing** | Tests d'applications web avec Playwright |
 | **web-design-guidelines** | Audit UI, accessibilité et UX |
@@ -72,6 +73,7 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 | postgres | [docs/postgres.md](docs/postgres.md) |
 | pptx | [docs/pptx.md](docs/pptx.md) |
 | react-best-practices | [docs/react-best-practices.md](docs/react-best-practices.md) |
+| toxic-manager-translator | [docs/toxic-manager-translator.md](docs/toxic-manager-translator.md) |
 | vue-best-practices | [docs/vue-best-practices.md](docs/vue-best-practices.md) |
 | webapp-testing | [docs/webapp-testing.md](docs/webapp-testing.md) |
 | web-design-guidelines | [docs/web-design-guidelines.md](docs/web-design-guidelines.md) |
