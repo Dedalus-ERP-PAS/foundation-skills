@@ -1,93 +1,131 @@
-# MCP Builder Skill
+# Foundation Skills
 
-A comprehensive guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools.
+Un repository centralisé de Skills pour les assistants IA de développement. Ces skills étendent les capacités de GitHub Copilot, Claude, Cursor et autres agents IA supportant le standard [Agent Skills](https://agentskills.io).
 
-## Overview
+## Qu'est-ce qu'un Agent Skill ?
 
-This repository contains the complete MCP Builder skill from Anthropic, providing detailed guidance for building MCP servers in both Python (FastMCP) and Node/TypeScript (MCP SDK).
+Les skills sont des dossiers contenant des instructions, scripts et ressources que les agents IA chargent dynamiquement pour réaliser des tâches spécialisées. Ils enseignent aux assistants IA comment accomplir des tâches spécifiques de manière reproductible.
 
-## What's Inside
+Les skills suivent la spécification ouverte [Agent Skills](https://agentskills.io), ce qui signifie qu'ils fonctionnent sur plusieurs plateformes :
+- GitHub Copilot (VS Code, CLI, coding agent)
+- Claude Code
+- Claude.ai
+- Cursor
+- Windsurf
+- Et plus de 10 autres agents
 
-### Core Documentation
+## Skills disponibles
 
-- **[SKILL.md](SKILL.md)** - Main guide with 4-phase workflow for MCP server development
-  - Phase 1: Deep Research and Planning
-  - Phase 2: Implementation
-  - Phase 3: Review and Test
-  - Phase 4: Create Evaluations
+| Skill | Description |
+|-------|-------------|
+| **frontend-design** | Création d'interfaces frontend distinctives et de qualité production |
+| **webapp-testing** | Toolkit de tests d'applications web avec Playwright |
+| **postgres** | Exécution de requêtes SQL en lecture seule sur PostgreSQL |
+| **changelog-generator** | Transformation des commits git en changelogs user-friendly |
+| **mcp-builder** | Guide de création de serveurs MCP (Model Context Protocol) |
+| **playwright-skill** | Automatisation complète de navigateur avec Playwright |
+| **react-best-practices** | Guidelines d'optimisation React et Next.js |
+| **web-design-guidelines** | Audit de code UI selon les best practices web |
 
-### Reference Documentation
+## Installation
 
-Located in the `reference/` directory:
+### Via add-skill (Recommandé)
 
-- **[mcp_best_practices.md](reference/mcp_best_practices.md)** - Universal MCP guidelines
-- **[node_mcp_server.md](reference/node_mcp_server.md)** - Complete TypeScript guide
-- **[python_mcp_server.md](reference/python_mcp_server.md)** - Complete Python/FastMCP guide
-- **[evaluation.md](reference/evaluation.md)** - Complete evaluation creation guide
-
-### Evaluation Scripts
-
-Located in the `scripts/` directory:
-
-- **[evaluation.py](scripts/evaluation.py)** - Evaluation harness for testing MCP servers
-- **[connections.py](scripts/connections.py)** - Connection handling for stdio, SSE, and HTTP transports
-- **[example_evaluation.xml](scripts/example_evaluation.xml)** - Example evaluation questions
-- **[requirements.txt](scripts/requirements.txt)** - Python dependencies for evaluation scripts
-
-## Quick Start
-
-### For TypeScript/Node.js
+Installez les skills sur n'importe quel agent supporté avec [add-skill](https://github.com/vercel-labs/add-skill) :
 
 ```bash
-npm init -y
-npm install @modelcontextprotocol/sdk zod axios
-npx tsc --init
+# Installer tous les skills globalement
+npx add-skill foundation/foundation-skills -g -y
+
+# Installer des skills spécifiques
+npx add-skill foundation/foundation-skills --skill frontend-design --skill react-best-practices -g
+
+# Installer pour des agents spécifiques
+npx add-skill foundation/foundation-skills -a cursor -a github-copilot -g -y
+
+# Lister les skills disponibles
+npx add-skill foundation/foundation-skills --list
 ```
 
-See [node_mcp_server.md](reference/node_mcp_server.md) for complete setup.
+### Installation manuelle
 
-### For Python
+Copiez les dossiers de skills vers l'emplacement approprié pour votre agent :
+
+| Agent | Chemin projet | Chemin global |
+|-------|---------------|---------------|
+| GitHub Copilot | `.github/skills/` | `~/.copilot/skills/` |
+| Claude Code | `.claude/skills/` | `~/.claude/skills/` |
+| Cursor | `.cursor/skills/` | `~/.cursor/skills/` |
+
+## Structure d'un skill
+
+Chaque skill suit cette structure :
+
+```
+skill-name/
+├── SKILL.md           # Obligatoire : Instructions et métadonnées
+├── scripts/           # Optionnel : Scripts exécutables
+├── examples/          # Optionnel : Exemples d'utilisation
+└── reference/         # Optionnel : Documentation additionnelle
+```
+
+### Format du SKILL.md
+
+```markdown
+---
+name: skill-name
+description: Description claire de ce que fait le skill et quand l'utiliser.
+---
+
+# Titre du Skill
+
+Instructions que l'IA doit suivre quand ce skill est actif...
+```
+
+## Utilisation
+
+Une fois installés, les skills s'activent automatiquement selon vos prompts. Par exemple :
+
+- "Crée un composant React" → Active `react-best-practices`
+- "Teste cette page web" → Active `webapp-testing` ou `playwright-skill`
+- "Requête la base de données" → Active `postgres`
+- "Crée un changelog" → Active `changelog-generator`
+- "Build un serveur MCP" → Active `mcp-builder`
+
+## Contribuer
+
+Pour ajouter ou modifier des skills :
+
+1. Créez un nouveau dossier dans `skills/` avec le nom du skill
+2. Ajoutez un fichier `SKILL.md` avec le frontmatter YAML (`name` et `description` obligatoires)
+3. Ajoutez les scripts, exemples ou références nécessaires
+4. Soumettez une merge request
+
+Voir [docs/contributing.md](docs/contributing.md) pour le guide complet.
+
+## Mise à jour des skills
+
+Pour obtenir les dernières versions :
 
 ```bash
-python -m venv venv
-source venv/bin/activate
-pip install mcp[cli] httpx pydantic
+# Relancer add-skill pour mettre à jour
+npx add-skill foundation/foundation-skills -g -y
 ```
 
-See [python_mcp_server.md](reference/python_mcp_server.md) for complete setup.
+## Documentation
 
-### Running Evaluations
+- [Guide d'installation](docs/installation.md)
+- [Guide de contribution](docs/contributing.md)
+- [Référence des skills](docs/skills-reference.md)
 
-```bash
-pip install -r scripts/requirements.txt
-export ANTHROPIC_API_KEY=your_api_key_here
+## Ressources externes
 
-# Stdio transport
-python scripts/evaluation.py -t stdio -c python -a your_mcp_server.py evaluation.xml
+- [Spécification Agent Skills](https://agentskills.io)
+- [Repository Skills Anthropic](https://github.com/anthropics/skills)
+- [Vercel Agent Skills](https://github.com/vercel-labs/agent-skills)
+- [CLI add-skill](https://github.com/vercel-labs/add-skill)
+- [Documentation VS Code Agent Skills](https://code.visualstudio.com/docs/copilot/customization/agent-skills)
 
-# HTTP transport
-python scripts/evaluation.py -t http -u https://your-server.com/mcp evaluation.xml
-```
+## Licence
 
-## Key Concepts
-
-### MCP Server Design Principles
-
-1. **API Coverage vs. Workflow Tools** - Balance comprehensive endpoint coverage with specialized workflow tools
-2. **Tool Naming** - Use clear, descriptive names with service prefixes
-3. **Context Management** - Return focused, relevant data; support pagination and filtering
-4. **Actionable Error Messages** - Guide agents toward solutions with specific suggestions
-
-### Recommended Tech Stack
-
-- **Language**: TypeScript (recommended for broad compatibility)
-- **Transport**: Streamable HTTP for remote servers, stdio for local integrations
-- **Validation**: Zod schemas (TypeScript) or Pydantic models (Python)
-
-## License
-
-Apache License 2.0 - see [LICENSE.txt](LICENSE.txt)
-
-## Source
-
-Based on the [Anthropics skills repository](https://github.com/anthropics/skills/tree/main/skills/mcp-builder)
+MIT
