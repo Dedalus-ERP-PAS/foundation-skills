@@ -28,6 +28,7 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 | Skill | Description |
 |-------|-------------|
 | **changelog-generator** | Génère des changelogs à partir des commits git |
+| **docx** | Création, édition et analyse de documents Word (.docx) |
 | **frontend-design** | Interfaces frontend de qualité production |
 | **mcp-builder** | Création de serveurs MCP (Python/TypeScript) |
 | **playwright-skill** | Automatisation navigateur avec Playwright |
