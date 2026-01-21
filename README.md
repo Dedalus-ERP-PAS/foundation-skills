@@ -35,6 +35,7 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 
 | Skill | Description |
 |-------|-------------|
+| **article-extractor** | Extraction de contenu d'articles web (blogs, tutoriels) en texte propre sans publicités ni navigation |
 | **changelog-generator** | Génère des changelogs à partir des commits git |
 | **create-design-system-rules** | Génère des règles de design system pour les workflows Figma-to-code |
 | **docx** | Création, édition et analyse de documents Word (.docx) |
@@ -55,6 +56,7 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 
 | Skill | Documentation |
 |-------|---------------|
+| article-extractor | [skills/article-extractor/SKILL.md](skills/article-extractor/SKILL.md) |
 | changelog-generator | [docs/changelog-generator.md](docs/changelog-generator.md) |
 | create-design-system-rules | [docs/create-design-system-rules.md](docs/create-design-system-rules.md) |
 | docx | [docs/docx.md](docs/docx.md) |
