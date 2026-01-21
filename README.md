@@ -31,11 +31,13 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 | **docx** | Création, édition et analyse de documents Word (.docx) |
 | **frontend-design** | Interfaces frontend de qualité production |
 | **mcp-builder** | Création de serveurs MCP (Python/TypeScript) |
+| **pdf** | Manipulation de PDF : extraction, création, fusion et formulaires |
 | **playwright-skill** | Automatisation navigateur avec Playwright |
 | **postgres** | Requêtes SQL lecture seule sur PostgreSQL |
 | **react-best-practices** | Guidelines performance React/Next.js |
 | **webapp-testing** | Tests d'applications web avec Playwright |
 | **web-design-guidelines** | Audit UI, accessibilité et UX |
+| **xlsx** | Création, édition et analyse de fichiers Excel avec formules et formatage |
 
 ## Documentation
 
