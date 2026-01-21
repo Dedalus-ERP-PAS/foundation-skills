@@ -1,12 +1,12 @@
 ---
 name: vue-best-practices
-description: Vue.js 3 best practices guidelines covering Composition API, component design, reactivity patterns, Tailwind CSS utility-first styling, and code organization. This skill should be used when writing, reviewing, or refactoring Vue.js code to ensure idiomatic patterns and maintainable code.
+description: Vue.js 3 best practices guidelines covering Composition API, component design, reactivity patterns, Tailwind CSS utility-first styling, PrimeVue component library integration, and code organization. This skill should be used when writing, reviewing, or refactoring Vue.js code to ensure idiomatic patterns and maintainable code.
 license: MIT
 ---
 
 # Vue.js Best Practices
 
-Comprehensive best practices guide for Vue.js 3 applications. Contains guidelines across multiple categories to ensure idiomatic, maintainable, and scalable Vue.js code, including Tailwind CSS integration patterns for utility-first styling.
+Comprehensive best practices guide for Vue.js 3 applications. Contains guidelines across multiple categories to ensure idiomatic, maintainable, and scalable Vue.js code, including Tailwind CSS integration patterns for utility-first styling and PrimeVue component library best practices.
 
 ## When to Apply
 
@@ -19,6 +19,8 @@ Reference these guidelines when:
 - Working with Nuxt.js applications
 - Styling Vue components with Tailwind CSS utility classes
 - Creating design systems with Tailwind and Vue
+- Using PrimeVue component library
+- Customizing PrimeVue components with PassThrough API
 
 ## Rule Categories
 
@@ -33,6 +35,7 @@ Reference these guidelines when:
 | TypeScript | Type-safe Vue.js patterns | `typescript-` |
 | Error Handling | Error boundaries and handling | `error-` |
 | Tailwind CSS | Utility-first styling patterns | `tailwind-` |
+| PrimeVue | Component library integration patterns | `primevue-` |
 
 ## Quick Reference
 
@@ -120,6 +123,19 @@ Reference these guidelines when:
 - `tailwind-dark-mode` - Use `dark:` prefix for dark mode support
 - `tailwind-design-tokens` - Configure design tokens in Tailwind config for consistency
 - `tailwind-avoid-apply-overuse` - Limit `@apply` usage; prefer Vue components for abstraction
+
+### 10. PrimeVue
+
+- `primevue-design-tokens` - Use design tokens over CSS overrides for theming
+- `primevue-passthrough-api` - Use PassThrough (pt) API for component customization
+- `primevue-wrapper-components` - Wrap PrimeVue components for consistent styling across apps
+- `primevue-unstyled-mode` - Use unstyled mode with Tailwind for full styling control
+- `primevue-global-pt-config` - Define shared PassThrough properties at app level
+- `primevue-merge-strategies` - Choose appropriate merge strategies for PT customization
+- `primevue-use-passthrough-utility` - Use `usePassThrough` for extending presets
+- `primevue-typed-components` - Leverage PrimeVue's TypeScript support for type safety
+- `primevue-accessibility` - Maintain WCAG compliance with proper aria attributes
+- `primevue-lazy-loading` - Use async components for large PrimeVue imports
 
 ## Key Principles
 
@@ -792,6 +808,698 @@ const props = defineProps<{
 </template>
 ```
 
+## PrimeVue Best Practices
+
+PrimeVue is a comprehensive Vue UI component library with 90+ components. Follow these patterns for effective integration and customization.
+
+### Installation & Setup
+
+**Correct: PrimeVue v4 setup with Vue 3**
+```typescript
+// main.ts
+import { createApp } from 'vue'
+import PrimeVue from 'primevue/config'
+import Aura from '@primevue/themes/aura'
+import App from './App.vue'
+
+const app = createApp(App)
+
+app.use(PrimeVue, {
+  theme: {
+    preset: Aura,
+    options: {
+      darkModeSelector: '.dark-mode'
+    }
+  }
+})
+
+app.mount('#app')
+```
+
+**Correct: Component registration (tree-shakeable)**
+```typescript
+// main.ts - Register only components you use
+import Button from 'primevue/button'
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
+
+app.component('Button', Button)
+app.component('DataTable', DataTable)
+app.component('Column', Column)
+```
+
+### PassThrough (PT) API
+
+The PassThrough API allows customization of internal DOM elements without modifying component source:
+
+**Correct: Component-level PassThrough**
+```vue
+<script setup lang="ts">
+import Panel from 'primevue/panel'
+</script>
+
+<template>
+  <Panel
+    header="User Profile"
+    toggleable
+    :pt="{
+      header: {
+        class: 'bg-primary-100 dark:bg-primary-900'
+      },
+      content: {
+        class: 'p-6'
+      },
+      title: {
+        class: 'text-xl font-semibold'
+      },
+      toggler: {
+        class: 'hover:bg-primary-200 dark:hover:bg-primary-800 rounded-full'
+      }
+    }"
+  >
+    <p>Panel content here</p>
+  </Panel>
+</template>
+```
+
+**Correct: Dynamic PassThrough with state**
+```vue
+<script setup lang="ts">
+import Panel from 'primevue/panel'
+</script>
+
+<template>
+  <Panel
+    header="Collapsible Panel"
+    toggleable
+    :pt="{
+      header: (options) => ({
+        class: [
+          'transition-colors duration-200',
+          {
+            'bg-primary-500 text-white': options.state.d_collapsed,
+            'bg-surface-100 dark:bg-surface-800': !options.state.d_collapsed
+          }
+        ]
+      })
+    }"
+  >
+    <p>Content changes header style when collapsed</p>
+  </Panel>
+</template>
+```
+
+### Global PassThrough Configuration
+
+Define shared styles at the application level:
+
+**Correct: Global PT configuration**
+```typescript
+// main.ts
+import PrimeVue from 'primevue/config'
+import Aura from '@primevue/themes/aura'
+
+app.use(PrimeVue, {
+  theme: {
+    preset: Aura
+  },
+  pt: {
+    // All buttons get consistent styling
+    button: {
+      root: {
+        class: 'rounded-lg font-medium transition-all duration-200'
+      }
+    },
+    // All inputs get consistent styling
+    inputtext: {
+      root: {
+        class: 'rounded-lg border-2 focus:ring-2 focus:ring-primary-500'
+      }
+    },
+    // All panels share styling
+    panel: {
+      header: {
+        class: 'bg-surface-50 dark:bg-surface-900'
+      }
+    },
+    // Global CSS injection
+    global: {
+      css: `
+        .p-component {
+          font-family: 'Inter', sans-serif;
+        }
+      `
+    }
+  }
+})
+```
+
+### usePassThrough Utility
+
+Extend existing presets with custom modifications:
+
+**Correct: Extending Tailwind preset**
+```typescript
+// presets/custom-tailwind.ts
+import { usePassThrough } from 'primevue/passthrough'
+import Tailwind from 'primevue/passthrough/tailwind'
+
+export const CustomTailwind = usePassThrough(
+  Tailwind,
+  {
+    panel: {
+      header: {
+        class: ['bg-gradient-to-r from-primary-500 to-primary-600']
+      },
+      title: {
+        class: ['text-white font-bold']
+      }
+    },
+    button: {
+      root: {
+        class: ['shadow-lg hover:shadow-xl transition-shadow']
+      }
+    }
+  },
+  {
+    mergeSections: true,  // Keep original sections
+    mergeProps: false     // Replace props (don't merge arrays)
+  }
+)
+```
+
+**Merge Strategy Reference:**
+
+| mergeSections | mergeProps | Behavior |
+|---------------|------------|----------|
+| `true` | `false` | Custom value replaces original (default) |
+| `true` | `true` | Custom values merge with original |
+| `false` | `true` | Only custom sections included |
+| `false` | `false` | Minimal - only custom sections, no merging |
+
+### Unstyled Mode with Tailwind
+
+Use unstyled PrimeVue components with full Tailwind control:
+
+**Correct: Unstyled mode configuration**
+```typescript
+// main.ts
+import PrimeVue from 'primevue/config'
+
+app.use(PrimeVue, {
+  unstyled: true  // Remove all default styles
+})
+```
+
+**Correct: Custom styled button with unstyled mode**
+```vue
+<script setup lang="ts">
+import Button from 'primevue/button'
+</script>
+
+<template>
+  <Button
+    label="Submit"
+    :pt="{
+      root: {
+        class: [
+          'inline-flex items-center justify-center',
+          'px-4 py-2 rounded-lg font-medium',
+          'bg-primary-600 text-white',
+          'hover:bg-primary-700 active:bg-primary-800',
+          'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2',
+          'transition-colors duration-150',
+          'disabled:opacity-50 disabled:cursor-not-allowed'
+        ]
+      },
+      label: {
+        class: 'font-medium'
+      },
+      icon: {
+        class: 'mr-2'
+      }
+    }"
+    :ptOptions="{ mergeSections: false, mergeProps: false }"
+  />
+</template>
+```
+
+### Wrapper Components Pattern
+
+Create reusable wrapper components for consistent styling:
+
+**Correct: Button wrapper component**
+```vue
+<!-- components/ui/AppButton.vue -->
+<script setup lang="ts">
+import Button from 'primevue/button'
+
+type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost'
+type ButtonSize = 'sm' | 'md' | 'lg'
+
+const props = withDefaults(defineProps<{
+  variant?: ButtonVariant
+  size?: ButtonSize
+  loading?: boolean
+}>(), {
+  variant: 'primary',
+  size: 'md',
+  loading: false
+})
+
+const variantClasses: Record<ButtonVariant, string> = {
+  primary: 'bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500',
+  secondary: 'bg-surface-200 text-surface-900 hover:bg-surface-300 focus:ring-surface-500',
+  danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
+  ghost: 'bg-transparent text-primary-600 hover:bg-primary-50 focus:ring-primary-500'
+}
+
+const sizeClasses: Record<ButtonSize, string> = {
+  sm: 'px-3 py-1.5 text-sm',
+  md: 'px-4 py-2 text-base',
+  lg: 'px-6 py-3 text-lg'
+}
+</script>
+
+<template>
+  <Button
+    v-bind="$attrs"
+    :loading="loading"
+    :pt="{
+      root: {
+        class: [
+          'inline-flex items-center justify-center rounded-lg font-medium',
+          'transition-all duration-200',
+          'focus:outline-none focus:ring-2 focus:ring-offset-2',
+          'disabled:opacity-50 disabled:cursor-not-allowed',
+          variantClasses[variant],
+          sizeClasses[size]
+        ]
+      }
+    }"
+    :ptOptions="{ mergeSections: false, mergeProps: false }"
+  >
+    <slot />
+  </Button>
+</template>
+
+<script lang="ts">
+export default {
+  inheritAttrs: false
+}
+</script>
+```
+
+**Usage:**
+```vue
+<template>
+  <AppButton variant="primary" size="lg" @click="handleSubmit">
+    Submit Form
+  </AppButton>
+  <AppButton variant="ghost" size="sm">
+    Cancel
+  </AppButton>
+</template>
+```
+
+### DataTable Best Practices
+
+**Correct: Typed DataTable with Composition API**
+```vue
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
+
+interface User {
+  id: number
+  name: string
+  email: string
+  role: string
+  status: 'active' | 'inactive'
+}
+
+const users = ref<User[]>([])
+const loading = ref(true)
+const selectedUsers = ref<User[]>([])
+
+// Pagination
+const first = ref(0)
+const rows = ref(10)
+
+// Sorting
+const sortField = ref<string>('name')
+const sortOrder = ref<1 | -1>(1)
+
+onMounted(async () => {
+  loading.value = true
+  try {
+    users.value = await fetchUsers()
+  } finally {
+    loading.value = false
+  }
+})
+</script>
+
+<template>
+  <DataTable
+    v-model:selection="selectedUsers"
+    :value="users"
+    :loading="loading"
+    :paginator="true"
+    :rows="rows"
+    :first="first"
+    :sortField="sortField"
+    :sortOrder="sortOrder"
+    dataKey="id"
+    stripedRows
+    removableSort
+    @page="(e) => first = e.first"
+    @sort="(e) => { sortField = e.sortField; sortOrder = e.sortOrder }"
+  >
+    <Column selectionMode="multiple" headerStyle="width: 3rem" />
+    <Column field="name" header="Name" sortable />
+    <Column field="email" header="Email" sortable />
+    <Column field="role" header="Role" sortable />
+    <Column field="status" header="Status">
+      <template #body="{ data }">
+        <span
+          :class="[
+            'px-2 py-1 rounded-full text-xs font-medium',
+            data.status === 'active'
+              ? 'bg-green-100 text-green-800'
+              : 'bg-red-100 text-red-800'
+          ]"
+        >
+          {{ data.status }}
+        </span>
+      </template>
+    </Column>
+  </DataTable>
+</template>
+```
+
+### Form Components Pattern
+
+**Correct: Form with validation using PrimeVue**
+```vue
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import InputText from 'primevue/inputtext'
+import Password from 'primevue/password'
+import Dropdown from 'primevue/dropdown'
+import Button from 'primevue/button'
+import Message from 'primevue/message'
+
+interface FormData {
+  email: string
+  password: string
+  role: string | null
+}
+
+const formData = ref<FormData>({
+  email: '',
+  password: '',
+  role: null
+})
+
+const errors = ref<Partial<Record<keyof FormData, string>>>({})
+const submitted = ref(false)
+
+const roles = [
+  { label: 'Admin', value: 'admin' },
+  { label: 'User', value: 'user' },
+  { label: 'Guest', value: 'guest' }
+]
+
+const isValid = computed(() => {
+  return Object.keys(errors.value).length === 0
+})
+
+function validate(): boolean {
+  errors.value = {}
+
+  if (!formData.value.email) {
+    errors.value.email = 'Email is required'
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.value.email)) {
+    errors.value.email = 'Invalid email format'
+  }
+
+  if (!formData.value.password) {
+    errors.value.password = 'Password is required'
+  } else if (formData.value.password.length < 8) {
+    errors.value.password = 'Password must be at least 8 characters'
+  }
+
+  if (!formData.value.role) {
+    errors.value.role = 'Role is required'
+  }
+
+  return Object.keys(errors.value).length === 0
+}
+
+function handleSubmit() {
+  submitted.value = true
+  if (validate()) {
+    // Submit form
+    console.log('Form submitted:', formData.value)
+  }
+}
+</script>
+
+<template>
+  <form @submit.prevent="handleSubmit" class="space-y-4">
+    <div class="flex flex-col gap-2">
+      <label for="email" class="font-medium">Email</label>
+      <InputText
+        id="email"
+        v-model="formData.email"
+        :class="{ 'p-invalid': errors.email }"
+        aria-describedby="email-error"
+      />
+      <Message v-if="errors.email" severity="error" :closable="false">
+        {{ errors.email }}
+      </Message>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="password" class="font-medium">Password</label>
+      <Password
+        id="password"
+        v-model="formData.password"
+        :class="{ 'p-invalid': errors.password }"
+        toggleMask
+        :feedback="false"
+        aria-describedby="password-error"
+      />
+      <Message v-if="errors.password" severity="error" :closable="false">
+        {{ errors.password }}
+      </Message>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="role" class="font-medium">Role</label>
+      <Dropdown
+        id="role"
+        v-model="formData.role"
+        :options="roles"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select a role"
+        :class="{ 'p-invalid': errors.role }"
+        aria-describedby="role-error"
+      />
+      <Message v-if="errors.role" severity="error" :closable="false">
+        {{ errors.role }}
+      </Message>
+    </div>
+
+    <Button type="submit" label="Submit" class="w-full" />
+  </form>
+</template>
+```
+
+### Dialog & Overlay Patterns
+
+**Correct: Confirmation dialog with composable**
+```typescript
+// composables/useConfirmDialog.ts
+import { useConfirm } from 'primevue/useconfirm'
+
+export function useConfirmDialog() {
+  const confirm = useConfirm()
+
+  function confirmDelete(
+    message: string,
+    onAccept: () => void,
+    onReject?: () => void
+  ) {
+    confirm.require({
+      message,
+      header: 'Confirm Delete',
+      icon: 'pi pi-exclamation-triangle',
+      rejectClass: 'p-button-secondary p-button-outlined',
+      acceptClass: 'p-button-danger',
+      rejectLabel: 'Cancel',
+      acceptLabel: 'Delete',
+      accept: onAccept,
+      reject: onReject
+    })
+  }
+
+  function confirmAction(options: {
+    message: string
+    header: string
+    onAccept: () => void
+    onReject?: () => void
+  }) {
+    confirm.require({
+      message: options.message,
+      header: options.header,
+      icon: 'pi pi-info-circle',
+      rejectClass: 'p-button-secondary p-button-outlined',
+      acceptClass: 'p-button-primary',
+      accept: options.onAccept,
+      reject: options.onReject
+    })
+  }
+
+  return {
+    confirmDelete,
+    confirmAction
+  }
+}
+```
+
+**Usage:**
+```vue
+<script setup lang="ts">
+import { useConfirmDialog } from '@/composables/useConfirmDialog'
+import ConfirmDialog from 'primevue/confirmdialog'
+
+const { confirmDelete } = useConfirmDialog()
+
+function handleDelete(item: Item) {
+  confirmDelete(
+    `Are you sure you want to delete "${item.name}"?`,
+    () => deleteItem(item.id)
+  )
+}
+</script>
+
+<template>
+  <ConfirmDialog />
+  <Button label="Delete" severity="danger" @click="handleDelete(item)" />
+</template>
+```
+
+### Toast Notifications
+
+**Correct: Toast service with composable**
+```typescript
+// composables/useNotifications.ts
+import { useToast } from 'primevue/usetoast'
+
+export function useNotifications() {
+  const toast = useToast()
+
+  function success(summary: string, detail?: string) {
+    toast.add({
+      severity: 'success',
+      summary,
+      detail,
+      life: 3000
+    })
+  }
+
+  function error(summary: string, detail?: string) {
+    toast.add({
+      severity: 'error',
+      summary,
+      detail,
+      life: 5000
+    })
+  }
+
+  function warn(summary: string, detail?: string) {
+    toast.add({
+      severity: 'warn',
+      summary,
+      detail,
+      life: 4000
+    })
+  }
+
+  function info(summary: string, detail?: string) {
+    toast.add({
+      severity: 'info',
+      summary,
+      detail,
+      life: 3000
+    })
+  }
+
+  return { success, error, warn, info }
+}
+```
+
+### Accessibility Best Practices
+
+PrimeVue components are WCAG 2.0 compliant. Ensure proper usage:
+
+**Correct: Accessible form fields**
+```vue
+<template>
+  <div class="flex flex-col gap-2">
+    <label :for="id" class="font-medium">
+      {{ label }}
+      <span v-if="required" class="text-red-500" aria-hidden="true">*</span>
+    </label>
+    <InputText
+      :id="id"
+      v-model="modelValue"
+      :aria-required="required"
+      :aria-invalid="!!error"
+      :aria-describedby="error ? `${id}-error` : undefined"
+    />
+    <small
+      v-if="error"
+      :id="`${id}-error`"
+      class="text-red-500"
+      role="alert"
+    >
+      {{ error }}
+    </small>
+  </div>
+</template>
+```
+
+### Lazy Loading Components
+
+**Correct: Async component loading for large PrimeVue components**
+```typescript
+// components/lazy/index.ts
+import { defineAsyncComponent } from 'vue'
+
+export const LazyDataTable = defineAsyncComponent({
+  loader: () => import('primevue/datatable'),
+  loadingComponent: () => import('@/components/ui/TableSkeleton.vue'),
+  delay: 200
+})
+
+export const LazyEditor = defineAsyncComponent({
+  loader: () => import('primevue/editor'),
+  loadingComponent: () => import('@/components/ui/EditorSkeleton.vue'),
+  delay: 200
+})
+
+export const LazyChart = defineAsyncComponent({
+  loader: () => import('primevue/chart'),
+  loadingComponent: () => import('@/components/ui/ChartSkeleton.vue'),
+  delay: 200
+})
+```
+
 ## Anti-Patterns to Avoid
 
 ### Don't Mutate Props
@@ -1054,6 +1762,177 @@ const containerClasses = [
 </template>
 ```
 
+### Don't Override PrimeVue Styles with CSS
+
+Using CSS overrides bypasses the design system and causes maintenance issues:
+
+**Incorrect:**
+```css
+/* styles.css - Avoid this approach */
+.p-button {
+  background-color: #3b82f6 !important;
+  border-radius: 8px !important;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+  background: #f3f4f6 !important;
+}
+```
+
+**Correct: Use design tokens or PassThrough**
+```typescript
+// main.ts - Use design tokens
+app.use(PrimeVue, {
+  theme: {
+    preset: Aura,
+    options: {
+      cssLayer: {
+        name: 'primevue',
+        order: 'tailwind-base, primevue, tailwind-utilities'
+      }
+    }
+  },
+  pt: {
+    button: {
+      root: { class: 'rounded-lg' }
+    }
+  }
+})
+```
+
+### Don't Import Entire PrimeVue Library
+
+Importing everything bloats bundle size:
+
+**Incorrect:**
+```typescript
+// main.ts - Don't do this
+import PrimeVue from 'primevue/config'
+import * as PrimeVueComponents from 'primevue'  // Imports everything!
+
+Object.entries(PrimeVueComponents).forEach(([name, component]) => {
+  app.component(name, component)
+})
+```
+
+**Correct: Import only what you need**
+```typescript
+// main.ts - Tree-shakeable imports
+import Button from 'primevue/button'
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
+
+app.component('Button', Button)
+app.component('DataTable', DataTable)
+app.component('Column', Column)
+```
+
+### Don't Mix Styled and Unstyled Inconsistently
+
+Mixing modes creates visual inconsistency:
+
+**Incorrect:**
+```typescript
+// main.ts
+app.use(PrimeVue, {
+  unstyled: true  // Global unstyled
+})
+
+// SomeComponent.vue - Using styled component anyway
+<Button label="Click" />  // No styles applied, looks broken
+```
+
+**Correct: Choose one approach consistently**
+```typescript
+// Option 1: Styled mode with PT customization
+app.use(PrimeVue, {
+  theme: { preset: Aura },
+  pt: { /* global customizations */ }
+})
+
+// Option 2: Unstyled mode with complete PT styling
+app.use(PrimeVue, {
+  unstyled: true,
+  pt: {
+    button: {
+      root: { class: 'px-4 py-2 bg-primary-600 text-white rounded-lg' }
+    }
+    // ... complete styling for all components
+  }
+})
+```
+
+### Don't Ignore Accessibility Attributes
+
+PrimeVue provides accessibility out of the box, don't disable or ignore it:
+
+**Incorrect:**
+```vue
+<template>
+  <!-- Missing aria attributes and label -->
+  <Button icon="pi pi-trash" @click="deleteItem" />
+
+  <!-- No error message association -->
+  <InputText v-model="email" :class="{ 'p-invalid': hasError }" />
+  <span class="error">Invalid email</span>
+</template>
+```
+
+**Correct: Maintain accessibility**
+```vue
+<template>
+  <Button
+    icon="pi pi-trash"
+    aria-label="Delete item"
+    @click="deleteItem"
+  />
+
+  <div class="flex flex-col gap-2">
+    <label for="email">Email</label>
+    <InputText
+      id="email"
+      v-model="email"
+      :class="{ 'p-invalid': hasError }"
+      :aria-invalid="hasError"
+      aria-describedby="email-error"
+    />
+    <small id="email-error" v-if="hasError" class="text-red-500" role="alert">
+      Invalid email
+    </small>
+  </div>
+</template>
+```
+
+### Don't Hardcode PassThrough in Every Component
+
+Repeating PT configuration across components creates duplication:
+
+**Incorrect:**
+```vue
+<!-- ComponentA.vue -->
+<Button :pt="{ root: { class: 'rounded-lg shadow-md' } }" />
+
+<!-- ComponentB.vue -->
+<Button :pt="{ root: { class: 'rounded-lg shadow-md' } }" />
+
+<!-- ComponentC.vue -->
+<Button :pt="{ root: { class: 'rounded-lg shadow-md' } }" />
+```
+
+**Correct: Use global PT or wrapper components**
+```typescript
+// main.ts - Global configuration
+app.use(PrimeVue, {
+  pt: {
+    button: {
+      root: { class: 'rounded-lg shadow-md' }
+    }
+  }
+})
+
+// Or use wrapper components (see Wrapper Components Pattern above)
+```
+
 ## Nuxt.js Specific Guidelines
 
 When using Nuxt.js, follow these additional patterns:
@@ -1082,3 +1961,14 @@ When using Nuxt.js, follow these additional patterns:
 - [tailwind-merge](https://github.com/dcastil/tailwind-merge)
 - [prettier-plugin-tailwindcss](https://github.com/tailwindlabs/prettier-plugin-tailwindcss)
 - [Vue School - Tailwind CSS Fundamentals](https://vueschool.io/courses/tailwind-css-fundamentals)
+
+### PrimeVue
+- [PrimeVue Documentation](https://primevue.org/)
+- [PrimeVue PassThrough API](https://primevue.org/passthrough/)
+- [PrimeVue Theming - Styled Mode](https://primevue.org/theming/styled/)
+- [PrimeVue GitHub Repository](https://github.com/primefaces/primevue)
+- [PrimeVue v4 Component Changes](https://github.com/primefaces/primevue/wiki/v4-Component-Changes)
+- [Volt - Tailwind CSS based PrimeVue Components](https://volt.primevue.org/)
+- [Deep Dive into PrimeVue PassThrough Props](https://dev.to/cagataycivici/deep-dive-into-primevue-passthrough-props-2im8)
+- [Build Your Own Vue UI Library with Unstyled PrimeVue](https://dev.to/cagataycivici/build-your-own-vue-ui-library-with-unstyled-primevue-core-and-tailwind-css-23ll)
+- [PrimeIcons](https://primevue.org/icons/)
