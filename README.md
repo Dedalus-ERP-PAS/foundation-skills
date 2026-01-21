@@ -56,10 +56,13 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 
 | Skill | Documentation |
 |-------|---------------|
+| article-extractor | [docs/article-extractor.md](docs/article-extractor.md) |
 | changelog-generator | [docs/changelog-generator.md](docs/changelog-generator.md) |
 | create-design-system-rules | [docs/create-design-system-rules.md](docs/create-design-system-rules.md) |
 | docx | [docs/docx.md](docs/docx.md) |
 | frontend-design | [docs/frontend-design.md](docs/frontend-design.md) |
+| gitlab-code-review | [docs/gitlab-code-review.md](docs/gitlab-code-review.md) |
+| gitlab-issue | [docs/gitlab-issue.md](docs/gitlab-issue.md) |
 | mcp-builder | [docs/mcp-builder.md](docs/mcp-builder.md) |
 | pdf | [docs/pdf.md](docs/pdf.md) |
 | playwright-skill | [docs/playwright-skill.md](docs/playwright-skill.md) |
