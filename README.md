@@ -36,16 +36,16 @@ Installez les skills sur n'importe quel agent supporté avec [add-skill](https:/
 
 ```bash
 # Installer tous les skills globalement
-npx add-skill foundation/foundation-skills -g -y
+npx add-skill Dedalus-ERP-PAS/foundation-skills -g -y
 
 # Installer des skills spécifiques
-npx add-skill foundation/foundation-skills --skill frontend-design --skill react-best-practices -g
+npx add-skill Dedalus-ERP-PAS/foundation-skills --skill frontend-design --skill react-best-practices -g
 
 # Installer pour des agents spécifiques
-npx add-skill foundation/foundation-skills -a cursor -a github-copilot -g -y
+npx add-skill Dedalus-ERP-PAS/foundation-skills -a cursor -a github-copilot -g -y
 
 # Lister les skills disponibles
-npx add-skill foundation/foundation-skills --list
+npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 ```
 
 ### Installation manuelle
@@ -93,7 +93,7 @@ Une fois installés, les skills s'activent automatiquement selon vos prompts. Pa
 - "Crée un changelog pour la release" → Active `changelog-generator`
 - "Build un serveur MCP" → Active `mcp-builder`
 - "Review mon UI" ou "Check l'accessibilité" → Active `web-design-guidelines`
-****
+
 ## Contribuer
 
 Pour ajouter ou modifier des skills :
@@ -111,7 +111,7 @@ Pour obtenir les dernières versions :
 
 ```bash
 # Relancer add-skill pour mettre à jour
-npx add-skill foundation/foundation-skills -g -y
+npx add-skill Dedalus-ERP-PAS/foundation-skills -g -y
 ```
 
 ## Documentation
