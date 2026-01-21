@@ -48,7 +48,7 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 | **postgres** | Requêtes SQL lecture seule sur PostgreSQL |
 | **pptx** | Création, édition et analyse de présentations PowerPoint (.pptx) |
 | **react-best-practices** | Guidelines performance React/Next.js |
-| **vue-best-practices** | Guidelines performance Vue.js 4 LTS/Nuxt |
+| **vue-best-practices** | Guidelines performance Vue.js 3/Nuxt |
 | **webapp-testing** | Tests d'applications web avec Playwright |
 | **web-design-guidelines** | Audit UI, accessibilité et UX |
 | **xlsx** | Création, édition et analyse de fichiers Excel avec formules et formatage |

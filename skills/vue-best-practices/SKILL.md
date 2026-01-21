@@ -1,12 +1,12 @@
 ---
 name: vue-best-practices
-description: Vue.js 4 LTS performance optimization guidelines. This skill should be used when writing, reviewing, or refactoring Vue.js code to ensure optimal performance patterns. Triggers on tasks involving Vue components, Nuxt pages, data fetching, bundle optimization, or performance improvements.
+description: Vue.js 3 performance optimization guidelines. This skill should be used when writing, reviewing, or refactoring Vue.js code to ensure optimal performance patterns. Triggers on tasks involving Vue components, Nuxt pages, data fetching, bundle optimization, or performance improvements.
 license: MIT
 ---
 
 # Vue.js Best Practices
 
-Comprehensive performance optimization guide for Vue.js 4 LTS applications. Contains 40+ rules across 8 categories, prioritized by impact to guide automated refactoring and code generation.
+Comprehensive performance optimization guide for Vue.js 3 applications. Contains 40+ rules across 8 categories, prioritized by impact to guide automated refactoring and code generation.
 
 ## When to Apply
 

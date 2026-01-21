@@ -1,6 +1,6 @@
 # vue-best-practices
 
-Guidelines de performance Vue.js 4 LTS/Nuxt.
+Guidelines de performance Vue.js 3/Nuxt.
 
 ## Priorités d'optimisation
 
