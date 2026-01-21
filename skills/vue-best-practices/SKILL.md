@@ -1,12 +1,12 @@
 ---
 name: vue-best-practices
-description: Vue.js 3 best practices guidelines covering Composition API, component design, reactivity patterns, and code organization. This skill should be used when writing, reviewing, or refactoring Vue.js code to ensure idiomatic patterns and maintainable code.
+description: Vue.js 3 best practices guidelines covering Composition API, component design, reactivity patterns, Tailwind CSS utility-first styling, and code organization. This skill should be used when writing, reviewing, or refactoring Vue.js code to ensure idiomatic patterns and maintainable code.
 license: MIT
 ---
 
 # Vue.js Best Practices
 
-Comprehensive best practices guide for Vue.js 3 applications. Contains guidelines across multiple categories to ensure idiomatic, maintainable, and scalable Vue.js code.
+Comprehensive best practices guide for Vue.js 3 applications. Contains guidelines across multiple categories to ensure idiomatic, maintainable, and scalable Vue.js code, including Tailwind CSS integration patterns for utility-first styling.
 
 ## When to Apply
 
@@ -17,6 +17,8 @@ Reference these guidelines when:
 - Refactoring existing Vue.js code
 - Setting up component architecture
 - Working with Nuxt.js applications
+- Styling Vue components with Tailwind CSS utility classes
+- Creating design systems with Tailwind and Vue
 
 ## Rule Categories
 
@@ -30,6 +32,7 @@ Reference these guidelines when:
 | Code Organization | Project and code structure | `organization-` |
 | TypeScript | Type-safe Vue.js patterns | `typescript-` |
 | Error Handling | Error boundaries and handling | `error-` |
+| Tailwind CSS | Utility-first styling patterns | `tailwind-` |
 
 ## Quick Reference
 
@@ -104,6 +107,19 @@ Reference these guidelines when:
 - `error-async-handling` - Handle errors in async operations explicitly
 - `error-provide-fallbacks` - Provide fallback UI for error states
 - `error-logging` - Log errors appropriately for debugging
+
+### 9. Tailwind CSS
+
+- `tailwind-utility-first` - Apply utility classes directly in templates, avoid custom CSS
+- `tailwind-class-order` - Use consistent class ordering (layout → spacing → typography → visual)
+- `tailwind-responsive-mobile-first` - Use mobile-first responsive design (`sm:`, `md:`, `lg:`)
+- `tailwind-component-extraction` - Extract repeated utility patterns into Vue components
+- `tailwind-dynamic-classes` - Use computed properties or helper functions for dynamic classes
+- `tailwind-complete-class-strings` - Always use complete class strings, never concatenate
+- `tailwind-state-variants` - Use state variants (`hover:`, `focus:`, `active:`) for interactions
+- `tailwind-dark-mode` - Use `dark:` prefix for dark mode support
+- `tailwind-design-tokens` - Configure design tokens in Tailwind config for consistency
+- `tailwind-avoid-apply-overuse` - Limit `@apply` usage; prefer Vue components for abstraction
 
 ## Key Principles
 
@@ -430,6 +446,352 @@ const AsyncDashboard = defineAsyncComponent({
 })
 ```
 
+## Tailwind CSS Best Practices
+
+Vue's component-based architecture pairs naturally with Tailwind's utility-first approach. Follow these patterns for maintainable, consistent styling.
+
+### Utility-First Approach
+
+Apply Tailwind utility classes directly in Vue templates for rapid, consistent styling:
+
+**Correct: Utility classes in template**
+```vue
+<template>
+  <div class="mx-auto max-w-md rounded-xl bg-white p-6 shadow-lg">
+    <h2 class="text-xl font-semibold text-gray-900">{{ title }}</h2>
+    <p class="mt-2 text-gray-600">{{ description }}</p>
+    <button class="mt-4 rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
+      {{ buttonText }}
+    </button>
+  </div>
+</template>
+```
+
+### Class Ordering Convention
+
+Maintain consistent class ordering for readability. Recommended order:
+
+1. **Layout** - `flex`, `grid`, `block`, `hidden`
+2. **Positioning** - `relative`, `absolute`, `fixed`
+3. **Box Model** - `w-`, `h-`, `m-`, `p-`
+4. **Typography** - `text-`, `font-`, `leading-`
+5. **Visual** - `bg-`, `border-`, `rounded-`, `shadow-`
+6. **Interactive** - `hover:`, `focus:`, `active:`
+
+Use the official Prettier plugin (`prettier-plugin-tailwindcss`) to automatically sort classes.
+
+### Responsive Design (Mobile-First)
+
+Use Tailwind's responsive prefixes for mobile-first responsive design:
+
+**Correct: Mobile-first responsive layout**
+```vue
+<template>
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <article
+      v-for="item in items"
+      :key="item.id"
+      class="p-4 text-sm sm:p-6 sm:text-base lg:text-lg"
+    >
+      <h3 class="font-medium">{{ item.title }}</h3>
+    </article>
+  </div>
+</template>
+```
+
+**Breakpoint Reference:**
+- `sm:` - 640px and up
+- `md:` - 768px and up
+- `lg:` - 1024px and up
+- `xl:` - 1280px and up
+- `2xl:` - 1536px and up
+
+### State Variants
+
+Use state variants for interactive elements:
+
+**Correct: State variants for buttons**
+```vue
+<template>
+  <button
+    class="rounded-lg bg-indigo-600 px-4 py-2 font-medium text-white
+           transition-colors duration-150
+           hover:bg-indigo-700
+           focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2
+           active:bg-indigo-800
+           disabled:cursor-not-allowed disabled:opacity-50"
+    :disabled="isLoading"
+  >
+    {{ isLoading ? 'Loading...' : 'Submit' }}
+  </button>
+</template>
+```
+
+### Dark Mode Support
+
+Use the `dark:` prefix for dark mode styles:
+
+**Correct: Dark mode support**
+```vue
+<template>
+  <div class="bg-white dark:bg-gray-900">
+    <h1 class="text-gray-900 dark:text-white">{{ title }}</h1>
+    <p class="text-gray-600 dark:text-gray-400">{{ content }}</p>
+    <div class="border-gray-200 dark:border-gray-700 rounded-lg border p-4">
+      <slot />
+    </div>
+  </div>
+</template>
+```
+
+### Dynamic Classes with Computed Properties
+
+Use computed properties for conditional class binding:
+
+**Correct: Computed classes for variants**
+```vue
+<script setup lang="ts">
+import { computed } from 'vue'
+
+type ButtonVariant = 'primary' | 'secondary' | 'danger'
+type ButtonSize = 'sm' | 'md' | 'lg'
+
+const props = withDefaults(defineProps<{
+  variant?: ButtonVariant
+  size?: ButtonSize
+}>(), {
+  variant: 'primary',
+  size: 'md'
+})
+
+const variantClasses = computed(() => {
+  const variants: Record<ButtonVariant, string> = {
+    primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+    secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-500',
+    danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500'
+  }
+  return variants[props.variant]
+})
+
+const sizeClasses = computed(() => {
+  const sizes: Record<ButtonSize, string> = {
+    sm: 'px-3 py-1.5 text-sm',
+    md: 'px-4 py-2 text-base',
+    lg: 'px-6 py-3 text-lg'
+  }
+  return sizes[props.size]
+})
+
+const buttonClasses = computed(() => [
+  'inline-flex items-center justify-center rounded-md font-medium',
+  'transition-colors duration-150',
+  'focus:outline-none focus:ring-2 focus:ring-offset-2',
+  variantClasses.value,
+  sizeClasses.value
+])
+</script>
+
+<template>
+  <button :class="buttonClasses">
+    <slot />
+  </button>
+</template>
+```
+
+### Class Variance Authority (CVA) Pattern
+
+For complex component variants, use the CVA pattern with a helper library:
+
+**Correct: CVA-style variant management**
+```vue
+<script setup lang="ts">
+import { computed } from 'vue'
+import { cva, type VariantProps } from 'class-variance-authority'
+
+const button = cva(
+  'inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2',
+  {
+    variants: {
+      intent: {
+        primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+        secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-500',
+        danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500'
+      },
+      size: {
+        sm: 'px-3 py-1.5 text-sm',
+        md: 'px-4 py-2 text-base',
+        lg: 'px-6 py-3 text-lg'
+      }
+    },
+    defaultVariants: {
+      intent: 'primary',
+      size: 'md'
+    }
+  }
+)
+
+type ButtonProps = VariantProps<typeof button>
+
+const props = defineProps<{
+  intent?: ButtonProps['intent']
+  size?: ButtonProps['size']
+}>()
+
+const classes = computed(() => button({ intent: props.intent, size: props.size }))
+</script>
+
+<template>
+  <button :class="classes">
+    <slot />
+  </button>
+</template>
+```
+
+### Component Extraction for Reusable Patterns
+
+Extract repeated utility patterns into Vue components:
+
+**Correct: Reusable card component**
+```vue
+<!-- components/BaseCard.vue -->
+<script setup lang="ts">
+withDefaults(defineProps<{
+  padding?: 'none' | 'sm' | 'md' | 'lg'
+  shadow?: 'none' | 'sm' | 'md' | 'lg'
+}>(), {
+  padding: 'md',
+  shadow: 'md'
+})
+</script>
+
+<template>
+  <div
+    class="rounded-xl bg-white dark:bg-gray-800"
+    :class="[
+      {
+        'p-0': padding === 'none',
+        'p-4': padding === 'sm',
+        'p-6': padding === 'md',
+        'p-8': padding === 'lg'
+      },
+      {
+        'shadow-none': shadow === 'none',
+        'shadow-sm': shadow === 'sm',
+        'shadow-md': shadow === 'md',
+        'shadow-lg': shadow === 'lg'
+      }
+    ]"
+  >
+    <slot />
+  </div>
+</template>
+```
+
+### Tailwind Configuration with Design Tokens
+
+Define design tokens in your Tailwind config for consistency:
+
+**Correct: tailwind.config.js with design tokens**
+```javascript
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        // Semantic color tokens
+        primary: {
+          50: '#eff6ff',
+          100: '#dbeafe',
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8'
+        },
+        surface: {
+          light: '#ffffff',
+          dark: '#1f2937'
+        }
+      },
+      spacing: {
+        // Custom spacing tokens
+        '4.5': '1.125rem',
+        '18': '4.5rem'
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif']
+      },
+      borderRadius: {
+        '4xl': '2rem'
+      }
+    }
+  },
+  plugins: []
+}
+```
+
+### Tailwind CSS v4 Configuration
+
+For Tailwind CSS v4, use the CSS-first configuration approach:
+
+**Correct: Tailwind v4 CSS configuration**
+```css
+/* main.css */
+@import "tailwindcss";
+
+@theme {
+  /* Custom colors */
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+
+  /* Custom spacing */
+  --spacing-4-5: 1.125rem;
+  --spacing-18: 4.5rem;
+
+  /* Custom fonts */
+  --font-family-sans: 'Inter', system-ui, sans-serif;
+}
+```
+
+### Using `cn()` Helper for Conditional Classes
+
+Use a class merging utility for conditional classes:
+
+**Correct: cn() helper with clsx and tailwind-merge**
+```typescript
+// utils/cn.ts
+import { clsx, type ClassValue } from 'clsx'
+import { twMerge } from 'tailwind-merge'
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+```
+
+**Usage in component:**
+```vue
+<script setup lang="ts">
+import { cn } from '@/utils/cn'
+
+const props = defineProps<{
+  class?: string
+  isActive?: boolean
+}>()
+</script>
+
+<template>
+  <div
+    :class="cn(
+      'rounded-lg border p-4 transition-colors',
+      isActive ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-white',
+      props.class
+    )"
+  >
+    <slot />
+  </div>
+</template>
+```
+
 ## Anti-Patterns to Avoid
 
 ### Don't Mutate Props
@@ -521,6 +883,177 @@ const { count, name } = toRefs(state)  // Preserves reactivity
 </script>
 ```
 
+### Don't Concatenate Tailwind Class Names
+
+Dynamic class concatenation breaks Tailwind's compiler and classes get purged in production:
+
+**Incorrect:**
+```vue
+<script setup>
+const color = ref('blue')
+</script>
+
+<template>
+  <!-- Classes will be purged in production! -->
+  <div :class="`bg-${color}-500 text-${color}-900`">
+    Content
+  </div>
+</template>
+```
+
+**Correct:**
+```vue
+<script setup>
+const color = ref<'blue' | 'green' | 'red'>('blue')
+
+const colorClasses = computed(() => {
+  const colors = {
+    blue: 'bg-blue-500 text-blue-900',
+    green: 'bg-green-500 text-green-900',
+    red: 'bg-red-500 text-red-900'
+  }
+  return colors[color.value]
+})
+</script>
+
+<template>
+  <div :class="colorClasses">
+    Content
+  </div>
+</template>
+```
+
+### Don't Overuse @apply
+
+Excessive `@apply` usage defeats the purpose of utility-first CSS:
+
+**Incorrect:**
+```css
+/* styles.css */
+.card {
+  @apply mx-auto max-w-md rounded-xl bg-white p-6 shadow-lg;
+}
+
+.card-title {
+  @apply text-xl font-semibold text-gray-900;
+}
+
+.card-description {
+  @apply mt-2 text-gray-600;
+}
+
+.card-button {
+  @apply mt-4 rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700;
+}
+```
+
+**Correct: Use Vue components instead**
+```vue
+<!-- components/Card.vue -->
+<template>
+  <div class="mx-auto max-w-md rounded-xl bg-white p-6 shadow-lg">
+    <h2 class="text-xl font-semibold text-gray-900">
+      <slot name="title" />
+    </h2>
+    <p class="mt-2 text-gray-600">
+      <slot name="description" />
+    </p>
+    <div class="mt-4">
+      <slot name="actions" />
+    </div>
+  </div>
+</template>
+```
+
+### Don't Use Conflicting Utilities
+
+Applying multiple utilities that target the same CSS property causes unpredictable results:
+
+**Incorrect:**
+```vue
+<template>
+  <!-- Both flex and grid target display property -->
+  <div class="flex grid">Content</div>
+
+  <!-- Multiple margin utilities conflict -->
+  <div class="m-4 mx-6">Content</div>
+</template>
+```
+
+**Correct:**
+```vue
+<template>
+  <div :class="isGrid ? 'grid' : 'flex'">Content</div>
+
+  <!-- Use specific margin utilities -->
+  <div class="mx-6 my-4">Content</div>
+</template>
+```
+
+### Don't Ignore Accessibility
+
+Always include proper accessibility attributes alongside visual styling:
+
+**Incorrect:**
+```vue
+<template>
+  <button class="rounded bg-blue-600 p-2 text-white">
+    <IconX />
+  </button>
+</template>
+```
+
+**Correct:**
+```vue
+<template>
+  <button
+    class="rounded bg-blue-600 p-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+    aria-label="Close dialog"
+  >
+    <IconX aria-hidden="true" />
+  </button>
+</template>
+```
+
+### Don't Create Overly Long Class Strings
+
+Break down complex class combinations into logical groups or components:
+
+**Incorrect:**
+```vue
+<template>
+  <div class="mx-auto mt-8 flex max-w-4xl flex-col items-center justify-between gap-4 rounded-xl border border-gray-200 bg-white p-6 shadow-lg transition-all duration-300 hover:border-blue-500 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800 sm:flex-row sm:gap-6 md:p-8 lg:gap-8">
+    <!-- 15+ utilities on one element -->
+  </div>
+</template>
+```
+
+**Correct: Extract to component or use computed**
+```vue
+<script setup>
+const containerClasses = [
+  // Layout
+  'mx-auto max-w-4xl flex flex-col sm:flex-row',
+  'items-center justify-between',
+  'gap-4 sm:gap-6 lg:gap-8',
+  // Spacing
+  'mt-8 p-6 md:p-8',
+  // Visual
+  'rounded-xl border bg-white shadow-lg',
+  'border-gray-200 dark:border-gray-700 dark:bg-gray-800',
+  // Interactive
+  'transition-all duration-300',
+  'hover:border-blue-500 hover:shadow-xl'
+]
+</script>
+
+<template>
+  <div :class="containerClasses">
+    <slot />
+  </div>
+</template>
+```
+
 ## Nuxt.js Specific Guidelines
 
 When using Nuxt.js, follow these additional patterns:
@@ -533,9 +1066,19 @@ When using Nuxt.js, follow these additional patterns:
 
 ## References
 
+### Vue.js
 - [Vue.js Documentation](https://vuejs.org)
 - [Vue.js Style Guide](https://vuejs.org/style-guide/)
 - [Composition API FAQ](https://vuejs.org/guide/extras/composition-api-faq.html)
 - [VueUse - Collection of Vue Composition Utilities](https://vueuse.org)
 - [Nuxt Documentation](https://nuxt.com)
 - [Pinia Documentation](https://pinia.vuejs.org)
+
+### Tailwind CSS
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Styling with Utility Classes](https://tailwindcss.com/docs/styling-with-utility-classes)
+- [Tailwind CSS v4 Release](https://tailwindcss.com/blog/tailwindcss-v4)
+- [Class Variance Authority (CVA)](https://cva.style/docs)
+- [tailwind-merge](https://github.com/dcastil/tailwind-merge)
+- [prettier-plugin-tailwindcss](https://github.com/tailwindlabs/prettier-plugin-tailwindcss)
+- [Vue School - Tailwind CSS Fundamentals](https://vueschool.io/courses/tailwind-css-fundamentals)
