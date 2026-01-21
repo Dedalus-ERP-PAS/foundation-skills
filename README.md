@@ -7,6 +7,7 @@ Un repository centralisé de Skills pour les assistants IA de développement. Ce
 Les skills sont des dossiers contenant des instructions, scripts et ressources que les agents IA chargent dynamiquement pour réaliser des tâches spécialisées. Ils enseignent aux assistants IA comment accomplir des tâches spécifiques de manière reproductible.
 
 Les skills suivent la spécification ouverte [Agent Skills](https://agentskills.io), ce qui signifie qu'ils fonctionnent sur plusieurs plateformes :
+
 - GitHub Copilot (VS Code, CLI, coding agent)
 - Claude Code
 - Claude.ai
@@ -18,14 +19,14 @@ Les skills suivent la spécification ouverte [Agent Skills](https://agentskills.
 
 | Skill | Description |
 |-------|-------------|
-| **frontend-design** | Création d'interfaces frontend distinctives et de qualité production |
-| **webapp-testing** | Toolkit de tests d'applications web avec Playwright |
-| **postgres** | Exécution de requêtes SQL en lecture seule sur PostgreSQL |
-| **changelog-generator** | Transformation des commits git en changelogs user-friendly |
-| **mcp-builder** | Guide de création de serveurs MCP (Model Context Protocol) |
-| **playwright-skill** | Automatisation complète de navigateur avec Playwright |
-| **react-best-practices** | Guidelines d'optimisation React et Next.js |
-| **web-design-guidelines** | Audit de code UI selon les best practices web |
+| **changelog-generator** | Génère automatiquement des changelogs user-friendly à partir des commits git. Analyse l'historique, catégorise les changements et transforme les commits techniques en notes de release claires. |
+| **frontend-design** | Création d'interfaces frontend distinctives et de qualité production. Génère du code créatif et soigné qui évite l'esthétique générique "AI slop". |
+| **mcp-builder** | Guide pour créer des serveurs MCP (Model Context Protocol) de haute qualité en Python (FastMCP) ou TypeScript (MCP SDK). |
+| **playwright-skill** | Automatisation complète de navigateur avec Playwright. Détecte les serveurs de dev, écrit des scripts de test, prend des screenshots, teste les formulaires et le responsive design. |
+| **postgres** | Exécution de requêtes SQL en lecture seule sur PostgreSQL. Supporte plusieurs connexions, explore les schémas et bloque les opérations d'écriture par sécurité. |
+| **react-best-practices** | Guidelines d'optimisation performance React et Next.js de Vercel Engineering. 45+ règles réparties en 8 catégories, priorisées par impact. |
+| **webapp-testing** | Toolkit pour tester les applications web locales avec Playwright. Vérifie le frontend, debug l'UI, capture des screenshots et affiche les logs navigateur. |
+| **web-design-guidelines** | Audit de code UI selon les Web Interface Guidelines. Vérifie l'accessibilité, l'UX et les best practices web. |
 
 ## Installation
 
@@ -86,12 +87,13 @@ Instructions que l'IA doit suivre quand ce skill est actif...
 
 Une fois installés, les skills s'activent automatiquement selon vos prompts. Par exemple :
 
-- "Crée un composant React" → Active `react-best-practices`
+- "Crée un composant React" → Active `react-best-practices` et `frontend-design`
 - "Teste cette page web" → Active `webapp-testing` ou `playwright-skill`
 - "Requête la base de données" → Active `postgres`
-- "Crée un changelog" → Active `changelog-generator`
+- "Crée un changelog pour la release" → Active `changelog-generator`
 - "Build un serveur MCP" → Active `mcp-builder`
-
+- "Review mon UI" ou "Check l'accessibilité" → Active `web-design-guidelines`
+****
 ## Contribuer
 
 Pour ajouter ou modifier des skills :
