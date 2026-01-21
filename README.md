@@ -54,8 +54,6 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 | Document | Description |
 |----------|-------------|
 | [Guide d'utilisation](docs/usage.md) | Utilisation détaillée de chaque skill avec exemples |
-| [Installation](docs/installation.md) | Guide d'installation complet |
-| [Contribution](docs/contributing.md) | Comment contribuer au projet |
 | [Référence des skills](docs/skills-reference.md) | Documentation technique des skills |
 
 ## Ressources
