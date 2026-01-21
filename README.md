@@ -40,6 +40,7 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 | **create-design-system-rules** | Génère des règles de design system pour les workflows Figma-to-code |
 | **docx** | Création, édition et analyse de documents Word (.docx) |
 | **frontend-design** | Interfaces frontend de qualité production |
+| **github-issues** | Gestion des issues GitHub (création, mise à jour, recherche, commentaires) |
 | **gitlab-code-review** | Revue de code complète des merge requests GitLab |
 | **gitlab-issue** | Gestion des issues GitLab (création, mise à jour, listing) |
 | **mcp-builder** | Création de serveurs MCP (Python/TypeScript) |
@@ -62,6 +63,7 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 | create-design-system-rules | [docs/create-design-system-rules.md](docs/create-design-system-rules.md) |
 | docx | [docs/docx.md](docs/docx.md) |
 | frontend-design | [docs/frontend-design.md](docs/frontend-design.md) |
+| github-issues | [docs/github-issues.md](docs/github-issues.md) |
 | gitlab-code-review | [docs/gitlab-code-review.md](docs/gitlab-code-review.md) |
 | gitlab-issue | [docs/gitlab-issue.md](docs/gitlab-issue.md) |
 | mcp-builder | [docs/mcp-builder.md](docs/mcp-builder.md) |
