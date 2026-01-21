@@ -30,8 +30,6 @@ Les skills suivent la spécification ouverte [Agent Skills](https://agentskills.
 
 ## Installation
 
-### Via add-skill (Recommandé)
-
 Installez les skills sur n'importe quel agent supporté avec [add-skill](https://github.com/vercel-labs/add-skill) :
 
 ```bash
@@ -46,41 +44,6 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills -a cursor -a github-copilot -g -
 
 # Lister les skills disponibles
 npx add-skill Dedalus-ERP-PAS/foundation-skills --list
-```
-
-### Installation manuelle
-
-Copiez les dossiers de skills vers l'emplacement approprié pour votre agent :
-
-| Agent | Chemin projet | Chemin global |
-|-------|---------------|---------------|
-| GitHub Copilot | `.github/skills/` | `~/.copilot/skills/` |
-| Claude Code | `.claude/skills/` | `~/.claude/skills/` |
-| Cursor | `.cursor/skills/` | `~/.cursor/skills/` |
-
-## Structure d'un skill
-
-Chaque skill suit cette structure :
-
-```
-skill-name/
-├── SKILL.md           # Obligatoire : Instructions et métadonnées
-├── scripts/           # Optionnel : Scripts exécutables
-├── examples/          # Optionnel : Exemples d'utilisation
-└── reference/         # Optionnel : Documentation additionnelle
-```
-
-### Format du SKILL.md
-
-```markdown
----
-name: skill-name
-description: Description claire de ce que fait le skill et quand l'utiliser.
----
-
-# Titre du Skill
-
-Instructions que l'IA doit suivre quand ce skill est actif...
 ```
 
 ## Utilisation
