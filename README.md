@@ -8,7 +8,7 @@ Les skills sont des instructions et ressources que les agents IA chargent dynami
 
 - [Installation](#installation)
 - [Skills disponibles](#skills-disponibles)
-- [Documentation](#documentation)
+- [Guide d'utilisation](#guide-dutilisation)
 - [Ressources](#ressources)
 - [Licence](#licence)
 
@@ -49,9 +49,23 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 | **web-design-guidelines** | Audit UI, accessibilité et UX |
 | **xlsx** | Création, édition et analyse de fichiers Excel avec formules et formatage |
 
-## Documentation
+## Guide d'utilisation
 
-- [Guide d'utilisation](docs/usage.md) - Utilisation détaillée de chaque skill avec exemples
+| Skill | Documentation |
+|-------|---------------|
+| changelog-generator | [docs/changelog-generator.md](docs/changelog-generator.md) |
+| create-design-system-rules | [docs/create-design-system-rules.md](docs/create-design-system-rules.md) |
+| docx | [docs/docx.md](docs/docx.md) |
+| frontend-design | [docs/frontend-design.md](docs/frontend-design.md) |
+| mcp-builder | [docs/mcp-builder.md](docs/mcp-builder.md) |
+| pdf | [docs/pdf.md](docs/pdf.md) |
+| playwright-skill | [docs/playwright-skill.md](docs/playwright-skill.md) |
+| postgres | [docs/postgres.md](docs/postgres.md) |
+| pptx | [docs/pptx.md](docs/pptx.md) |
+| react-best-practices | [docs/react-best-practices.md](docs/react-best-practices.md) |
+| webapp-testing | [docs/webapp-testing.md](docs/webapp-testing.md) |
+| web-design-guidelines | [docs/web-design-guidelines.md](docs/web-design-guidelines.md) |
+| xlsx | [docs/xlsx.md](docs/xlsx.md) |
 
 ## Ressources
 
