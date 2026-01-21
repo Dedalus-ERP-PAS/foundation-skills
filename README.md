@@ -57,17 +57,6 @@ Une fois installés, les skills s'activent automatiquement selon vos prompts. Pa
 - "Build un serveur MCP" → Active `mcp-builder`
 - "Review mon UI" ou "Check l'accessibilité" → Active `web-design-guidelines`
 
-## Contribuer
-
-Pour ajouter ou modifier des skills :
-
-1. Créez un nouveau dossier dans `skills/` avec le nom du skill
-2. Ajoutez un fichier `SKILL.md` avec le frontmatter YAML (`name` et `description` obligatoires)
-3. Ajoutez les scripts, exemples ou références nécessaires
-4. Soumettez une merge request
-
-Voir [docs/contributing.md](docs/contributing.md) pour le guide complet.
-
 ## Mise à jour des skills
 
 Pour obtenir les dernières versions :
