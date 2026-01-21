@@ -39,6 +39,8 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 | **create-design-system-rules** | Génère des règles de design system pour les workflows Figma-to-code |
 | **docx** | Création, édition et analyse de documents Word (.docx) |
 | **frontend-design** | Interfaces frontend de qualité production |
+| **gitlab-code-review** | Revue de code complète des merge requests GitLab |
+| **gitlab-issue** | Gestion des issues GitLab (création, mise à jour, listing) |
 | **mcp-builder** | Création de serveurs MCP (Python/TypeScript) |
 | **pdf** | Manipulation de PDF : extraction, création, fusion et formulaires |
 | **playwright-skill** | Automatisation navigateur avec Playwright |
@@ -57,6 +59,8 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 | create-design-system-rules | [docs/create-design-system-rules.md](docs/create-design-system-rules.md) |
 | docx | [docs/docx.md](docs/docx.md) |
 | frontend-design | [docs/frontend-design.md](docs/frontend-design.md) |
+| gitlab-code-review | [skills/gitlab-code-review/SKILL.md](skills/gitlab-code-review/SKILL.md) |
+| gitlab-issue | [skills/gitlab-issue/SKILL.md](skills/gitlab-issue/SKILL.md) |
 | mcp-builder | [docs/mcp-builder.md](docs/mcp-builder.md) |
 | pdf | [docs/pdf.md](docs/pdf.md) |
 | playwright-skill | [docs/playwright-skill.md](docs/playwright-skill.md) |
