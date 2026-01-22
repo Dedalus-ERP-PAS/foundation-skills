@@ -4,6 +4,18 @@ Repository centralisé de skills pour les assistants IA de développement (GitHu
 
 Les skills sont des instructions et ressources que les agents IA chargent dynamiquement pour réaliser des tâches spécialisées de manière reproductible. Ils suivent le standard ouvert [Agent Skills](https://agentskills.io).
 
+## Prérequis
+
+### VSCode
+
+Pour utiliser les skills dans VSCode, vous devez activer l'option **"Use Agent skills"** dans les paramètres :
+
+1. Ouvrez les paramètres VSCode (`Ctrl+,` ou `Cmd+,`)
+2. Recherchez "Use Agent skills"
+3. Cochez l'option pour activer les skills
+
+Sans cette activation, les skills ne seront pas chargés par l'agent GitHub Copilot.
+
 ## Installation et mise à jour
 
 Pour installer ou mettre à jour les skills vers la dernière version :
