@@ -10,6 +10,14 @@ Les skills sont des instructions et ressources que les agents IA chargent dynami
 npx add-skill Dedalus-ERP-PAS/foundation-skills -g -y
 ```
 
+## Mise à jour
+
+Pour mettre à jour les skills vers la dernière version, utilisez la même commande :
+
+```bash
+npx add-skill Dedalus-ERP-PAS/foundation-skills -g -y
+```
+
 ## Skills disponibles
 
 | Skill | Description | How to use |
