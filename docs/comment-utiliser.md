@@ -280,8 +280,7 @@ Commencez simple, puis ajoutez de la complexité :
 - `web-design-guidelines` - Audit design
 
 ### Automatisation & Tests
-- `playwright-skill` - Automatisation navigateur
-- `webapp-testing` - Tests d'applications web
+- `playwright-skill` - Tests et automatisation web avec Playwright
 
 ### Documents & Fichiers
 - `docx` - Documents Word
@@ -339,7 +338,7 @@ sudo npx add-skill Dedalus-ERP-PAS/foundation-skills -g -y
 
 ### Les scripts Python ne s'exécutent pas
 
-Pour les skills avec scripts Python (postgres, playwright-skill, etc.) :
+Pour les skills avec scripts Python (postgres, etc.) :
 
 1. Installez Python 3.8+
 2. Installez les dépendances :

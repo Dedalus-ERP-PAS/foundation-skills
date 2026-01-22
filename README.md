@@ -58,18 +58,17 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 | **gitlab-issue** | Gestion des issues GitLab (création, mise à jour, listing) |
 | **mcp-builder** | Création de serveurs MCP (Python/TypeScript) |
 | **pdf** | Manipulation de PDF : extraction, création, fusion et formulaires |
-| **playwright-skill** | Automatisation navigateur avec Playwright |
+| **playwright-skill** | Tests et automatisation web avec Playwright : gestion serveurs, tests dynamiques, reconnaissance DOM, screenshots |
 | **postgres** | Requêtes SQL lecture seule sur PostgreSQL |
 | **pptx** | Création, édition et analyse de présentations PowerPoint (.pptx) |
 | **react-best-practices** | Guidelines performance React/Next.js |
 | **security-review** | Audit de sécurité : gestion secrets, validation inputs, auth, OWASP Top 10 |
 | **toxic-manager-translator** | Transforme les messages émotionnels en réponses professionnelles pour gérer les managers toxiques |
 | **vue-best-practices** | Best practices Vue.js 3/Nuxt - Composition API, patterns et organisation |
-| **webapp-testing** | Tests d'applications web avec Playwright |
 | **web-design-guidelines** | Audit UI, accessibilité et UX |
 | **xlsx** | Création, édition et analyse de fichiers Excel avec formules et formatage |
 
-**Note :** La table ci-dessus liste les 20 skills disponibles. Pour les détails d'installation et d'utilisation, consultez le [guide complet](docs/comment-utiliser.md).
+**Note :** La table ci-dessus liste les 19 skills disponibles. Pour les détails d'installation et d'utilisation, consultez le [guide complet](docs/comment-utiliser.md).
 
 ## Documentation par skill
 
@@ -93,7 +92,6 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 | security-review | [docs/security-review.md](docs/security-review.md) |
 | toxic-manager-translator | [docs/toxic-manager-translator.md](docs/toxic-manager-translator.md) |
 | vue-best-practices | [docs/vue-best-practices.md](docs/vue-best-practices.md) |
-| webapp-testing | [docs/webapp-testing.md](docs/webapp-testing.md) |
 | web-design-guidelines | [docs/web-design-guidelines.md](docs/web-design-guidelines.md) |
 | # Documentation générale
 
