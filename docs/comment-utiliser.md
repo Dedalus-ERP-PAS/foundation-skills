@@ -16,6 +16,9 @@ Guide complet pour installer et utiliser les skills avec vos assistants IA de d�
 - Node.js 18+ et npm installés
 - Un assistant IA compatible (GitHub Copilot, Claude, Cursor, Windsurf)
 - Git (pour certains skills)
+- **Activation de l'option "Use Agent skills" dans les paramètres de votre IDE**
+  - Pour VS Code : ouvrir les settings (Ctrl+,) et rechercher "agent skills"
+  - Pour Cursor/Windsurf : vérifier que l'option "Use Agent skills" est activée dans les préférences
 
 ## Installation
 
