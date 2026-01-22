@@ -10,19 +10,6 @@ Les skills sont des instructions et ressources que les agents IA chargent dynami
 npx add-skill Dedalus-ERP-PAS/foundation-skills -g -y
 ```
 
-Options avancées :
-
-```bash
-# Skills spécifiques
-npx add-skill Dedalus-ERP-PAS/foundation-skills --skill frontend-design --skill react-best-practices -g
-
-# Agents spécifiques
-npx add-skill Dedalus-ERP-PAS/foundation-skills -a cursor -a github-copilot -g -y
-
-# Lister les skills
-npx add-skill Dedalus-ERP-PAS/foundation-skills --list
-```
-
 ## Skills disponibles
 
 | Skill | Description | How to use |
