@@ -189,6 +189,32 @@ L'agent va :
 - Extraire les données
 - Sauvegarder les résultats
 
+### 6. Parser des messages de santé HPK
+
+```
+Prompt : "Avec hpk-parser, explique ce message HPK :
+ID|M1|C|HEXAGONE|20260122120000|USER001|PAT12345|DUPONT|JEAN|19750315|M|..."
+```
+
+L'agent va :
+- Identifier le type de message (ID|M1 = Patient Identity)
+- Extraire tous les champs avec labels
+- Valider la structure
+- Fournir une explication détaillée en français
+
+### 7. Parser des messages HL7 IHE PAM
+
+```
+Prompt : "Utilise hl7-pam-parser pour analyser ce message HL7 ADT :
+MSH|^~\&|HEXAFLUX|CHU_PARIS|TARGET|DEST|20260122140000||ADT^A01..."
+```
+
+L'agent va :
+- Identifier le message type (ADT^A01 = Admission)
+- Extraire les segments MSH, EVN, PID, PV1
+- Valider contre les spécifications IHE PAM 2.10
+- Expliquer le contexte clinique
+
 ## Gestion des skills
 
 ### Lister les skills disponibles
@@ -296,6 +322,10 @@ Commencez simple, puis ajoutez de la complexité :
 - `gitlab-issue` - Issues GitLab
 - `gitlab-code-review` - Code review GitLab
 - `changelog-generator` - Génération changelogs
+
+### Santé & Interopérabilité
+- `hpk-parser` - Messages HPK (format santé français)
+- `hl7-pam-parser` - Messages HL7 IHE PAM 2.10
 
 ### Outils spécialisés
 - `mcp-builder` - Serveurs MCP

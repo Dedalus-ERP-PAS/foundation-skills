@@ -36,6 +36,8 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills -g -y
 | **create-design-system-rules** | Génère des règles de design system personnalisées pour automatiser les workflows Figma-to-code avec conventions et patterns cohérents | [create-design-system-rules.md](docs/create-design-system-rules.md) |
 | **frontend-design** | Création d'interfaces frontend de qualité production avec direction esthétique audacieuse, évitant les designs génériques AI | [frontend-design.md](docs/frontend-design.md) |
 | **github-issues** | Gestion complète des issues GitHub : création avec contexte, recherche, mise à jour, commentaires et workflows structurés | [github-issues.md](docs/github-issues.md) |
+| **hl7-pam-parser** | Parse et explique les messages HL7 v2.5 IHE PAM (Patient Administration Management) : segments MSH/EVN/PID/PV1, validation structure, ADT events | [hl7-pam-parser.md](docs/hl7-pam-parser.md) |
+| **hpk-parser** | Parse et explique les messages HPK (format propriétaire santé français) : identité/mouvements/couverture avec validation et explications détaillées | [hpk-parser.md](docs/hpk-parser.md) |
 | **gitlab-code-review** | Revue de code approfondie des merge requests GitLab : analyse qualité, sécurité, performance et best practices avec feedback constructif | [gitlab-code-review.md](docs/gitlab-code-review.md) |
 | **gitlab-issue** | Gestion des issues GitLab pour instances auto-hébergées : création, mise à jour, recherche et liaison avec merge requests | [gitlab-issue.md](docs/gitlab-issue.md) |
 | **mcp-builder** | Guide complet pour créer des serveurs MCP (Model Context Protocol) de qualité en Python (FastMCP) ou TypeScript (MCP SDK) | [mcp-builder.md](docs/mcp-builder.md) |
