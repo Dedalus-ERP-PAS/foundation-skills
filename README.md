@@ -64,7 +64,7 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 | **pptx** | Document Processing | Création, édition et analyse de présentations PowerPoint (.pptx) : layouts, animations, speaker notes et conversion HTML-to-PPTX |
 | **react-best-practices** | Best Practices | Guide complet React/Next.js : architecture composants, optimisation performance, patterns shadcn/ui, animations Motion et React 19+ |
 | **security-review** | Code Quality | Audit de sécurité approfondi : gestion secrets, validation inputs, authentification, protection OWASP Top 10 et bonnes pratiques |
-| **toxic-manager-translator** | Communication | Transforme les messages émotionnels ou frustrés en réponses professionnelles et stratégiques pour gérer les situations difficiles au travail |
+| **toxic-manager-translator** | Communication | 🎭 Transforme les messages émotionnels ou frustrés en réponses professionnelles et stratégiques pour gérer les situations difficiles au travail |
 | **vue-best-practices** | Best Practices | Best practices Vue.js 3/Nuxt : Composition API, design composants, patterns réactivité, intégration Tailwind CSS et PrimeVue |
 | **web-design-guidelines** | Code Quality | Audit complet UI/UX avec inspection visuelle : conformité Web Interface Guidelines, accessibilité et corrections automatiques |
 | **xlsx** | Document Processing | Création, édition et analyse de fichiers Excel (.xlsx) : formules complexes, formatage professionnel, visualisation et recalcul |
