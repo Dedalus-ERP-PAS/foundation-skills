@@ -13,6 +13,13 @@ metadata:
 
 Create, retrieve, update, and manage GitLab issues with comprehensive context integration and structured workflows.
 
+## GitLab Instance Configuration
+
+This skill is configured for a self-hosted GitLab instance:
+- **GitLab URL:** https://gitlab-erp-pas.dedalus.lan
+- All project identifiers, URLs, and references should use this self-hosted instance
+- Ensure you have appropriate access credentials configured for this GitLab server
+
 ## When to Use This Skill
 
 Activate this skill when:
@@ -46,10 +53,13 @@ First, collect information about the current project and context:
 
 Before any operation, verify the project exists and you have the correct identifier:
 
+**Self-hosted GitLab Instance:** https://gitlab-erp-pas.dedalus.lan
+
 Use `gitlab-mcp(get_project)` to:
-- Confirm project exists
+- Confirm project exists on the self-hosted GitLab instance
 - Get project details (default branch, visibility, etc.)
 - Understand project structure
+- Verify project path format (e.g., "namespace/project")
 
 ### 3. Issue Operations
 
@@ -380,7 +390,8 @@ Labels: ["feature", "enhancement", "ux"]
 
 ## Important Notes
 
-- **Always verify project access** - Ensure you have permission to create/modify issues
+- **Self-hosted GitLab:** All operations use https://gitlab-erp-pas.dedalus.lan
+- **Always verify project access** - Ensure you have permission to create/modify issues on the self-hosted instance
 - **Use labels consistently** - Follow project labeling conventions
 - **Be specific in titles** - Prefix with [BUG], [FEATURE], [TASK] for clarity
 - **Include reproduction steps** - Essential for bug reports

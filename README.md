@@ -6,11 +6,23 @@ Les skills sont des instructions et ressources que les agents IA chargent dynami
 
 ## Table des matières
 
-- [Installation](#installation)
+- [Guide complet d'utilisation](#guide-complet-dutilisation)
+- [Installation rapide](#installation-rapide)
 - [Skills disponibles](#skills-disponibles)
-- [Guide d'utilisation](#guide-dutilisation)
+- [Documentation par skill](#documentation-par-skill)
 - [Ressources](#ressources)
 - [Licence](#licence)
+ rapide
+## Guide complet d'utilisation
+
+**[📖 Guide complet : Comment utiliser les Foundation Skills](docs/comment-utiliser.md)**
+
+Guide détaillé couvrant :
+- Installation globale, sélective et locale
+- Utilisation avec GitHub Copilot, Claude, Cursor, Windsurf
+- Exemples concrets par cas d'usage
+- Astuces et bonnes pratiques
+- Dépannage des problèmes courants
 
 ## Installation
 
@@ -50,13 +62,16 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 | **postgres** | Requêtes SQL lecture seule sur PostgreSQL |
 | **pptx** | Création, édition et analyse de présentations PowerPoint (.pptx) |
 | **react-best-practices** | Guidelines performance React/Next.js |
+| **security-review** | Audit de sécurité : gestion secrets, validation inputs, auth, OWASP Top 10 |
 | **toxic-manager-translator** | Transforme les messages émotionnels en réponses professionnelles pour gérer les managers toxiques |
 | **vue-best-practices** | Best practices Vue.js 3/Nuxt - Composition API, patterns et organisation |
 | **webapp-testing** | Tests d'applications web avec Playwright |
 | **web-design-guidelines** | Audit UI, accessibilité et UX |
 | **xlsx** | Création, édition et analyse de fichiers Excel avec formules et formatage |
 
-## Guide d'utilisation
+**Note :** La table ci-dessus liste les 20 skills disponibles. Pour les détails d'installation et d'utilisation, consultez le [guide complet](docs/comment-utiliser.md).
+
+## Documentation par skill
 
 | Skill | Documentation |
 |-------|---------------|
@@ -75,12 +90,21 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 | postgres | [docs/postgres.md](docs/postgres.md) |
 | pptx | [docs/pptx.md](docs/pptx.md) |
 | react-best-practices | [docs/react-best-practices.md](docs/react-best-practices.md) |
+| security-review | [docs/security-review.md](docs/security-review.md) |
 | toxic-manager-translator | [docs/toxic-manager-translator.md](docs/toxic-manager-translator.md) |
 | vue-best-practices | [docs/vue-best-practices.md](docs/vue-best-practices.md) |
 | webapp-testing | [docs/webapp-testing.md](docs/webapp-testing.md) |
 | web-design-guidelines | [docs/web-design-guidelines.md](docs/web-design-guidelines.md) |
-| xlsx | [docs/xlsx.md](docs/xlsx.md) |
+| # Documentation générale
 
+| Guide | Description |
+|-------|-------------|
+| [comment-utiliser.md](docs/comment-utiliser.md) | Guide complet d'utilisation des skills |
+| [coding-standards.md](docs/coding-standards.md) | Standards de code universels |
+
+## Ressources
+
+- **[📖 Guide complet d'utilisation](docs/comment-utiliser.md)** - Documentation détaillée
 ## Ressources
 
 - [Agent Skills](https://agentskills.io) - Standard ouvert pour les skills d'agents IA
