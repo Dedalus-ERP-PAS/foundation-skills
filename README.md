@@ -36,6 +36,7 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 | Skill | Description |
 |-------|-------------|
 | **article-extractor** | Extraction de contenu d'articles web (blogs, tutoriels) en texte propre sans publicités ni navigation |
+| **backend-patterns** | Patterns d'architecture backend : API design, optimisation DB, caching, auth, rate limiting pour Node.js/Express/Next.js |
 | **changelog-generator** | Génère des changelogs à partir des commits git |
 | **create-design-system-rules** | Génère des règles de design system pour les workflows Figma-to-code |
 | **docx** | Création, édition et analyse de documents Word (.docx) |
@@ -60,6 +61,7 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 | Skill | Documentation |
 |-------|---------------|
 | article-extractor | [docs/article-extractor.md](docs/article-extractor.md) |
+| backend-patterns | [docs/backend-patterns.md](docs/backend-patterns.md) |
 | changelog-generator | [docs/changelog-generator.md](docs/changelog-generator.md) |
 | create-design-system-rules | [docs/create-design-system-rules.md](docs/create-design-system-rules.md) |
 | docx | [docs/docx.md](docs/docx.md) |
