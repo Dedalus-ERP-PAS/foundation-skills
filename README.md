@@ -45,30 +45,31 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 
 ## Skills disponibles
 
-| Skill | Description |
-|-------|-------------|
-| **article-extractor** | Extraction de contenu d'articles web (blogs, tutoriels) en texte propre sans publicités ni navigation |
-| **backend-patterns** | Patterns d'architecture backend : API design, optimisation DB, caching, auth, rate limiting pour Node.js/Express/Next.js |
-| **changelog-generator** | Génère des changelogs à partir des commits git |
-| **create-design-system-rules** | Génère des règles de design system pour les workflows Figma-to-code |
-| **docx** | Création, édition et analyse de documents Word (.docx) |
-| **frontend-design** | Interfaces frontend de qualité production |
-| **github-issues** | Gestion des issues GitHub (création, mise à jour, recherche, commentaires) |
-| **gitlab-code-review** | Revue de code complète des merge requests GitLab |
-| **gitlab-issue** | Gestion des issues GitLab (création, mise à jour, listing) |
-| **mcp-builder** | Création de serveurs MCP (Python/TypeScript) |
-| **pdf** | Manipulation de PDF : extraction, création, fusion et formulaires |
-| **playwright-skill** | Tests et automatisation web avec Playwright : gestion serveurs, tests dynamiques, reconnaissance DOM, screenshots |
-| **postgres** | Requêtes SQL lecture seule sur PostgreSQL |
-| **pptx** | Création, édition et analyse de présentations PowerPoint (.pptx) |
-| **react-best-practices** | Guidelines performance React/Next.js |
-| **security-review** | Audit de sécurité : gestion secrets, validation inputs, auth, OWASP Top 10 |
-| **toxic-manager-translator** | Transforme les messages émotionnels en réponses professionnelles pour gérer les managers toxiques |
-| **vue-best-practices** | Best practices Vue.js 3/Nuxt - Composition API, patterns et organisation |
-| **web-design-guidelines** | Audit UI, accessibilité et UX |
-| **xlsx** | Création, édition et analyse de fichiers Excel avec formules et formatage |
+| Skill | Type | Description |
+|-------|------|-------------|
+| **article-extractor** | Content Processing | Extrait le contenu principal d'articles web (blogs, tutoriels) en texte propre, éliminant publicités, navigation et éléments superflus |
+| **backend-patterns** | Best Practices | Patterns d'architecture backend : API RESTful, repository pattern, optimisation DB, caching, authentification et rate limiting pour Node.js/Express/Next.js |
+| **changelog-generator** | Documentation | Génère automatiquement des changelogs conviviaux à partir de l'historique git en catégorisant les changements (features, fixes, breaking changes) |
+| **coding-standards** | Best Practices | Standards de code universels : conventions de nommage, principes SOLID, patterns TypeScript/JavaScript et règles de qualité |
+| **create-design-system-rules** | Design System | Génère des règles de design system personnalisées pour automatiser les workflows Figma-to-code avec conventions et patterns cohérents |
+| **docx** | Document Processing | Création, édition et analyse complètes de documents Word (.docx) : tracked changes, commentaires, formatage et extraction de texte |
+| **frontend-design** | Development | Création d'interfaces frontend de qualité production avec direction esthétique audacieuse, évitant les designs génériques AI |
+| **github-issues** | Project Management | Gestion complète des issues GitHub : création avec contexte, recherche, mise à jour, commentaires et workflows structurés |
+| **gitlab-code-review** | Code Quality | Revue de code approfondie des merge requests GitLab : analyse qualité, sécurité, performance et best practices avec feedback constructif |
+| **gitlab-issue** | Project Management | Gestion des issues GitLab pour instances auto-hébergées : création, mise à jour, recherche et liaison avec merge requests |
+| **mcp-builder** | Development | Guide complet pour créer des serveurs MCP (Model Context Protocol) de qualité en Python (FastMCP) ou TypeScript (MCP SDK) |
+| **pdf** | Document Processing | Manipulation complète de PDF : extraction de texte/tables, création, fusion/division, remplissage de formulaires avec Python |
+| **playwright-skill** | Testing & Automation | Tests et automatisation web avec Playwright : gestion serveurs, reconnaissance DOM dynamique, screenshots, validation UX et tests responsifs |
+| **postgres** | Database | Exécution sécurisée de requêtes SQL lecture seule sur PostgreSQL avec support multi-bases et sélection intelligente |
+| **pptx** | Document Processing | Création, édition et analyse de présentations PowerPoint (.pptx) : layouts, animations, speaker notes et conversion HTML-to-PPTX |
+| **react-best-practices** | Best Practices | Guide complet React/Next.js : architecture composants, optimisation performance, patterns shadcn/ui, animations Motion et React 19+ |
+| **security-review** | Code Quality | Audit de sécurité approfondi : gestion secrets, validation inputs, authentification, protection OWASP Top 10 et bonnes pratiques |
+| **toxic-manager-translator** | Communication | Transforme les messages émotionnels ou frustrés en réponses professionnelles et stratégiques pour gérer les situations difficiles au travail |
+| **vue-best-practices** | Best Practices | Best practices Vue.js 3/Nuxt : Composition API, design composants, patterns réactivité, intégration Tailwind CSS et PrimeVue |
+| **web-design-guidelines** | Code Quality | Audit complet UI/UX avec inspection visuelle : conformité Web Interface Guidelines, accessibilité et corrections automatiques |
+| **xlsx** | Document Processing | Création, édition et analyse de fichiers Excel (.xlsx) : formules complexes, formatage professionnel, visualisation et recalcul |
 
-**Note :** La table ci-dessus liste les 19 skills disponibles. Pour les détails d'installation et d'utilisation, consultez le [guide complet](docs/comment-utiliser.md).
+**Note :** La table ci-dessus liste les 21 skills disponibles. Pour les détails d'installation et d'utilisation, consultez le [guide complet](docs/comment-utiliser.md).
 
 ## Documentation par skill
 
@@ -77,6 +78,7 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 | article-extractor | [docs/article-extractor.md](docs/article-extractor.md) |
 | backend-patterns | [docs/backend-patterns.md](docs/backend-patterns.md) |
 | changelog-generator | [docs/changelog-generator.md](docs/changelog-generator.md) |
+| coding-standards | [docs/coding-standards.md](docs/coding-standards.md) |
 | create-design-system-rules | [docs/create-design-system-rules.md](docs/create-design-system-rules.md) |
 | docx | [docs/docx.md](docs/docx.md) |
 | frontend-design | [docs/frontend-design.md](docs/frontend-design.md) |
@@ -93,7 +95,9 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 | toxic-manager-translator | [docs/toxic-manager-translator.md](docs/toxic-manager-translator.md) |
 | vue-best-practices | [docs/vue-best-practices.md](docs/vue-best-practices.md) |
 | web-design-guidelines | [docs/web-design-guidelines.md](docs/web-design-guidelines.md) |
-| # Documentation générale
+| xlsx | [docs/xlsx.md](docs/xlsx.md) |
+
+# Documentation générale
 
 | Guide | Description |
 |-------|-------------|
