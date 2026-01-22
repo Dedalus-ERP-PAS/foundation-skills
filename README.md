@@ -6,7 +6,7 @@ Les skills sont des instructions et ressources que les agents IA chargent dynami
 
 ## Guide complet d'utilisation
 
-**[📖 Guide complet : Comment utiliser les Foundation Skills](docs/comment-utiliser.md)**
+**[docs/comment-utiliser.md](docs/comment-utiliser.md)**
 
 Guide détaillé couvrant :
 - Installation globale, sélective et locale
