@@ -2,6 +2,12 @@
 
 Création, consultation, mise à jour et gestion des issues GitLab avec intégration de contexte et workflows structurés.
 
+## Configuration
+
+**Instance GitLab utilisée :** https://gitlab-erp-pas.dedalus.lan
+
+Cette compétence est configurée pour fonctionner avec l'instance GitLab auto-hébergée de Dedalus. Tous les projets, identifiants et références doivent utiliser cette instance.
+
 ## Utilisation
 
 ### Créer une issue
@@ -45,7 +51,8 @@ Ajoute le label "priority::high" à l'issue #45
 ## Prérequis
 
 - Serveur MCP GitLab configuré (`gitlab-mcp`)
-- Accès au projet GitLab concerné
+- Accès à l'instance GitLab auto-hébergée : https://gitlab-erp-pas.dedalus.lan
+- Identifiants et permissions appropriés sur les projets GitLab concernés
 
 ## Types d'issues
 

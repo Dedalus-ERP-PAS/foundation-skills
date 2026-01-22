@@ -1,26 +1,120 @@
 ---
 name: playwright-skill
-description: Complete browser automation with Playwright. Auto-detects dev servers, writes clean test scripts to /tmp. Test pages, fill forms, take screenshots, check responsive design, validate UX, test login flows, check links, automate any browser task. Use when user wants to test websites, automate browser interactions, validate web functionality, or perform any browser-based testing.
+description: Complete browser automation and web testing with Playwright. Auto-detects dev servers, manages server lifecycle, writes clean test scripts to /tmp. Test pages, fill forms, take screenshots, check responsive design, validate UX, test login flows, check links, debug dynamic webapps, automate any browser task. Use when user wants to test websites, automate browser interactions, validate web functionality, or perform any browser-based testing.
 ---
 
-# Playwright Browser Automation
+# Playwright Web Testing & Automation
 
-General-purpose browser automation skill. Write custom Playwright code for any automation task and execute it via the universal executor.
+Comprehensive web testing skill using Playwright. Write custom JavaScript code for any testing or automation task.
 
-**CRITICAL WORKFLOW - Follow these steps in order:**
+## Decision Tree: Choosing Your Approach
 
-1. **Auto-detect dev servers** - For localhost testing, ALWAYS run server detection FIRST
+```
+User task → Is server already running?
+    ├─ Yes → Direct Testing
+    │   ├─ Static HTML? → Navigate directly (file:// or http://)
+    │   └─ Dynamic webapp? → Use Reconnaissance-Then-Action pattern
+    │
+    └─ No → Server Management Required
+        ├─ Single server → Start server, then test
+        └─ Multiple servers → Start all servers, coordinate testing
+```
+
+## CRITICAL WORKFLOW
+
+1. **CheckTesting  if server is running** - Detect running dev servers OR start servers if needed
 2. **Write scripts to /tmp** - NEVER write test files to skill directory; always use `/tmp/playwright-test-*.js`
 3. **Use visible browser by default** - Always use `headless: false` unless user specifically requests headless mode
-4. **Parameterize URLs** - Always make URLs configurable via environment variable or constant at top of script
+4. **Wait for dynamic content** - Use `waitForLoadState('networkidle')` before inspecting dynamic webapps
+5. **Parameterize URLs** - Always make URLs configurable via constant at top of script
 
-## How It Works
+## Reconnaissance-Then-Action Pattern
 
-1. You describe what you want to test/automate
-2. Auto-detect running dev servers (or ask for URL if testing external site)
-3. Write custom Playwright code in `/tmp/playwright-test-*.js` (won't clutter your project)
-4. Execute it and display results in real-time, browser window visible for debugging
-5. Test files auto-cleaned from /tmp by your OS
+For dynamic webapps where you don't know the DOM structure upfront:
+
+```javascript
+// /tmp/playwright-test-reconnaissance.js
+const { chromium } = require('playwright');
+
+const TARGET_URL = 'http://localhost:3000';
+
+(async () => {
+  const browser = await chromium.launch({ headless: false });
+  const page = await browser.newPage();
+
+  // STEP 1: Navigate and wait for dynamic content
+  await page.goto(TARGET_URL);
+  await page.waitForLoadState('networkidle'); // CRITICAL for dynamic apps
+
+  // STEP 2: Reconnaissance - discover what's on the page
+  await page.screenshot({ path: '/tmp/inspect.png', fullPage: true });
+  
+  const buttons = await page.locator('button').all();
+  console.log(`Found ${buttons.length} buttons`);
+  
+  for (let i = 0; i < buttons.length; i++) {
+    const text = await buttons[i].textContent();
+    console.log(`  Button ${i}: "${text}"`);
+  }
+
+  // STEP 3: Action - interact with discovered elements
+  const loginButton = page.locator('button:has-text("Login")');
+  if (await loginButton.isVisible()) {
+    await loginButton.click();
+    console.log('✅ Clicked login button');
+  }
+
+  await browser.close();
+})();
+```
+
+## Server Management
+
+### Check for Running Servers
+
+```bash
+# Check if port is in use
+lsof -i :3000  # Mac/Linux
+netstat -ano | findstr :3000  # Windows
+```
+
+### Start Server Before Testing
+
+```javascript
+// /tmp/playwright-test-with-server.js
+const { chromium } = require('playwright');
+const { spawn } = require('child_process');
+
+const TARGET_URL = 'http://localhost:3000';
+
+(async () => {
+  // Start server
+  console.log('Starting server...');
+  const server = spawn('npm', ['run', 'dev'], { shell: true });
+  
+  server.stdout.on('data', (data) => console.log(`Server: ${data}`));
+  server.stderr.on('data', (data) => console.error(`Server Error: ${data}`));
+
+  // Wait for server to be ready
+  await new Promise(resolve => setTimeout(resolve, 3000));
+
+  // Run tests
+  const browser = await chromium.launch({ headless: false });
+  const page = await browser.newPage();
+  
+  await page.goto(TARGET_URL);
+  await page.waitForLoadState('networkidle');
+  
+  // Your test logic here
+  console.log('Title:', await page.title());
+  
+  await browser.close();
+  
+  // Clean up server
+  server.kill();
+  console.log('✅ Tests complete, server stopped');
+})();
+```
 
 ## Common Patterns
 
@@ -189,34 +283,65 @@ const TARGET_URL = 'http://localhost:3001'; // Auto-detected
     console.log(
       `Testing ${viewport.name} (${viewport.width}x${viewport.height})`,
     );
-
-    await page.setViewportSize({
-      width: viewport.width,
-      height: viewport.height,
-    });
-
-    await page.goto(TARGET_URL);
-    await page.waitForTimeout(1000);
-
-    await page.screenshot({
-      path: `/tmp/${viewport.name.toLowerCase()}.png`,
-      fullPage: true,
-    });
-  }
-
-  console.log('✅ All viewports tested');
-  await browser.close();
-})();
-```
-
-## Core API Reference
-
-### Browser & Page
+ & Discovery
 
 ```javascript
-// Launch browser
-const browser = await chromium.launch({
-  headless: false,  // Visible browser
+// Check visibility
+const isVisible = await page.locator('button').isVisible();
+
+// Get text
+const text = await page.locator('h1').textContent();
+
+// Get attribute
+const href = await page.locator('a').getAttribute('href');
+
+// Find all elements
+const allButtons = await page.locator('button').all();
+const allLinks = await page.locator('a').all();
+
+// Check if element exists
+const count = await page.locator('.modal').count();
+console.log(`Found ${count} modals`);
+```
+
+### Network & Console
+
+```javascript
+// Intercept requests
+await page.route('**/api/**', route => {
+  route.fulfill({
+    status: 200,
+    body: JSON.stringify({ mocked: true })
+  });
+});
+
+// Wait for response
+const response = await page.waitForResponse('**/api/data');
+console.log(await response.json());
+
+// Capture console logs
+page.on('console', msg => {
+  console.log(`Browser console [${msg.type()}]:`, msg.text());
+});
+```
+
+## Best Practices
+
+### ✅ DO
+
+- **Wait for networkidle on dynamic apps** - Always use `page.waitForLoadState('networkidle')` before inspecting DOM on SPAs/React/Vue apps
+- **Use reconnaissance pattern** - Take screenshot, inspect DOM, then act based on what you find
+- **Visible browser by default** - Use `headless: false` for easier debugging
+- **Descriptive selectors** - Use `text=`, `role=`, or data attributes over brittle CSS selectors
+- **Error handling** - Wrap automation in try-catch blocks
+- **Clean up resources** - Always close browser and kill servers
+
+### ❌ DON'T
+
+- **Don't inspect before networkidle** - On dynamic webapps, DOM may not be ready yet
+- **Don't use fixed timeouts** - Use `waitForSelector()` or `waitForLoadState()` instead of arbitrary waits
+- **Don't write to skill directory** - Always use `/tmp` for test scripts
+- **Don't hardcode URLs** - Use constants at top of script for easy modificationeadless: false,  // Visible browser
   slowMo: 50       // Slow down by 50ms
 });
 
@@ -281,15 +406,15 @@ await page.screenshot({
 await page.locator('.chart').screenshot({
   path: '/tmp/chart.png'
 });
-```
+```Quick Tips
 
-### Assertions
-
-```javascript
-// Check visibility
-const isVisible = await page.locator('button').isVisible();
-
-// Get text
+- **Visible browser** - Always `headless: false` unless explicitly requested
+- **Write to /tmp** - Scripts go to `/tmp/playwright-test-*.js`, never to project directories
+- **Parameterize URLs** - Use `TARGET_URL` constant at top of script
+- **Slow down** - Use `slowMo: 100` to see actions in real-time
+- **Wait smart** - Use `waitForLoadState('networkidle')` for dynamic apps before inspecting
+- **Error handling** - Wrap in try-catch with proper cleanup in finally block
+- **Progress feedback** - Use `console.log()` to
 const text = await page.locator('h1').textContent();
 
 // Get attribute
