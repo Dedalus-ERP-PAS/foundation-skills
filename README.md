@@ -69,8 +69,6 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills --list
 | **web-design-guidelines** | Audit complet UI/UX avec inspection visuelle : conformité Web Interface Guidelines, accessibilité et corrections automatiques | [docs/web-design-guidelines.md](docs/web-design-guidelines.md) |
 | **xlsx** | Création, édition et analyse de fichiers Excel (.xlsx) : formules complexes, formatage professionnel, visualisation et recalcul | [docs/xlsx.md](docs/xlsx.md) |
 
-**Note :** La table ci-dessus liste les 21 skills disponibles. Pour les détails d'installation et d'utilisation, consultez le [guide complet](docs/comment-utiliser.md).
-
 ## Ressources
 
 - **[📖 Guide complet d'utilisation](docs/comment-utiliser.md)** - Documentation détaillée
