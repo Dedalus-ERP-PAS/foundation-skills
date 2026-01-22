@@ -4,17 +4,6 @@ Repository centralisé de skills pour les assistants IA de développement (GitHu
 
 Les skills sont des instructions et ressources que les agents IA chargent dynamiquement pour réaliser des tâches spécialisées de manière reproductible. Ils suivent le standard ouvert [Agent Skills](https://agentskills.io).
 
-## Guide complet d'utilisation
-
-**[docs/comment-utiliser.md](docs/comment-utiliser.md)**
-
-Guide détaillé couvrant :
-- Installation globale, sélective et locale
-- Utilisation avec GitHub Copilot, Claude, Cursor, Windsurf
-- Exemples concrets par cas d'usage
-- Astuces et bonnes pratiques
-- Dépannage des problèmes courants
-
 ## Installation
 
 ```bash
