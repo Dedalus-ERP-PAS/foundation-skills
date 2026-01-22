@@ -217,9 +217,7 @@ The [component] is experiencing [issue] when [condition].
 [What actually happens]
 
 ## Environment
-- Version: [version]
-- OS: [operating system]
-- Browser: [if applicable]
+- Application Version: [version]
 
 ## Screenshots/Logs
 [Attach relevant files]
