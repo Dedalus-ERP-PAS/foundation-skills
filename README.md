@@ -1,6 +1,6 @@
 # Foundation Skills
 
-Repository centralisé de skills pour les assistants IA de développement (GitHub Copilot, Claude, Cursor, Windsurf...) destine aux equipes de development ERP-PAS.
+Repository centralisé de skills pour les assistants IA de développement (GitHub Copilot, Claude, Cursor, Windsurf...) destiné aux équipes de développement ERP-PAS.
 
 Les skills sont des instructions et ressources que les agents IA chargent dynamiquement pour réaliser des tâches spécialisées de manière reproductible. Ils suivent le standard ouvert [Agent Skills](https://agentskills.io).
 
