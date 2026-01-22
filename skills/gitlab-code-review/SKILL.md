@@ -13,6 +13,13 @@ metadata:
 
 Perform comprehensive code reviews of GitLab merge requests, providing actionable feedback on code quality, security, performance, and best practices.
 
+## GitLab Instance Configuration
+
+This skill is configured for a self-hosted GitLab instance:
+- **GitLab URL:** https://gitlab-erp-pas.dedalus.lan
+- All project identifiers, URLs, and references should use this self-hosted instance
+- Ensure you have appropriate access credentials configured for this GitLab server
+
 ## When to Use This Skill
 
 Activate this skill when:
@@ -63,6 +70,8 @@ Activate this skill when:
 3. Ask user to select which MR to review
 
 ### 2. Gather Merge Request Context
+
+**Self-hosted GitLab Instance:** https://gitlab-erp-pas.dedalus.lan
 
 Use `gitlab-mcp(get_merge_request)` to retrieve:
 

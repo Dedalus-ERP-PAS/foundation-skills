@@ -2,6 +2,10 @@
 
 Revue de code complète des merge requests GitLab avec analyse de la qualité, sécurité, performance et bonnes pratiques.
 
+**Instance GitLab utilisée :** https://gitlab-erp-pas.dedalus.lan
+
+Cette compétence est configurée pour fonctionner avec l'instance GitLab auto-hébergée de Dedalus. Tous les projets, identifiants et références doivent utiliser cette instance.
+
 ## Utilisation
 
 Demandez une revue de code en mentionnant la merge request :
@@ -25,7 +29,8 @@ Montre-moi les MR ouvertes à reviewer
 ## Prérequis
 
 - Serveur MCP GitLab configuré (`gitlab-mcp`)
-- Accès au projet GitLab concerné
+- Accès à l'instance GitLab auto-hébergée : https://gitlab-erp-pas.dedalus.lan
+- Identifiants et permissions appropriés sur les projets GitLab concernés
 
 ## Fonctionnalités
 
