@@ -56,6 +56,7 @@ npx add-skill Dedalus-ERP-PAS/foundation-skills -g -y
 | **docx** | Création, édition et analyse complètes de documents Word (.docx) : tracked changes, commentaires, formatage et extraction de texte | [docx.md](docs/docx.md) |
 | **pdf** | Manipulation complète de PDF : extraction de texte/tables, création, fusion/division, remplissage de formulaires avec Python | [pdf.md](docs/pdf.md) |
 | **pptx** | Création, édition et analyse de présentations PowerPoint (.pptx) : layouts, animations, speaker notes et conversion HTML-to-PPTX | [pptx.md](docs/pptx.md) |
+| **readme** | Génère ou met à jour un README.md en français orienté Product Owner avec diagrammes Mermaid, et génère CLAUDE.md/AGENT.md si absents | [readme.md](docs/readme.md) |
 | **toxic-manager-translator** | 🎭 Transforme les messages émotionnels ou frustrés en réponses professionnelles et stratégiques pour gérer les situations difficiles au travail | [toxic-manager-translator.md](docs/toxic-manager-translator.md) |
 | **xlsx** | Création, édition et analyse de fichiers Excel (.xlsx) : formules complexes, formatage professionnel, visualisation et recalcul | [xlsx.md](docs/xlsx.md) |
 
