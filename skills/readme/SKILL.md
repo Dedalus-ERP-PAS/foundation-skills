@@ -1,11 +1,11 @@
 ---
 name: readme
-description: "Generate or update a README.md in French, oriented Product Owner, with Mermaid diagrams. Also generates CLAUDE.md and AGENT.md if missing. Triggers on: create readme, update readme, generate readme, générer le readme, mettre à jour le readme, /readme."
+description: "Generate or update a README.md in French, oriented Product Owner, with Mermaid diagrams. Reviews and improves technical documentation in docs/. Also generates CLAUDE.md and AGENT.md if missing. Triggers on: create readme, update readme, generate readme, générer le readme, mettre à jour le readme, /readme."
 ---
 
 # README Generator
 
-Generates (or updates) a README.md oriented Product Owner, written in French, concise and illustrated with Mermaid diagrams. Also generates CLAUDE.md and AGENT.md if they don't exist.
+Generates (or updates) a README.md oriented Product Owner, written in French, concise and illustrated with Mermaid diagrams. Reviews and improves all technical documentation in the `docs/` directory. Also generates CLAUDE.md and AGENT.md if they don't exist.
 
 ---
 
@@ -54,12 +54,46 @@ Save `README.md` at the project root.
 - **CLAUDE.md** — Generate instructions for Claude Code based on codebase exploration (see dedicated section below)
 - **AGENT.md** — Generate instructions for autonomous AI agents based on codebase exploration (see dedicated section below)
 
-### Step 6: Confirm
+### Step 6: Review Technical Documentation
+
+Review every `.md` file in the `docs/` directory and propose improvements following the **Documentation Quality Rules** defined below.
+
+For each file:
+
+1. **Read the entire file**
+2. **Evaluate** against each rule in the Documentation Quality Rules section
+3. **Propose concrete improvements** — rewrite sections that violate the rules
+4. **Apply changes** directly to the files
+5. **Report** a summary of changes per file to the user
+
+**Do NOT delete or remove existing documentation files.** Only improve their content.
+
+### Step 7: Identify Missing Documentation
+
+Cross-reference the codebase exploration (Step 1) with the existing `docs/` files to detect **critical or important features that are not documented**.
+
+1. **Inventory documented topics** — List what each `docs/*.md` file covers
+2. **Inventory codebase features** — From Step 1, list key features, modules, APIs, integrations, workflows, and architectural decisions found in the code
+3. **Gap analysis** — Compare the two lists. Flag any feature that is:
+   - Used in production code but has no corresponding documentation
+   - A core business workflow (e.g., authentication, data pipeline, external integrations)
+   - An architectural decision that would confuse a new team member without context
+   - A complex module with non-obvious behavior
+4. **Propose new documentation files** — For each gap, present to the user:
+   - Suggested file name (e.g., `docs/authentication-flow.md`)
+   - One-line description of what it would cover
+   - Priority: **Critique** (blocks understanding of the system) or **Important** (significantly helps onboarding)
+5. **Ask the user** which proposed files to create
+6. **Generate approved files** following the Documentation Quality Rules — in French, concise, PO-oriented, with Mermaid diagrams where useful
+
+### Step 8: Confirm
 
 Summarize to the user what was done:
 - Which files were created vs. updated
 - Key sections included
 - Any information that could not be determined and was left as placeholder
+- **Documentation review:** list of `docs/` files reviewed with a one-line summary of improvements applied per file
+- **Missing documentation:** list of new doc files proposed, which were approved and created
 
 ---
 
@@ -192,6 +226,51 @@ Ce diagramme illustre le pipeline de déploiement continu. Lorsqu'un développeu
 
 ---
 
+## Documentation Quality Rules
+
+These rules apply when reviewing and improving files in `docs/`. Each doc file must comply.
+
+### Language
+
+- **Written in French** — All content must be in French
+- **Exception:** Technical terms without French equivalent (API, WebSocket, Docker, CI/CD, JSON, etc.) stay in English
+- **Vouvoiement** — Use "vous" consistently
+- **Acronyms explained** at first occurrence
+
+### Conciseness
+
+- **Short sentences** — Maximum 20 words per sentence
+- **Bullet points over paragraphs** — Prefer structured lists to long blocks of text
+- **No filler** — Remove introductions like "Dans cette section, nous allons voir..." — go straight to the point
+- **One idea per paragraph** — If a paragraph covers two topics, split it
+
+### Readability
+
+- **Scan-friendly structure** — Use headings (H2, H3) liberally so the reader can jump to what they need
+- **Bold key terms** on first mention in a section
+- **Tables for comparisons** — When comparing options, features, or configurations, use a table instead of prose
+- **Code examples short and focused** — Maximum 10-15 lines per code block, with a one-line comment explaining the purpose
+
+### Audience
+
+- **Product Owner oriented by default** — Explain the "what" and "why" before the "how"
+- **Technical depth when the subject requires it** — Parsers, protocols, database schemas, API contracts can and should include technical details
+- **Label technical sections clearly** — Use a heading or callout (e.g., "> **Détail technique**") so non-technical readers can skip them
+
+### Mermaid Diagrams
+
+- **Prefer a diagram over a long description** — If a concept involves a flow, sequence, or architecture, use Mermaid instead of (or in addition to) text
+- **Follow the Mermaid Diagram Rules** defined above (French labels, max 8-10 nodes, allowed types, textual explanation below)
+- **Replace verbose explanations** — If a section has 5+ lines describing a flow or architecture, consider replacing or supplementing with a diagram
+
+### Structure
+
+- **Every doc file must start with a H1 title** matching the file name / topic
+- **A short intro paragraph** (1-2 sentences) right after the title explaining what this document covers and who it's for
+- **Logical section order:** Context/Purpose → How it works → Details/Reference → Examples
+
+---
+
 ## Create vs. Update Mode
 
 ### Creation Mode (no existing README.md)
@@ -320,4 +399,10 @@ Before saving the README.md, verify:
 - [ ] Acronyms explained at first occurrence
 - [ ] CLAUDE.md generated only if it did not exist
 - [ ] AGENT.md generated only if it did not exist
-- [ ] User informed of what was created/updated
+- [ ] All `docs/*.md` files reviewed against Documentation Quality Rules
+- [ ] Docs are in French, concise, scan-friendly, and PO-oriented
+- [ ] Mermaid diagrams added where they replace verbose explanations
+- [ ] Gap analysis performed: codebase features vs. existing documentation
+- [ ] Missing critical/important docs proposed to user before creation
+- [ ] New doc files follow Documentation Quality Rules
+- [ ] User informed of what was created/updated, docs improved, and new docs proposed/created
