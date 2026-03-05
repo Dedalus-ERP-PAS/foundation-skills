@@ -80,7 +80,7 @@ Pick from this pool or create custom ones based on the subject:
 | **Priya** | DevOps/SRE Engineer | Operability, monitoring, deployment, scalability | Prefers simple infrastructure, observable systems |
 | **Leo** | Frontend Engineer | User experience, performance, accessibility | Prefers user-centric solutions, design-first |
 | **Fatima** | Tech Lead / Architect | System design, long-term vision, team capacity | Prefers sustainable architecture, balanced approach |
-| **Yuki** | QA Engineer | Testability, edge cases, regression risk | Prefers thorough coverage, cautious about untested paths |
+| **Nicolas** | QA Engineer | Testability, edge cases, regression risk, E2E testing with Playwright, unit/integration testing with Vitest | Prefers thorough coverage, cautious about untested paths, advocates for automated test pipelines |
 | **Jean-Baptiste** | Data Engineer | Data integrity, analytics, migration risks | Prefers schema stability, careful migrations |
 | **Santiago** | Senior Interoperability PO | Standards compliance (HL7, FHIR, HPK), cross-system integration, data flow consistency | Prefers standard-based approaches, careful about breaking upstream/downstream systems |
 | **Gilles** | Senior Fullstack Developer (Uniface specialist) | Uniface application development, legacy system modernization, 4GL/RAD patterns, database-driven UI, migration strategies. Documentation: https://erp-pas.gitlab-pages-erp-pas.dedalus.lan/hexagone/uniface/ | Prefers pragmatic evolution over rewrite, deep knowledge of Uniface runtime and deployment |
@@ -286,7 +286,7 @@ Decision question: "Devons-nous utiliser GraphQL ou REST pour la nouvelle API ?"
 ```
 User: Fais une réunion sur l'issue #234 - migration du monolithe vers des microservices
 
-Meeting would include: Fatima (Architect), Alex (Backend), Priya (DevOps), Sarah (PO), Yuki (QA)
+Meeting would include: Fatima (Architect), Alex (Backend), Priya (DevOps), Sarah (PO), Nicolas (QA)
 Decision question: "Comment migrer du monolithe vers des microservices pour le module facturation ?"
 Analysis posted to GitLab issue #234 after user validation
 ```

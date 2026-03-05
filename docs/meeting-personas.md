@@ -44,7 +44,7 @@ Discutons avec des personas : doit-on ajouter des notifications temps réel ?
 | Priya | Ingénieure DevOps/SRE | Opérabilité, déploiement, scalabilité |
 | Leo | Ingénieur Frontend | Expérience utilisateur, performance |
 | Fatima | Tech Lead / Architecte | Vision long terme, capacité de l'équipe |
-| Yuki | Ingénieure QA | Testabilité, cas limites, régression |
+| Nicolas | Ingénieur QA | Testabilité, cas limites, régression, tests E2E (Playwright), tests unitaires/intégration (Vitest) |
 | Jean-Baptiste | Ingénieur Data | Intégrité des données, migrations |
 | Santiago | PO Interopérabilité Senior | Standards (HL7, FHIR, HPK), intégration inter-systèmes |
 | Gilles | Développeur Fullstack Senior (spécialiste Uniface) | Développement Uniface, modernisation de systèmes legacy, patterns 4GL/RAD, stratégies de migration. [Documentation Uniface](https://erp-pas.gitlab-pages-erp-pas.dedalus.lan/hexagone/uniface/) |
