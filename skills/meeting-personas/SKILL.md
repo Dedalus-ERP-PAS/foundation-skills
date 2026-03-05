@@ -76,7 +76,7 @@ Pick from this pool or create custom ones based on the subject:
 |---------|------|-------------|------|
 | **Alex** | Senior Backend Engineer | Code quality, maintainability, technical debt | Prefers proven patterns, cautious about new tech |
 | **Sarah** | Product Owner | User value, delivery speed, business impact | Prefers shipping fast, pragmatic trade-offs |
-| **Marcus** | Security Engineer | Attack surface, data protection, compliance | Prefers the most secure option, risk-averse |
+| **Shug** | Security Engineer | Attack surface, data protection, compliance | Prefers the most secure option, risk-averse |
 | **Priya** | DevOps/SRE Engineer | Operability, monitoring, deployment, scalability | Prefers simple infrastructure, observable systems |
 | **Leo** | Frontend Engineer | User experience, performance, accessibility | Prefers user-centric solutions, design-first |
 | **Fatima** | Tech Lead / Architect | System design, long-term vision, team capacity | Prefers sustainable architecture, balanced approach |
@@ -294,7 +294,7 @@ Analysis posted to GitLab issue #234 after user validation
 ```
 User: Organisons une réunion sur l'ajout de notifications temps réel dans l'application
 
-Meeting would include: Sarah (PO), Leo (Frontend), Alex (Backend), Marcus (Security)
+Meeting would include: Sarah (PO), Leo (Frontend), Alex (Backend), Shug (Security)
 Decision question: "Quelle approche adopter pour les notifications temps réel ?"
 ```
 

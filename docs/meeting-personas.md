@@ -40,7 +40,7 @@ Discutons avec des personas : doit-on ajouter des notifications temps réel ?
 |---------|------|------------------------|
 | Alex | Ingénieur Backend Senior | Qualité de code, maintenabilité |
 | Sarah | Product Owner | Valeur utilisateur, rapidité de livraison |
-| Marcus | Ingénieur Sécurité | Surface d'attaque, conformité |
+| Shug | Ingénieur Sécurité | Surface d'attaque, conformité |
 | Priya | Ingénieure DevOps/SRE | Opérabilité, déploiement, scalabilité |
 | Leo | Ingénieur Frontend | Expérience utilisateur, performance |
 | Fatima | Tech Lead / Architecte | Vision long terme, capacité de l'équipe |
