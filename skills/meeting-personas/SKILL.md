@@ -82,6 +82,7 @@ Pick from this pool or create custom ones based on the subject:
 | **Fatima** | Tech Lead / Architect | System design, long-term vision, team capacity | Prefers sustainable architecture, balanced approach |
 | **Yuki** | QA Engineer | Testability, edge cases, regression risk | Prefers thorough coverage, cautious about untested paths |
 | **Omar** | Data Engineer | Data integrity, analytics, migration risks | Prefers schema stability, careful migrations |
+| **Santiago** | Senior Interoperability PO | Standards compliance (HL7, FHIR, HPK), cross-system integration, data flow consistency | Prefers standard-based approaches, careful about breaking upstream/downstream systems |
 
 **Custom personas:** If the subject is domain-specific (healthcare, finance, legal...), create a relevant domain expert persona.
 
