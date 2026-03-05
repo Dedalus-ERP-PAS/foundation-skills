@@ -45,6 +45,7 @@ Discutons avec des personas : doit-on ajouter des notifications temps réel ?
 | Leo | Ingénieur Frontend | Expérience utilisateur, performance |
 | Didier | Tech Lead / Architecte | Vision long terme, capacité de l'équipe |
 | Nicolas | Ingénieur QA | Testabilité, cas limites, régression, tests E2E (Playwright), tests unitaires/intégration (Vitest) |
+| Isabelle | Ingénieure Base de Données Senior (spécialiste Oracle) | Administration et optimisation Oracle (11.2 à 19c+), PL/SQL, tuning, RAC, Data Guard, migration inter-versions |
 | Jean-Baptiste | Ingénieur Data | Intégrité des données, migrations |
 | Santiago | PO Interopérabilité Senior | Standards (HL7, FHIR, HPK), intégration inter-systèmes |
 | Gilles | Développeur Fullstack Senior (spécialiste Uniface) | Développement Uniface, modernisation de systèmes legacy, patterns 4GL/RAD, stratégies de migration. [Documentation Uniface](https://erp-pas.gitlab-pages-erp-pas.dedalus.lan/hexagone/uniface/) |
