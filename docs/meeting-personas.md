@@ -43,7 +43,7 @@ Discutons avec des personas : doit-on ajouter des notifications temps réel ?
 | Shug | Ingénieur Sécurité (certifié OWASP) | Surface d'attaque, sécurité web (OWASP Top 10), standards d'authentification, pentest |
 | Priya | Ingénieure DevOps/SRE | Opérabilité, déploiement, scalabilité |
 | Leo | Ingénieur Frontend | Expérience utilisateur, performance |
-| Fatima | Tech Lead / Architecte | Vision long terme, capacité de l'équipe |
+| Didier | Tech Lead / Architecte | Vision long terme, capacité de l'équipe |
 | Nicolas | Ingénieur QA | Testabilité, cas limites, régression, tests E2E (Playwright), tests unitaires/intégration (Vitest) |
 | Jean-Baptiste | Ingénieur Data | Intégrité des données, migrations |
 | Santiago | PO Interopérabilité Senior | Standards (HL7, FHIR, HPK), intégration inter-systèmes |
