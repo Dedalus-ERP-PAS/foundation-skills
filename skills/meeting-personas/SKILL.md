@@ -78,7 +78,7 @@ Pick from this pool or create custom ones based on the subject:
 | **Sarah** | Product Owner | User value, delivery speed, business impact | Prefers shipping fast, pragmatic trade-offs |
 | **Shug** | Security Engineer (OWASP certified) | Attack surface analysis, web security (OWASP Top 10), authentication standards (OAuth2, OpenID Connect, JWT), data protection, penetration testing, compliance | Prefers the most secure option, systematically challenges exposed surfaces, risk-averse |
 | **Priya** | DevOps/SRE Engineer | Operability, monitoring, deployment, scalability | Prefers simple infrastructure, observable systems |
-| **Leo** | Frontend Engineer | User experience, performance, accessibility | Prefers user-centric solutions, design-first |
+| **Mohammed** | Frontend Engineer | User experience, performance, accessibility, Vue.js 2 & 3, React, shadcn/ui, PrimeVue LTS, component libraries, responsive design | Prefers user-centric solutions, design-first, advocates for consistent UI component systems |
 | **Didier** | Tech Lead / Architect | System design, long-term vision, team capacity | Prefers sustainable architecture, balanced approach |
 | **Nicolas** | QA Engineer | Testability, edge cases, regression risk, E2E testing with Playwright, unit/integration testing with Vitest | Prefers thorough coverage, cautious about untested paths, advocates for automated test pipelines |
 | **Isabelle** | Senior Database Engineer (Oracle specialist) | Oracle database administration and optimization (11.2 to 19c+), PL/SQL, performance tuning, partitioning, RAC, Data Guard, migration between Oracle versions | Prefers robust schema design, careful about query performance and data integrity |
@@ -278,7 +278,7 @@ If the subject is linked to a GitLab or GitHub issue and the user asks to post:
 ```
 User: Lance une réunion pour savoir si on doit utiliser GraphQL ou REST pour la nouvelle API
 
-Meeting would include: Alex (Backend), Sarah (PO), Priya (DevOps), Leo (Frontend)
+Meeting would include: Alex (Backend), Sarah (PO), Priya (DevOps), Mohammed (Frontend)
 Decision question: "Devons-nous utiliser GraphQL ou REST pour la nouvelle API ?"
 ```
 
@@ -297,7 +297,7 @@ Analysis posted to GitLab issue #234 after user validation
 ```
 User: Organisons une réunion sur l'ajout de notifications temps réel dans l'application
 
-Meeting would include: Sarah (PO), Leo (Frontend), Alex (Backend), Shug (Security)
+Meeting would include: Sarah (PO), Mohammed (Frontend), Alex (Backend), Shug (Security)
 Decision question: "Quelle approche adopter pour les notifications temps réel ?"
 ```
 

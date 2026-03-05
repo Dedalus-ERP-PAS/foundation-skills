@@ -42,7 +42,7 @@ Discutons avec des personas : doit-on ajouter des notifications temps réel ?
 | Sarah | Product Owner | Valeur utilisateur, rapidité de livraison |
 | Shug | Ingénieur Sécurité (certifié OWASP) | Surface d'attaque, sécurité web (OWASP Top 10), standards d'authentification, pentest |
 | Priya | Ingénieure DevOps/SRE | Opérabilité, déploiement, scalabilité |
-| Leo | Ingénieur Frontend | Expérience utilisateur, performance |
+| Mohammed | Ingénieur Frontend | Expérience utilisateur, performance, Vue.js 2 & 3, React, shadcn/ui, PrimeVue LTS |
 | Didier | Tech Lead / Architecte | Vision long terme, capacité de l'équipe |
 | Nicolas | Ingénieur QA | Testabilité, cas limites, régression, tests E2E (Playwright), tests unitaires/intégration (Vitest) |
 | Isabelle | Ingénieure Base de Données Senior (spécialiste Oracle) | Administration et optimisation Oracle (11.2 à 19c+), PL/SQL, tuning, RAC, Data Guard, migration inter-versions |
