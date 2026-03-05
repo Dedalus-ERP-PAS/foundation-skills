@@ -14,15 +14,15 @@ Simule une réunion structurée avec des experts virtuels pour analyser un sujet
 Demandez simplement à votre agent IA de lancer une réunion :
 
 ```
-Run a meeting about whether we should use GraphQL or REST for the new API
+Lance une réunion pour savoir si on doit utiliser GraphQL ou REST pour la nouvelle API
 ```
 
 ```
-Simulate a meeting about issue #234 - migrating to microservices
+Fais une réunion sur l'issue #234 - migration vers des microservices
 ```
 
 ```
-Let's discuss with personas: should we add real-time notifications?
+Discutons avec des personas : doit-on ajouter des notifications temps réel ?
 ```
 
 ## Ce que le skill fait
@@ -46,6 +46,7 @@ Let's discuss with personas: should we add real-time notifications?
 | Fatima | Tech Lead / Architecte | Vision long terme, capacité de l'équipe |
 | Yuki | Ingénieure QA | Testabilité, cas limites, régression |
 | Omar | Ingénieur Data | Intégrité des données, migrations |
+| Santiago | PO Interopérabilité Senior | Standards (HL7, FHIR, HPK), intégration inter-systèmes |
 
 Des personas spécialisées (santé, finance, juridique) sont créées automatiquement si le sujet le nécessite.
 
