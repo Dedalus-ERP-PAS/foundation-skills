@@ -144,6 +144,30 @@ This is a research task — do NOT write or edit any files.
 
 > **Alex (Senior Backend Engineer):** "I recommend..."
 
+#### Anti-Groupthink Check
+
+After collecting Round 1 responses, evaluate the consensus level:
+
+1. **Check if all personas converged on the same approach** (same recommendation, no meaningful disagreement)
+2. **If consensus is too high** (all personas agree on the approach with no pushback):
+   - Launch **one additional sub-agent** as a devil's advocate, prompted to find the strongest argument against the consensus position
+   - Use this prompt:
+     ```
+     You are a devil's advocate in a fast meeting.
+
+     All participants agreed on this approach: {consensus_summary}
+
+     Your job: find the strongest possible argument AGAINST this consensus.
+     - What could go wrong that nobody mentioned?
+     - What assumption are they all making that might be false?
+     - What alternative did they dismiss too quickly?
+
+     Be specific and concrete. Reference real failure scenarios.
+     This is a research task — do NOT write or edit any files.
+     ```
+   - Include the dissenting view in the analysis even if the recommendation doesn't change
+3. **If there is already meaningful disagreement:** proceed directly to Round 2
+
 #### Round 2: Convergence (Single Synthesis)
 
 After collecting all Round 1 responses, **you** (the facilitator, not a sub-agent) synthesize:
@@ -184,9 +208,32 @@ Write a compact analysis displayed to the user:
 3. [Step 3]
 ```
 
+### Step 4b: Implementation Scope Guard
+
+Before implementing, estimate the scope of the recommended changes:
+
+1. **Assess the scope:** count the estimated number of files to change, lines of code to add/modify, and whether new dependencies or infrastructure are needed
+2. **Apply thresholds:**
+   - **Small scope** (≤10 files, ≤500 lines, no new infrastructure): proceed to Step 5 normally
+   - **Medium scope** (>10 files OR >500 lines): proceed but **scope down** to the most critical first step only. Add the remaining steps as a checklist in the MR/PR description under a `### Étapes restantes` section
+   - **Large scope** (multi-service changes, architectural migration, new infrastructure required): **abort implementation**. Output the meeting analysis from Step 4, and suggest the user run the full `/meeting` skill for proper planning with validation before implementation
+3. **If scoping down:** clearly state in the analysis what is being implemented now vs. deferred
+
 ### Step 5: Implement the Recommendation
 
 **Immediately proceed to implementation without asking the user.** This is the key difference from meeting.
+
+#### 5a: Protect the Working Tree
+
+Before creating a branch, safeguard any existing work:
+
+1. Run `git status` to check for uncommitted changes (staged, unstaged, or untracked)
+2. **If the working tree is dirty:**
+   - Run `git stash push -m "fast-meeting: auto-stash before <topic>"` to save the user's in-progress work
+   - Remember the original branch name for later restoration
+3. **If the working tree is clean:** proceed normally
+
+#### 5b: Create Branch and Implement
 
 1. **Create a new branch** from the current branch:
    - Branch name: `fast-meeting/<short-kebab-case-topic>` (e.g., `fast-meeting/jwt-auth-migration`)
@@ -197,8 +244,33 @@ Write a compact analysis displayed to the user:
 3. **Stage and commit** all changes:
    - Use a conventional commit message: `feat(<scope>): <description>`
    - Include `Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>` in the commit message
+
+#### 5c: Run Tests
+
+After committing, validate the implementation against the project's test suite:
+
+1. **Auto-detect the test runner:**
+   - Check `package.json` for `test`, `test:unit`, `test:e2e` scripts
+   - Check for `Makefile`, `pytest.ini`, `phpunit.xml`, or other test config files
+   - If no test runner is found, skip this step and note "No test suite detected" in the MR/PR description
+2. **Run the tests** (scoped to affected files/modules if the test runner supports it, otherwise run the full suite)
+3. **If tests pass:** proceed to push
+4. **If tests fail:**
+   - Analyze the failures and attempt **one fix cycle** (fix the code, re-run tests)
+   - If tests pass after the fix: amend the commit with the fix and proceed
+   - If tests still fail after one fix attempt:
+     - Mark the MR/PR as **Draft** (prefix title with `Draft:`)
+     - Add a `### Tests en échec` section in the MR/PR description listing the failing tests and error messages
+     - Push anyway so the team can review
+5. **Include test results summary** in the MR/PR description: number of tests run, passed, failed
+
+#### 5d: Push and Restore
+
 4. **Push the branch** to the remote:
    - Run: `git push -u origin fast-meeting/<topic>`
+5. **Restore the user's working state:**
+   - Run `git checkout <original-branch>` to return to the branch the user was on
+   - If a stash was created in Step 5a, run `git stash pop` to restore the user's uncommitted work
 
 ### Step 6: Create the MR/PR
 
@@ -276,14 +348,17 @@ If the subject is linked to a GitLab or GitHub issue:
 ### Speed Rules
 - Maximum 3-4 personas per meeting
 - Single round of parallel sub-agents + facilitator synthesis (no Round 2 debate)
+- Optional devil's advocate sub-agent only when consensus is too high (adds ~10 seconds)
 - No user confirmation before implementation
 - Commit message and MR/PR are created automatically
 
 ### Implementation Quality
 - Follow existing project conventions and patterns
 - Write clean, tested code
+- Run the project's test suite after implementation; attempt one fix cycle on failures
 - Keep changes focused on the recommendation — do not over-engineer
-- If the implementation scope is too large, implement the most critical first step and note the remaining steps in the MR/PR description
+- Scope guard: if changes exceed 10 files / 500 lines, scope down to the critical first step; if the scope is architectural, abort implementation and suggest `/meeting`
+- Protect the user's working tree: stash uncommitted changes before branching, restore after push
 
 ## Examples
 
@@ -325,7 +400,9 @@ User: fast-meeting : refactorer le module d'authentification pour supporter OAut
 ## Important Notes
 
 - **This skill does NOT ask for user confirmation** — it runs the full pipeline autonomously
-- If implementation fails (e.g., tests break), document the issue in the MR/PR description and push what works
+- If tests fail after one fix attempt, mark the MR/PR as **Draft** and document the failures
+- If the implementation scope is too large (architectural, multi-service), abort and suggest `/meeting` instead
+- The user's working tree is always protected: uncommitted changes are stashed before branching and restored after push
 - The MR/PR description is always in French
 - Branch names use the pattern `fast-meeting/<topic>`
 - If the remote type cannot be determined, default to `gh pr create` (GitHub)
