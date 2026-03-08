@@ -2,8 +2,32 @@
 
 Bibliothèque centralisée de skills pour assistants IA de développement, destinée aux équipes ERP-PAS de Dedalus.
 
+## Installation rapide
+
+```bash
+# Installer tous les skills (global, disponible dans tous vos projets)
+npx skills add Dedalus-ERP-PAS/foundation-skills -g -y
+```
+
+```bash
+# Mettre à jour les skills vers la dernière version
+npx skills add Dedalus-ERP-PAS/foundation-skills -g -y --update
+```
+
+```bash
+# Installer uniquement certains skills
+npx skills add Dedalus-ERP-PAS/foundation-skills --skill backend-patterns --skill react-best-practices -g -y
+```
+
+> **Prérequis :** Node.js 18+ et npm. Activez l'option "Use Agent skills" dans les paramètres de votre IDE.
+>
+> **Agents compatibles :** GitHub Copilot, Claude Code, Cursor, Windsurf
+>
+> **Guide complet :** [docs/comment-utiliser.md](docs/comment-utiliser.md) — installation sélective, utilisation par agent, dépannage
+
 ## Table des matières
 
+- [Installation rapide](#installation-rapide)
 - [A quoi sert ce produit ?](#a-quoi-sert-ce-produit-)
 - [Fonctionnalités principales](#fonctionnalités-principales)
 - [Comment ça fonctionne](#comment-ça-fonctionne)
@@ -81,10 +105,12 @@ Le développeur installe les skills via la commande `npx skills add`. Les fichie
 
 ## Environnements
 
-| Environnement | URL | Description |
-|---------------|-----|-------------|
+| Environnement | URL / Commande | Description |
+|---------------|----------------|-------------|
 | Dépôt GitHub | `https://github.com/Dedalus-ERP-PAS/foundation-skills` | Code source et releases |
-| Installation locale | `npx skills add Dedalus-ERP-PAS/foundation-skills -g -y` | Installation dans le projet |
+| Installer | `npx skills add Dedalus-ERP-PAS/foundation-skills -g -y` | Installe tous les skills globalement |
+| Mettre à jour | `npx skills add Dedalus-ERP-PAS/foundation-skills -g -y --update` | Met à jour vers la dernière version |
+| Lister | `npx skills add Dedalus-ERP-PAS/foundation-skills --list` | Liste les skills disponibles |
 
 ## Stack technique
 
@@ -131,9 +157,31 @@ Le développeur installe les skills via la commande `npx skills add`. Les fichie
 | **toxic-manager-translator** | Transformation de messages émotionnels en réponses professionnelles et stratégiques | [toxic-manager-translator.md](docs/toxic-manager-translator.md) |
 | **xlsx** | Création, édition et analyse de fichiers Excel (.xlsx) avec formules et formatage | [xlsx.md](docs/xlsx.md) |
 
+## Gestion des skills
+
+```bash
+# Mettre à jour tous les skills
+npx skills add Dedalus-ERP-PAS/foundation-skills -g -y --update
+
+# Lister les skills disponibles
+npx skills add Dedalus-ERP-PAS/foundation-skills --list
+
+# Désinstaller un skill
+npx skills remove backend-patterns
+
+# Réinstaller en cas de problème
+npx skills add Dedalus-ERP-PAS/foundation-skills -g -y --force
+
+# Vérifier l'installation
+ls ~/.config/code/skills/    # Skills globaux
+ls .skills/                   # Skills locaux au projet
+```
+
+Pour plus de détails : [Guide complet d'utilisation](docs/comment-utiliser.md)
+
 ## Ressources
 
-- **[Guide complet d'utilisation](docs/comment-utiliser.md)** — Documentation détaillée sur l'installation et l'utilisation
+- **[Guide complet d'utilisation](docs/comment-utiliser.md)** — Installation, utilisation par agent, dépannage
 - [Agent Skills](https://agentskills.io) — Standard ouvert pour les skills d'agents IA
 - [skills CLI](https://github.com/vercel-labs/agent-skills) — Outil d'installation des skills
 
