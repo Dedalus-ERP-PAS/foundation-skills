@@ -1,7 +1,7 @@
 ---
 name: meeting
 description: Run a simulated meeting with multiple expert personas to analyze a subject from diverse perspectives, reach a decision, and propose a solution before implementation. Optionally posts the meeting analysis to a linked GitLab or GitHub issue.
-allowed-tools: gitlab-mcp(get_issue), gitlab-mcp(create_issue_note), gitlab-mcp(update_issue), gitlab-mcp(list_issues)
+allowed-tools: gitlab-mcp(get_issue), gitlab-mcp(create_issue_note), gitlab-mcp(update_issue), gitlab-mcp(list_issues), gitlab-mcp(create_merge_request), gitlab-mcp(update_merge_request)
 license: MIT
 metadata:
   author: Foundation Skills
@@ -67,6 +67,27 @@ Choose 3-5 personas relevant to the subject. Each persona has:
 - A **name** and **role**
 - A **perspective** (what they care about most)
 - A **bias** (their natural tendency)
+
+#### Suggested Selection Heuristics
+
+Use these heuristics as a starting point. The user can override the selection before the meeting starts.
+
+| Subject involves... | Suggested personas |
+|---------------------|-------------------|
+| Backend / API / database | Alex (Backend), Didier (Architect), Isabelle (Oracle DBA) |
+| Frontend / UI / UX | Mohammed (Frontend), Sarah (PO), Didier (Architect) |
+| Security / auth / access control | Shug (Security), Alex (Backend), Didier (Architect) |
+| Infrastructure / deploy / CI-CD | Priya (DevOps), Alex (Backend), Didier (Architect) |
+| Data / migration / ETL | Jean-Baptiste (Data), Isabelle (Oracle DBA), Didier (Architect) |
+| Interoperability / HL7 / FHIR / HPK | Santiago (Interop PO), Victor (Interop Dev), Alex (Backend) |
+| Legacy / Uniface / modernization | Gilles (Uniface), Didier (Architect), Alex (Backend) |
+| Testing / quality / regression | Nicolas (QA), Alex (Backend), Priya (DevOps) |
+| Product / feature / UX decision | Sarah (PO), Mohammed (Frontend), Didier (Architect) |
+| Full-stack / mixed concern | Didier (Architect), Alex (Backend), Sarah (PO), Nicolas (QA) |
+
+If the subject spans multiple areas, pick the 3-5 most relevant personas. Always include **Didier (Architect)** for technical decisions. Always include **Sarah (PO)** for product decisions.
+
+**After announcing the selected personas, ask the user to confirm or adjust before starting the meeting.**
 
 #### Default Persona Pool
 
@@ -174,14 +195,33 @@ This is a research task — do NOT write or edit any files.
 
 **This round should produce genuine tension.** If the sub-agents all agree, add a follow-up prompt to one agent asking it to play devil's advocate on the majority position.
 
-#### Round 3: Convergence
+#### Round 3: Weighted Convergence
 
-After collecting all Round 2 responses, **you** (the facilitator, not a sub-agent) synthesize the discussion:
+After collecting all Round 2 responses, **you** (the facilitator, not a sub-agent) synthesize the discussion using a structured approach:
 
-- Identify points of agreement across all personas
-- Highlight unresolved disagreements
-- Note the key trade-offs that emerged
-- Extract each persona's final position in one sentence
+1. **Weight positions by domain relevance:**
+   - For each persona, assess how central the decision question is to their expertise
+   - A database migration question: Isabelle's position carries more weight than Mohammed's
+   - A UI redesign question: Mohammed's position carries more weight than Isabelle's
+   - Didier (Architect) and Sarah (PO) act as balancing voices across all topics
+
+2. **Identify consensus and disagreements:**
+   - Points of agreement across all personas
+   - Unresolved disagreements — list them explicitly as open items, do NOT silently pick a side
+   - Key trade-offs that emerged from the debate
+
+3. **Assess confidence level:**
+   - **High confidence:** Strong consensus among domain-relevant personas, risks are well-mitigated
+   - **Medium confidence:** Majority agrees but 1-2 meaningful dissenting points remain
+   - **Low confidence:** Deep disagreement among domain-relevant personas, or critical unknowns remain
+   - Include the confidence level in the analysis output
+
+4. **If confidence is low:**
+   - Do NOT force a weak recommendation
+   - Instead, clearly state the unresolved points and recommend a **follow-up meeting** (Step 7) focused on the specific disagreement
+   - Present the competing options as equals with their trade-offs
+
+5. **Extract each persona's final position** in one sentence
 
 ### Step 4: Produce the Decision Analysis
 
@@ -204,6 +244,8 @@ Write a structured analysis in French with the following format:
 
 ### Recommandation
 
+**Niveau de confiance :** [Élevé / Moyen / Faible]
+
 **Option recommandée :** [The recommended approach]
 
 **Justification :**
@@ -214,6 +256,8 @@ Write a structured analysis in French with the following format:
 **Risques identifiés :**
 - [Risk 1 + mitigation]
 - [Risk 2 + mitigation]
+
+**Points non résolus :** [List any unresolved disagreements, or "Aucun" if full consensus]
 
 ### Alternatives considérées
 
@@ -233,12 +277,12 @@ Write a structured analysis in French with the following format:
 Present the analysis to the user and ask:
 
 > "Voici l'analyse de la réunion. Souhaitez-vous :
-> 1. Valider cette recommandation et passer à l'implémentation
-> 2. Approfondir un point spécifique avec une nouvelle discussion
-> 3. Poster cette analyse sur l'issue [#ID] (si applicable)
+> 1. Valider cette recommandation et passer à l'implémentation (→ Step 8)
+> 2. Approfondir un point spécifique avec une réunion de suivi (→ Step 7)
+> 3. Poster cette analyse sur l'issue [#ID] (→ Step 6, si applicable)
 > 4. Modifier la recommandation"
 
-**Do NOT start implementing anything until the user explicitly validates.**
+**Do NOT start implementing anything until the user explicitly selects option 1.**
 
 ### Step 6: Post to Issue (If Applicable)
 
@@ -250,6 +294,60 @@ If the subject is linked to a GitLab or GitHub issue and the user asks to post:
 4. Post as a comment on the issue using the appropriate tool:
    - **GitLab:** Use `gitlab-mcp(create_issue_note)`
    - **GitHub:** Use `gh issue comment`
+
+### Step 7: Follow-Up Meeting (If Option 2 Selected)
+
+When the user selects option 2 ("Approfondir un point spécifique"), run a follow-up meeting with the following protocol:
+
+1. **Carry forward context:**
+   - Include the full previous meeting analysis as context for all sub-agents
+   - Explicitly reference the original decision question and the specific point to explore deeper
+
+2. **Narrow the scope:**
+   - Frame a new, focused decision question around the unresolved point
+   - Format: "Suite de réunion : [Sujet original] → Focus : [Point approfondi]"
+
+3. **Adjust the persona panel:**
+   - Keep personas whose expertise is directly relevant to the focused point
+   - **Add new personas** if the focused topic requires expertise not present in the original meeting (e.g., if a security concern emerged, add Shug if not already present)
+   - Remove personas whose expertise is not relevant to the narrowed topic
+   - Maximum 3-4 personas for the follow-up (keep it focused)
+
+4. **Run a 2-round follow-up** (Round 1 + Round 2 only, skip Round 3's full synthesis):
+   - Sub-agents receive the previous meeting analysis as additional context
+   - Their prompts should reference: "In the previous meeting, [summary]. We are now focusing on [specific point]."
+
+5. **Produce a delta analysis:**
+   - Do NOT repeat the full original analysis
+   - Write a focused section: `## Suite de réunion : Focus sur [point]`
+   - Include: what changed, what was confirmed, updated recommendation and confidence level
+   - If the original recommendation changed, clearly state: "La recommandation initiale est modifiée suite à l'approfondissement"
+   - If confirmed, state: "La recommandation initiale est confirmée après approfondissement"
+
+6. **Present the updated analysis** and return to Step 5 (validate again)
+
+### Step 8: Post-Validation Implementation Path
+
+When the user selects option 1 ("Valider cette recommandation et passer à l'implémentation"):
+
+1. **Ask the user which implementation mode they prefer:**
+
+   > "Recommandation validée. Comment souhaitez-vous procéder ?
+   > 1. **Implémentation rapide** — Je lance un `/fast-meeting` avec la recommandation déjà validée (pas de nouvelle réunion, implémentation directe + MR/PR)
+   > 2. **Implémentation guidée** — J'implémente pas à pas, vous validez chaque étape"
+
+2. **If option 1 (fast implementation):**
+   - Create a branch `meeting/<short-kebab-case-topic>`
+   - Implement the validated recommendation directly (skip the meeting phase — it's already done)
+   - Run tests, commit, push, create MR/PR following the same protocol as fast-meeting Steps 5-6
+   - Include the meeting analysis in the MR/PR description
+
+3. **If option 2 (guided implementation):**
+   - Present the implementation plan step by step
+   - Wait for user confirmation at each significant step
+   - The user controls the pace and can adjust the plan
+
+**Do NOT implement anything if the user hasn't selected option 1 in Step 5.**
 
 ## Meeting Quality Rules
 
@@ -303,10 +401,14 @@ Decision question: "Quelle approche adopter pour les notifications temps réel ?
 
 ## Important Notes
 
-- **Never implement before the user validates the recommendation**
+- **Never implement before the user validates the recommendation (option 1 in Step 5)**
 - The meeting is a thinking tool, not a decision-making authority
 - Keep meetings focused — one decision per meeting
 - If the subject is too broad, suggest splitting into multiple focused meetings
+- The analysis includes a **confidence level** (high/medium/low) — low confidence triggers a follow-up meeting suggestion instead of forcing a weak recommendation
+- Follow-up meetings produce a **delta analysis**, not a full re-analysis
+- When the user validates, they choose between fast implementation (automatic MR/PR) or guided implementation (step by step)
 - The analysis is always written in French
 - Personas speak in English during the meeting for readability, the final analysis is in French
 - If the user provides additional context during the meeting, adapt the discussion accordingly
+- Persona selection uses heuristics as suggestions; the user confirms or adjusts before the meeting starts

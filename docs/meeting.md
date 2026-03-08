@@ -28,11 +28,14 @@ Discutons avec des personas : doit-on ajouter des notifications temps réel ?
 ## Ce que le skill fait
 
 1. **Comprend le sujet** — Lit le contexte (prompt, issue, code concerné)
-2. **Sélectionne 3-5 personas** — Experts virtuels avec des perspectives différentes
-3. **Anime la réunion** — 3 tours : positions initiales, débat, convergence
-4. **Produit une analyse en français** — Recommandation, risques, alternatives, prochaines étapes
-5. **Attend votre validation** — Rien n'est implémenté sans votre accord
-6. **Poste sur l'issue** — Si demandé, l'analyse est ajoutée en commentaire sur l'issue liée
+2. **Suggère 3-5 personas** — Sélection automatique par heuristiques, vous confirmez ou ajustez
+3. **Anime la réunion** — 3 tours : positions initiales, débat, convergence pondérée
+4. **Évalue la confiance** — Niveau élevé, moyen ou faible selon le consensus et les dissidences
+5. **Produit une analyse en français** — Recommandation, risques, alternatives, points non résolus, prochaines étapes
+6. **Attend votre validation** — Rien n'est implémenté sans votre accord
+7. **Réunion de suivi** — Si vous voulez approfondir un point, une réunion ciblée produit une analyse delta
+8. **Implémente après validation** — Choix entre implémentation rapide (MR/PR automatique) ou guidée (pas à pas)
+9. **Poste sur l'issue** — Si demandé, l'analyse est ajoutée en commentaire sur l'issue liée
 
 ## Personas disponibles
 
@@ -53,12 +56,24 @@ Discutons avec des personas : doit-on ajouter des notifications temps réel ?
 
 Des personas spécialisées (santé, finance, juridique) sont créées automatiquement si le sujet le nécessite.
 
+## Nouveautés
+
+| Amélioration | Description |
+|---|---|
+| **Heuristiques de sélection** | Table de suggestions automatiques selon le domaine (backend, frontend, sécurité, etc.) — vous confirmez avant le lancement |
+| **Convergence pondérée** | Les positions sont pondérées par pertinence d'expertise. Un DBA pèse plus qu'un frontend sur une question de migration Oracle |
+| **Niveau de confiance** | Chaque analyse inclut un niveau (élevé / moyen / faible). Si faible, une réunion de suivi est recommandée plutôt qu'une recommandation forcée |
+| **Réunion de suivi** | Approfondir un point non résolu avec un panel ajusté. Produit une analyse delta, pas une ré-analyse complète |
+| **Chemin vers l'implémentation** | Après validation : choix entre implémentation rapide (branche + MR/PR automatique) ou guidée (pas à pas avec validation) |
+
 ## Exemple de résultat
 
 L'analyse produite contient :
 - La question posée et les participants
 - La synthèse de la discussion avec les tensions clés
+- Le **niveau de confiance** de la recommandation
 - La recommandation avec justification
+- Les **points non résolus** (le cas échéant)
 - Les risques identifiés et mitigations
 - Les alternatives considérées
 - Les prochaines étapes concrètes
