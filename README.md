@@ -45,7 +45,8 @@ Bibliothèque centralisée de skills pour assistants IA de développement, desti
 | [Excel](docs/xlsx.md) | Manipulation de fichiers Excel (création, lecture et formatage) |
 | [Toxic manager translator](docs/toxic-manager-translator.md) | Transformation de messages émotionnels en réponses professionnelles |
 | [README generator](docs/readme.md) | Génération automatique de README.md en français orienté Product Owner |
-| [Meeting personas](docs/meeting-personas.md) | Simulation de réunion avec personas pour analyser un sujet et converger vers une décision |
+| [Fast meeting](docs/fast-meeting.md) | Réunion rapide autonome avec personas : analyse, implémentation et création de MR/PR |
+| [Meeting](docs/meeting.md) | Simulation de réunion avec personas pour analyser un sujet et converger vers une décision |
 
 ## A quoi sert ce produit ?
 
@@ -105,7 +106,8 @@ Le développeur installe les skills via la commande `npx skills add`. Les fichie
 | **frontend-design** | Interfaces frontend de qualité production avec direction esthétique audacieuse | [frontend-design.md](docs/frontend-design.md) |
 | **github-issues** | Gestion complète des issues GitHub : création, recherche, mise à jour et commentaires | [github-issues.md](docs/github-issues.md) |
 | **gitlab-code-review** | Revue de code des merge requests GitLab : qualité, sécurité, performance | [gitlab-code-review.md](docs/gitlab-code-review.md) |
-| **meeting-personas** | Réunion simulée avec personas pour analyser un sujet et décider avant d'implémenter | [meeting-personas.md](docs/meeting-personas.md) |
+| **fast-meeting** | Réunion rapide autonome : analyse, décision, implémentation et création de MR/PR sans intervention | [fast-meeting.md](docs/fast-meeting.md) |
+| **meeting** | Réunion simulée avec personas pour analyser un sujet et décider avant d'implémenter | [meeting.md](docs/meeting.md) |
 | **gitlab-issue** | Gestion des issues GitLab sur instances auto-hébergées | [gitlab-issue.md](docs/gitlab-issue.md) |
 | **hl7-pam-parser** | Parsing des messages HL7 v2.5 IHE PAM d'administration des patients | [hl7-pam-parser.md](docs/hl7-pam-parser.md) |
 | **hpk-parser** | Parsing des messages HPK propriétaires (identité, mouvements, couverture) | [hpk-parser.md](docs/hpk-parser.md) |

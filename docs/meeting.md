@@ -1,4 +1,4 @@
-# Meeting Personas
+# Meeting
 
 Simule une réunion structurée avec des experts virtuels pour analyser un sujet sous différents angles, débattre des options et converger vers une recommandation avant toute implémentation.
 
