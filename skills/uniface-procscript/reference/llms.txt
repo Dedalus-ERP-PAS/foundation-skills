@@ -1,0 +1,631 @@
+# Uniface 9.7 ProcScript Reference
+
+> ProcScript language reference for the Uniface 9.7 low-code platform.
+> Uniface is a model-driven, low-code development platform for building enterprise applications.
+
+## Statements
+File: `procstatements.md`
+
+- =: Assign the value of an expression to a field, variable, or function.
+- activate: Starts an operation on a specified component.
+- addmonths: Adds the specified number of months to the date, storing the result of the calculation in $result .
+- apexit: Ends the application session immediately.
+- apstart: Pass control of the application to the component manager.
+- askmess: Display a message and wait for the user's response.
+- blockdata: Defines a constant block of text.
+- break: Unconditionally exit a loop initiated by for , forentity , forlist , repeat , or while , .
+- call: Execute the specified entry or global Proc.
+- callfieldtrigger: Explicitly calls a Detail, Help, Menu, or an extended trigger on a field.
+- case: Defines a case in a selectcase block.
+- clear: Clear data from the component or entity.
+- close: Log off from the specified path or from all paths.
+- clrmess: Clear all text from the message frame and message line.
+- colorbox: Start the Microsoft Windows Color dialog box
+- commit: Commit a transaction to a DBMS or path.
+- compare: Compare fields of two adjacent occurrences.
+- componentToStruct: Place component data in a Struct.
+- creocc: Creates an empty occurrence of the specified entity.
+- curoccvideo: Set the video properties for fields of the current occurrence.
+- debug: Start the Uniface Debugger.
+- delete: Deletes the current occurrence from the database.
+- deleteinstance: Deletes an instance of a component.
+- deletesetting: Delete initialization settings.
+- delitem: Deletes an item from a list.
+- dircreate: Create the specified directory in the working directory.
+- dirdelete: Delete the specified directory.
+- dirrename: Rename the specified directory.
+- discard: Remove one or more occurrences from the component and the hitlist.
+- display: Presents the form on the screen as display-only.
+- displaylength: Return the display length of a String when displayed in the system character set.
+- done: Exit from the Proc module without changing $status .
+- edit: Display the component in preparation for user input.
+- eject: Eject a page when printing.
+- else: Introduces a logical expression in an if / endif conditional block.
+- elsecase: Marks the Proc code to be executed if none of the case expressions match in a selectcase block
+- elseif: Defines a condition to be evaluated in an if / endif conditional block.
+- end: Marks the end of a Proc module, operation, or trigger.
+- endfor: Ends a loop processing block started by for , forentity , or forlist .
+- endif: Defines the en of an if conditional block
+- endjavascript: Defines the end of a JavaScript block.
+- endparams: Defines the end of a params block.
+- endscope: Declare the end of a scope block. See scope .
+- endselectcase: Defines the end of a selectcase conditional block
+- endvariables: Defines the end of a variables block
+- endwhile: Ends a while loop.
+- entitycopy: Copy data from one DBMS or file to another.
+- entry: Declare an entry, a Proc module that can be invoked from with the same component.
+- erase: Activate the Delete or Delete Up trigger for all occurrences in the component.
+- exit: Exit the current component instance and return to the previous or specified instance.
+- fieldsyntax: Set the syntax attributes of the specified field.
+- fieldvideo: Set the video attributes of the specified field.
+- filebox: Displays a file selection box.
+- filecopy: Copy the specified file to the target location.
+- filedelete: Delete the specified file.
+- filedump: Copy the contents of the source object to the specified file.
+- fileload: Copy the contents of the specified file into the specified field or variable.
+- filemove: Move the specified file to the target location.
+- filerename: Rename the specified file within the same directory.
+- findkey: Check if the key value of an entity exists.
+- flush: Complete a file management transaction for the specified open zip archive or XML file, then close the file.
+- for: Define a counter-based processing loop.
+- forentity: Defines a loop that processes all the occurrences of an entity.
+- forlist: Defines a loop that processes all items in an indexed list.
+- forlist /id: Defines a loop that processes all items in an associative list of paired items.
+- getitem: Copy an item from a list to a field or variable.
+- getlistitems: Copy items from a list into a field or variable.
+- goto: Branch unconditionally to the specified label.
+- help: Display help information, either a Uniface help message or information from the native help system (HTML page or WinHelp).
+- if: Define an if / endif conditional block.
+- javascript: Define a JavaScript block in a client-side trigger or operation.
+- jsonToStruct: Convert a JSON text to a Struct.
+- ldircreate: Create the specified directory in the working directory, ignoring redirections in the assignment file.
+- ldirdelete: Delete the specified directory.
+- ldirrename: Rename the specified directory, ignoring redirections in the assignment file.
+- length: Return the number of characters in the specified string.
+- lfilecopy: Copy the specified file to the target location, ignoring file redirections in the assignment file.
+- lfiledelete: Delete the specified file, ignoring file redirections in the assignment file.
+- lfiledump: Copy the contents of the source object to the specified file on the local file system, ignoring file redirections that might occur in the assignment file.
+- lfileload: Copy the contents of the specified file into the target object, ignoring any file indirections in the assignment file.
+- lfilemove: Move the specified file to the target location, ignoring any file redirections in the assignment file.
+- lfilerename: Rename the specified file within the same directory, ignoring any file redirections in the assignment file.
+- lflush: Complete a file management transaction for the specified open zip archive or XML file, then close the file, ignoring any file redirections in the assignment file.
+- lock: Lock the current occurrence in the database.
+- lookup: Count the number of occurrences that match the current profile.
+- lowercase: Convert a string to lowercase.
+- macro: Place structure editor input in the event input queue.
+- message: Display the specified string in the message line of the startup shell.
+- moveocc: Move the field values of the current occurrence to another occurrence.
+- newinstance: Creates a new instance of a component.
+- nodebug: Stop the character mode debugger, or, in the case of the interactive Debugger, return focus to the application.
+- numgen: Increment the value of the specified counter.
+- numset: Initialize the value of the specified counter.
+- open: Open the specified DBMS or path, or connect to the Uniface Router.
+- operation: Declare an operation Proc module.
+- params: Define the parameter block for an operation, entry, or global Proc.
+- perform: Call the specified 3GL function.
+- postmessage: Send a message from one component instance to another.
+- pragma: Interpret profile characters in the Proc module as 'maybe' characters.
+- print: Activate printing.
+- printbreak: Print the specified break frame.
+- Proc: Statements: The Uniface Proc language consists of a series of Proc statements that cause Uniface to perform specified actions, such as running a form, retrieving data, locking an occurrence, calling another Proc module, and so on.
+- proccompile: Compile a piece of Proc at run time.
+- public soap: Declares that the operation can be activated by a SOAP request.
+- pulldown: Activate or load the specified menu bar.
+- putitem: Add or replace an item in a list.
+- putlistitems: Copy data from a specified source to the items of a list.
+- putmess: Append text to the message frame.
+- read: Fetch an occurrence of the hitlist.
+- reconnect: Reconnect data loaded from a disconnected record set (XML, JSON, or Struct) with the occurrences in a database or component.
+- refresh: Redraw the screen in character mode.
+- release: Release database controls.
+- reload: Reread and lock the current occurrence from the database.
+- remocc: Mark an occurrence of the specified entity for deletion at the next store.
+- repeat: Define a repeat / until loop.
+- reset: Reset the value of the specified Proc function to 0 .
+- retrieve: Activate the Read trigger for the first outermost entity and all related entities, or for a specific entity.
+- retrieve/a: Retrieve multiple additional occurrences of the specified entity without discarding the hitlist.
+- retrieve/o: Attempt to locate an occurrence of an entity using the current primary key value.
+- retrieve/reconnect: Reconnect data loaded from a disconnected records set (XML, JSON, or Struct) with the occurrences in a database or component.
+- retrieve/x: Retrieve an additional occurrence of the specified entity without discarding the hitlist.
+- return: Exit from the Proc module, optionally returning a value to $status .
+- returns: Define the returned data type of an entry.
+- rollback: Undo the transaction (if supported by DBMS).
+- run: Starts the specified form.
+- scan: Scans a field or variable for a specified profile and returns the starting position of the profile.
+- scope: Declares the scope block, which specifies the data that is to be included in a DSP request-response exchange.
+- selectcase: Define a block of conditional case selections.
+- selectdb: Calculate aggregate values for specified fields in the database.
+- set: Set the value of the specified Proc function to 1 (TRUE).
+- setformfocus: Set the focus to the specified component instance.
+- setocc: Make a specific occurrence the current occurrence.
+- show: Display or refresh a form component, synchronizing the display and updating field and property values.
+- skip: Skip the specified number of lines when printing.
+- sleep: Set the current Uniface process in sleep mode for the specified amount of time.
+- sort: Sort the occurrences in the hitlist for the specified entity.
+- sort/list: Sort an associative list, an indexed list, or an indexed list of sublists.
+- spawn: Pass the specified command to the operating system.
+- sql: Pass a DML statement to the specified DBMS path.
+- store: Activate Validate triggers as required, then Write and Delete triggers for all occurrences marked as modified.
+- stripattributes: Remove character attributes, frames, and rulers from Source and put the result in Target .
+- structToComponent: Converts data from a Struct or collection of Structs into the entities and occurrences in the component.
+- structToJson: Convert a Struct to a JSON text, as an object or an array.
+- structToXml: Convert a Struct to XML, without a schema.
+- structToXml /schema: Convert a Struct to XML using a schema.
+- trigger: Define an extended trigger to be executed on the server
+- u_condition: Provide a DBMS-independent profile for selection in read and selectdb statements.
+- u_where: Provide a DBMS-independent profile for selection with read and selectdb .
+- until: Clause in a repeat statement that must evaluate to TRUE before the repeat loop can complete.
+- uppercase: Convert a string to uppercase.
+- validate: Validate all data marked as modified.
+- validatefield: Validate a field of the current occurrence.
+- validatekey: Validate a key of the current occurrence.
+- validateocc: Validate an occurrence.
+- variables: Define the variables for a trigger or Proc module.
+- web: Declares that the trigger or operation can be called from a web client, or that its data can be included in the DSP request-response exchange of other triggers or operations.
+- webactivate: Sends an instruction to the browser to invoke an operation.
+- webdefinitions: Use the current component to load channels in the $webinfo .
+- webgen: Generate an XHTML document from the layout definition and the component definition of a static server page.
+- webget: Load data from an HTML document into a server page and activate a Detail or On Error trigger if required.
+- weblayout: Copies the Web layout of the dynamic server page instance and prepares to send it to Web browser.
+- webload: Loads data from a JSON stream into a component.
+- webmessage: Displays a message in a dialog box in the browser.
+- weboperation: Define an operation that will be executed on the client browser.
+- websave: Creates a JSON stream from the data in a component.
+- websetocc: Get a list of entity name and occurrence id from httprequestparams channel of $webinfo , and set the current occurrence according this list.
+- webtrigger: Define a trigger in a DSP that will be executed on the client browser.
+- while: Define a while / endwhile loop.
+- write: Write the current occurrence to the database.
+- xmlload: Load data from an XML stream into a component.
+- xmlsave: Places component data in an XML stream.
+- xmlToStruct: Convert an XML document to a Struct.
+- xmlvalidate: Validate an XML stream.
+
+## Functions
+File: `procfunctions.md`
+
+- $about: Returns information about the current Uniface installation, version, and platform.
+- $abs: Return the absolute value of X (|X|).
+- $acos: Return the arc cosine of X.
+- $applname: Return the name of the startup shell.
+- $applproperties: Set the representation properties of the startup shell.
+- $appltitle: Return or set the window title bar text of an application.
+- $asin: Return the arc sine of X.
+- $atan: Return the arc tangent of X.
+- $batch: Return or set the batch mode indicator.
+- $bold: Return the result of applying the bold character attribute to a string.
+- $callup: For the current trigger, call the same trigger one level up in the call-up hierarchy. If the trigger is not defined one level up, then the next available level up is called (if applicable).
+- $cellinfo: Get an associative list with the dimensions of a character cell in pixels.
+- $char: In a unifield, return the Uniface character code for the key that activated a trigger.
+- $check: Return or set the checked status of a menu item.
+- $clearselection: Built-in entity operation that clears the $selected attribute of all occurrences of the entity.
+- $clock: Return the system time or convert the argument to the Time data type.
+- $collhandle: Return the handle of the specified entity.
+- $columnsyntax: Set or return the syntax attributes for the field displayed in a column of a grid or multi-occurrence list.
+- $componentinfo: Return information about a component instance.
+- $componentname: Return the name of the component from which the specified instance was created.
+- $componenttype: Return the type of the specified component instance.
+- $concat: Concatenate up to 5 strings.
+- $condition: Return the result of evaluating a conditional expression.
+- $cos: Return the cosine of X.
+- $CurEntProperties: Sets properties for an inner entity within the current occurrence of its parent entity.
+- $curhits: Return the number of occurrences currently in the hitlist.
+- $curkey: Return the number of the current key in a Validate Key or Leave Modified Key trigger.
+- $curline: Return the line on which the cursor is positioned in the current field.
+- $curocc: Return the sequence number of the current occurrence in the hitlist.
+- $curoccvideo: Set or return the video properties for fields of the current occurrence.
+- $curword: Return the word on which the cursor is positioned in the current field.
+- $dataerrorcontext: Return the context of the last validation error.
+- $date: Return the current date or convert the argument to the Date data type.
+- $datim: Return the system date and time or convert the argument to the Datetime data type.
+- $dberror: Return the error code reported by the DBMS.
+- $dberrortext: Return the text of an error reported by the DBMS.
+- $dbocc: Return the sequence number of the current occurrence within the set of occurrences retrieved from the database.
+- $decode: Decrypt or decode data, or verify a message by means of a digital signature.
+- $def_charset: Set or return the value of $DEF_CHARSET , which defines the character set used for storing data in String fields with C packing code.
+- $detachedinstances: Return a list of detached instances.
+- $direction: Return the structure editor mode (Next or Previous).
+- $dirlist: Return the contents of the specified directory.
+- $dirlist and $ldirlist on z/OS: On HFS, $dirlist and $ldirlist work as they do on other platforms. However, on datasets, its behavior is different. It is also possible to specify DATASET or MEMBER as the Topic parameter.
+- $disable: Return or set the selectable status of a menu item.
+- $display: Return the name of the current display device translation table.
+- $displaylength: Return the display length of a String when displayed in the system character set.
+- $e: Return the value of e.
+- $editmode: Return or set a value that determines the degree to which a user can change data on the form component.
+- $empty: Check whether an entity or a named area frame is empty.
+- $encode: Encrypt data, sign messages with digital signatures, or convert data from one encoding scheme to another.
+- $entinfo: Return information about an entity.
+- $entityproperties: Return or set the current widget properties of an entity.
+- $entname: Return the name of the current entity or check for the existence of an entity in the component.
+- $equalStructRefs: Checks whether two variables of type struct reference the same physical Struct.
+- $error: Return the Uniface message number for the error.
+- $exp: Return the exponential of X (e X ).
+- $exp10: Return the base 10 exponential of X (10 X ).
+- $expression: Return the result of evaluating a nonconditional expression.
+- $fact: Calculate the factorial of X (X!).
+- $fieldcheck: Return or set the requirement for field checking.
+- $fielddbmod: Return the modification status of a database field.
+- $fielddbvalue: Return the original value of a field as it was retrieved from the database.
+- $fieldendmod: Return the modification status of a field when the field is exited.
+- $fieldhandle: Return a partner handle to the widget that is currently bound to the specified field of the current occurrence.
+- $fieldindb: Return an indication if a field is a database field.
+- $fieldinfo: Return information about a field.
+- $fieldmod: Return the modification status of a field.
+- $fieldname: Return the name of the current field or check for the presence of a specified field in the component.
+- $fieldprofile: Return a value that indicates whether the user has entered a profile character in a field.
+- $fieldproperties: Return or set the current widget properties of an instance of a field.
+- $fieldsyntax: Set or return the syntax attributes of the specified field.
+- $fieldvalidation: Identify whether a field requires validation.
+- $fieldvalrep: Return or set the associative (ValRep) list for an instance of a field.
+- $fieldvideo: Return or set the video attributes of the specified field.
+- $fileexists: Returns a value that indicates whether the specified file or directory exists.
+- $fileproperties: Return the properties of the specified file, directory, or zip archive, taking file redirections in the assignment file into account.
+- $foreign: Return a value that indicates whether the entity is painted as an up entity.
+- $format: Return or set data for formatting.
+- $formdb: Return a value that indicates whether data in the current form has been retrieved from a database.
+- $formdbmod: Return the modification status of database fields in the current form.
+- $formfocus: Return the name of the form instance that has focus.
+- $formmod: Return the modification status of data in the current form.
+- $formmodality: Return an indication of the form modality for the requested form instance.
+- $formname: Return the name of the current form.
+- $formtitle: Return or set the window title bar of a form.
+- $frac: Return the fractional part of X.
+- $framedepth: Return the number of lines needed to print a frame as drawn on the component, without allowing for expansion
+- $gui: Return the mnemonic for the user interface.
+- $hide: Return or set the display status of a menu item.
+- $hits: Return the number of occurrences in the hitlist.
+- $idpart: Return the ID part of an associative list item.
+- $inlinemenu: Insert or retrieve one or more menu items at the location of a dynamic menu placeholder
+- $instancechildren: Return a list of instances attached to an instance.
+- $instancedb: Return an indication whether data in the current instance has been retrieved from a database.
+- $instancedbmod: Return the modification status of database fields in the current component instance.
+- $instancehandle: Return the handle of the requested instance.
+- $instancemod: Return the modification status of data in the current component instance.
+- $instancename: Return the name of the current component instance.
+- $instanceparent: Return the name of the parent instance of the requested instance.
+- $instancepath: Return the path with which the current instance is registered.
+- $instances: Return a list of instances that belong to a specified component.
+- $instancevalidation: Identify whether data in the component instance requires validation.
+- $int: Return the integer part of X.
+- $interactive: Return a status indicating whether the current form component is in interactive state.
+- $ioprint: Return or set the message level in the message frame.
+- $italic: Apply the italic character attribute to a string.
+- $item: Return the value that corresponds to a given ID in an associative list.
+- $itemcount: Return the number of items in a list.
+- $itemnr: Return the list item that corresponds to a given sequence number in a list.
+- $keyboard: Return or set the current keyboard translation table.
+- $keycheck: Return or set the requirement for checking a key.
+- $keyfields: Return a list of the fields that make up a key or index.
+- $keymod: Return an indication if the specified key has been modified.
+- $keytype: Return the type of the specified key.
+- $keyvalidation: Identify whether a key requires validation.
+- $labelproperties: Get and set the text of an attached label.
+- $language: Return or set the current language code.
+- $ldir: Return the name of the working directory.
+- $ldirlist: Return the contents of the specified directory.
+- $length: Return the length of the specified argument.
+- $lfileexists: Returns a value that indicates whether the specified file or directory exists.
+- $lfileproperties: Return the properties of the specified file, directory, or zip archive, ignoring any file redirections in the assignment file.
+- $lines: Return the number of lines remaining on the current page.
+- $log: Return the natural logarithm of X (log e X).
+- $log10: Return the base 10 logarithm of X (log 10 X).
+- $logical: Return a logical value defined in the assignment file.
+- $lowercase: Convert a string to lowercase.
+- $ltrim: Left trim a string following a pattern.
+- $modelname: Return the name of the current model
+- $msgdata: Return the message data.
+- $msgdst: Return the name of the component instance to which a message was addressed.
+- $msgid: Return the message identifier for the message.
+- $msginfo: Return the requested information about the latest message.
+- $msgsrc: Return the name of the component instance that sent the message.
+- $newstruct: Explicitly create a new Struct with no members
+- $next: Return the value of the next occurrence of a field.
+- $nlscase: Return the current value of the NLS case setting, or set it to a new value to apply or ignore locale-based case conversion rules.
+- $nlsformat: Set or return the current NLS format value, which determines how locale-sensitive data is displayed.
+- $nlsinternaltime: Specify whether to use Coordinated Universal Time (UTC+00:00) as the internal time zone.
+- $nlslocale: Set or return the current locale (language and country), or locale setting.
+- $nlslocalelist: Return a list of valid locales or the system locale.
+- $nlssortorder: Set or return the current sequencing rules to apply when sorting strings in entities and lists, or reading occurrences from the hitlist.
+- $nlstimezone: Return the current external time zone setting, or set it to a new value.
+- $nlstimezonelist: Returns a list of time zones.
+- $nmforms: Return a list of all non-modal form instances in the component pool.
+- $number: Returns a numeric value derived from a numeric string.
+- $occcheck: Return or set the requirement for checking an occurrence.
+- $occcrc: Set or return the CRC checksum of an occurrence.
+- $occdbmod: Return the modification status of a database occurrence.
+- $occdel: Return the removal status of an occurrence.
+- $occdepth: Return the depth of the painted occurrence.
+- $occhandle: Return the handle of the current occurrence of the requested entity.
+- $occmod: Return the modification status of an occurrence.
+- $occproperties: Return or set the properties of an occurrence.
+- $occstatus: Return or set the reconnect status for each disconnected occurrence in a component.
+- $occvalidation: Identify whether an occurrence requires validation.
+- $ocxhandle: Return the handle of the requested OCX object.
+- $oprsys: Return a mnemonic for the operating system used by Uniface.
+- $page: Return the current page number.
+- $paintedfieldproperties: Return or set the position and size for a specific instance of a field widget.
+- $paintedocc: Return the number of occurrences painted for the specified entity.
+- $password: Return the encrypted password used to log on to a database path.
+- $pi: Return the value of pi.
+- $power: Calculate the value of X raised to the power of Y (X Y ).
+- $previous: Return the value of the field in the previous occurrence.
+- $printing: Return a status indicating whether the current component is printing.
+- $proc_profiling: Activate Uniface profiling, or check whether it is already enabled.
+- $proc_tracing: Return the current status of Proc tracing, or activate or deactivate Proc tracing.
+- $proc_tracing_addition: Return the current value of $proc_tracing_addition , or add a prefix, which can contain a string or expression, to each line of Proc tracing information.
+- $procerror: Return the reason for an error in Proc execution.
+- $procerrorcontext: Return the location of the error specified by $procerror .
+- $processinfo: Returns information about a process. The returned information depends on the operating system.
+- $procReturnContext: Get context information about the value returned by the Proc instruction that last set $procReturnContext .
+- $prompt: Return or set the position for the cursor when the current Proc module ends.
+- $properties: Return or set the current widget properties of a field.
+- $putmess: Send a message to the message frame, or return the contents of the message frame.
+- $relation: Return the related key field.
+- $replace: Search and replace a substring of a string. The search and replace is case-sensitive.
+- $result: Return the result of certain Proc statements and tree widget events.
+- $rettype: Return the retrieval mode of the outermost entity.
+- $rscan: Find a substring within a string, starting from the end of the string.
+- $rtrim: Right trim a string following a pattern.
+- $runmode: Return an indication of how the form was started.
+- $scan: Find a substring within a string.
+- $selblk: Return or set the contents of the select buffer.
+- $selected: Built-in occurrence attribute that indicates whether the occurrence is selected.
+- $selectedoccs: Built-in entity attribute that contains a Struct of handles to occurrences that have been selected.
+- $selectlist: Return or set the select list for a component entity.
+- $setting: Retrieve, add, or change configuration settings. Depending on the platform, settings may be stored initialization files, assignment files, environment variables, logicals, data areas, or the Windows Registry.
+- $signatureproperties: Dynamically set the signature properties (also known as connector options) for a Uniface URB connector, or retrieve those that have been dynamically set. Supported only by the SOAP U2.0 connector.
+- $sin: Return the sine of X.
+- $sortlist: Sort an associative list, an indexed list, or an indexed list of sublists.
+- $sortlistid: Sort an associative list in which the value part of each list item is an indexed list.
+- $split: Split a string.
+- $sqrt: Calculate the square root of X.
+- $status: Return or set the current condition code.
+- $storetype: Return the type of update for the current occurrence.
+- $string: Return a string containing the replacement of each named XML entity in the input parameter string by the character represented by the entity. (XML entities are character mappings; they are not the same as Uniface entities.)
+- $stripattributes: Return the result of removing character attributes, frames, and rulers from String .
+- $subsetreturn: Return only the most recently retrieved occurrences of an entity to its operation entity parameter.
+- $syntax: Convert a string to a syntax string.
+- $sys_charset: Set or return the value of $SYS_CHARSET , which defines the character set used to communicate with components that are not Unicode-based, such as C call-in and call-out.
+- $tan: Return the tangent of X.
+- $text: Return the text of a message or help text.
+- $textexist: Return an indication of whether the specified message or help text exists.
+- $totdbocc: Return the number of occurrences of the entity that have been retrieved from a database.
+- $totkeys: Return the total number of keys for an entity.
+- $totlines: Return the total number of lines available on the page for printing.
+- $totocc: Return the number of occurrences of an entity in the component.
+- $typed: Explicitly convert data to a specified data type.
+- $ude: Perform actions on Repository data, including compiling, exporting, importing, and converting.
+- $ude compile: Compile development objects in the Repository.
+- $ude copy: Copy or convert data from one format to another.
+- $ude delete: Delete a symbol table or Proc listing, or a runtime object on the $RSO path.
+- $ude exist: Check whether a runtime object, symbol table, or Proc listing exists.
+- $ude export: Export data from the Repository.
+- $ude getReferenceList: Retrieve a list of all runtime objects referenced by a specified object.
+- $ude import: Import data into the Repository
+- $ude import symboltable: Import symbol table files into the UXCROSS repository table
+- $ude load: Load a symbol table or Proc listing from a file into a field or variable.
+- $underline: Return the result of applying the underline character attribute to a string.
+- $uppercase: Convert a string to uppercase.
+- $user: Return the user name used to log on to a database path.
+- $uuid: Generate a globally unique identifier.
+- $valrep: Return or set the ValRep used by a widget for a field.
+- $valuepart: Return the value part of an associative list item.
+- $variation: Return or set the name of the library to use for the application or component.
+- $web: Return an indication of whether the current application was started by the Web Request Dispatcher or JTi.
+- $webinfo: Return or set information about the current web request.
+- $webinfo (REQUESTCONTEXT): Get or set request context attributes.
+- $webinfo (SESSIONCOMMANDS): Use the SESSIONCOMMANDS topic to invoke session management API calls.
+- $webinfo (WEBSERVERCONTEXT): The WEBSERVERCONTEXT returns an associative list of properties that provide state information about the Uniface Server and the context in which it is running.
+- $webinfo("Locale")
+- $webinfo: Cookie Topics: Use these topics to set the properties of a cookie and write state information to a cookie.
+- $webinfo: Data Topics: The DATA , PATHINPUT , and INPUT , OUTPUT topics of $webinfo get and set the data requested or loaded into server pages.
+- $webinfo: HTTP Header and Request Topics: Use the HTTPRESPONSEHEADERS and HTTPREQUESTHEADERS topics of $webinfo to transfer HTTP protocol information between a browser and a server. The HTTPREQUESTPARAMS topic is used as input for the websetocc statement.
+- $webinfo: Salt Topics: The SALT , SALTIN , and SALTOUT topics of $webinfo get and set a string that is used to generate and verify hashed HTTP requests and responses for static and dynamic server pages.
+- $webrequesttype: Returns a value indicating the type of request from the browser.
+- $webresponsetype: Returns a value indicating the response expected by the browser for the current DSP component instance.
+- $widgetoperation: Activates a widget operation of the references widget.
+- $windowproperties: Set or return the current window properties of a form instance.
+- Addressing Environment Variables with $setting: You can use $setting to retrieve and set environment variables or their platform-specific equivalents, data areas and environment variables on iSeries. On Windows and Unix, it is only possible to address environment variables for the current process.
+- Addressing Initialization and Assignment Settings with $setting: You can use $setting to add or change the value of an initialization or assignment setting, and to retrieve lists of settings or file sections. It is not possible to add file sections.
+- Addressing Registry Keys with $setting: Retrieve, add, or change registry keys on Windows platforms.
+- Addressing Runtime Settings with $setting: Retrieve, add, or change Uniface runtime settings. On most platforms, it is only possible to address WORKDIR and the USYS path logicals. However, on Windows, other runtime settings can be retrieved or set.
+- Effect of Widget Operations in Multi-Occurrence Lists: Using widget operations to address widgets in a multi-occurrence list can result in a discrepancy between the data displayed in the widget and the actual occurrences.
+- Information Returned for Web Services Call-Out Errors: If an error occurs when calling out to a web service, Uniface generates error -150 and provides details in $procerrorcontext . One type of error could be a SOAP Fault received from the remote web service provider. Most of the information about the fault is provided as a Uniface list under the ADDITIONAL ID.
+- Proc: Functions
+
+## Data Types
+File: `procdatatypes.md`
+
+- any: Uniface data type for any kind of data. It can only be used for the parameters of entries (global or local Proc modules) and component variable.
+- boolean: Uniface data type specifying a Boolean value of T or F .
+- date: Uniface data type specifying a sequence of numbers representing a date, in the format ccyymmdd .
+- datetime: Uniface data type specifying a sequence of numbers representing a date and time, in the format ccyymmddhhnnsstt .
+- entity: Uniface data type for use in parameters.
+- float: Uniface data type specifying a number with a floating decimal point.
+- handle: Uniface data type containing a single reference to a component instance, entity, occurrence, field, or OCX object.
+- image: Uniface data type containing binary data.
+- lineardate: Uniface data type specifying an integer representing a number of days.
+- lineardatetime: Uniface data type specifying a number of days, including fractions of days.
+- lineartime: Uniface data type specifying an integer representing a number of hours.
+- numeric: Uniface data type specifying a number to a maximum of 9 decimal places, including + , - , and decimal point .
+- occurrence: Uniface data type for use in parameters.
+- partner: Modifies a declaration to indicate that the declared operation or handle cannot be called or used by another component. In combination with the web keyword, it prevents the operation or trigger of a Dynamic Server Page from being directly invoked from the client browser.
+- Proc: Data Types: Data types define the characteristics of the data and determine how Uniface handles the data during processing and storage. They are specified for parameters, variables, and return values in Proc, as well as for fields, global variables, and component variables.
+- public: Modifier for an operation , handle , or scope definition that indicates it is available for external use.
+- raw: Uniface data type containing binary data.
+- string: Uniface data type specifying a sequence of characters that is treated as text.
+- struct: Uniface data type containing an ordered collection of references to one or more Struct nodes.
+- time: Uniface data type specifying a sequence of numbers representing a time, in the format hhnnss .
+- xmlstream: Uniface data type containing well-formed XML.
+
+## Predefined Operations
+File: `predefinedoperations.md`
+
+- Accept: Define the behavior that should occur during an Accept request.
+- Attach: Defines the component behavior for a contained DSP instance after it is attached to a parent DSP.
+- Cleanup: Defines the component behavior when a component instance is removed.
+- Detach: Defines the component behavior when a contained DSP component instance is detached from the parent DSP.
+- Exec: Defines the component behavior when the component is activated.
+- Init: Defines the component behavior when a component instance is created with newinstance (or by activate when newinstance is executed implicitly).
+- Proc: Predefined Operations: Predefined operations consist of selected component triggers, which are treated as the component's default operations, and reserved operation names that can be explicitly implemented in the Operations trigger of a component.
+- Quit: Defines the processing that should occur during a Quit request.
+
+## Preprocessor Directives
+File: `procprecomp.md`
+
+- #comment: Define a comment in the generated code.
+- #define: Define a constant name and value.
+- #entry: Insert a global Proc entry.
+- #error: Produce a compiler error message.
+- #for: Generate blocks of repeated Proc code.
+- #if: Generate Proc code conditionally.
+- #ifdefined: Test if a constant has been defined.
+- #ifundefined: Test if a constant has not been defined.
+- #include: Copy the specified include Proc.
+- #info: Produce a compiler information message.
+- #pragma: Provides a specific instruction to the compiler.
+- #undefine: Undefine a constant
+- #warning: Produce a compiler warning message.
+- <$cmpStateManagedBy>: State Managed By property of server page and session service components
+- <$componentName>: Component name
+- <$componentType>: Uniface component type
+- <$entName>: Entity name
+- <$fieldName>: Field name
+- <$libraryName>: Library in which a global object resides
+- <$modelName>: Entity’s application model
+- <$tableName>: Entity's supertype.
+- <$triggerAbbr>: Trigger abbreviation
+- Proc: Precompiler Directives and Compile-Time Constants: Precompiler directives and compile-time constants enable you to produce generalized, reusable Proc code. They allow you to determine the exact composition of the Proc code that will be compiled.
+
+## Struct Functions
+File: `procstructfunctions.md`
+
+- $collSize: Get the number of Struct nodes in the collection.
+- $dbgString: Get a string that represents the Struct or Struct collection, including annotations.
+- $dbgStringPlain: Get a string that represents the Struct or Struct collection, without the annotations ( $tags ).
+- $index: Get or set the index (position) of a node in a Struct collection.
+- $isLeaf: Checks whether a Struct member is an end point of the Struct tree.
+- $isScalar: Checks whether a Struct node is a scalar Struct.
+- $istags: Checks whether the Struct is a $tags Struct containing annotations.
+- $memberCount: Get the number of members in a Struct.
+- $name: Get or set the name of a Struct member, as it is known to its parent.
+- $parent: Get or set the parent of the Struct node.
+- $scalar: Retrieve a collection of all scalar members of a Struct, or assign a scalar value to a Struct.
+- $tags: Get or set annotations for a Struct.
+- Proc: Struct Functions: Struct functions enable you to get information about a Struct (such as the number of members it has), get or set Struct annotations, or perform actions such as inserting and moving Strut members. Syntactically, they are treated as Struct members and are accessed using the de-reference operator ( -> ). However, they are not part of the Struct member list and they do not have an index.
+
+## Standard Triggers
+File: `triggersstandard.md`
+
+- Accept: Proc code for handling the processing that should occur during an Accept request.
+- Add/Insert Occurrence: For handling a user’s request to add or insert a new occurrence of the entity in a form.
+- Application Execute: Trigger that is executed when loading a startup shell for any Uniface application or application server; use for launching the environment and controlling the interaction of the application with the component manager.
+- Asynchronous Interrupt (Application): Location for handling asynchronous interrupts that come from outside the application, such as messages from other components.
+- Asynchronous Interrupt (Component): Location for handling, at the component level, asynchronous interrupts that come from outside the application.
+- Clear: The Clear trigger allows the developer to react to the user's request to start over with a clean form.
+- Collection Operations: Location for defining entity-level Proc operations.
+- Decrypt: Used to decrypt data for a field when reading from the database, so that the developer can implement secure systems.
+- Defines: The Defines trigger is the placeholder for the definition of constants.
+- Deformat: Used for temporarily converting the format of data in a field from an external format into an internal format and making that reformatted data available for processing purposes.
+- Delete: Location for handling the removal of occurrences marked for deletion when writing updates to the database.
+- Delete Up: Location for handling delete of occurrences in up entities; if an entity is painted as an up entity, removing occurrences from the database is only possible if the Delete Up trigger contains a delete statement.
+- Detail (Entity): Location for reacting to ^DETAIL structure editor function, entity level.
+- Detail (Field): Location for reacting to ^DETAIL structure editor function, field level.
+- Encrypt: Used to encrypt data in a field when writing to the database, so the developer can implement secure systems.
+- Erase: Used for deleting all occurrences currently in the component, both in the external structure, and in the database. This is a very dangerous trigger—use it with extreme care!
+- Execute: Defines the component behavior when the component is activated.
+- Extended Triggers: Location for handling the processing of extended events generated by the grid widget, drag-and-drop, form container, map, tabex, tree, and OCX container widgets, and for some DSP widgets .
+- Field Gets Focus: For handling the processing that should happen when a field gets focus; usually used for user interface actions such as prompting the user with a hint message, or modifying the way a field is displayed.
+- Form Gets Focus: For handling the event of a form component getting focus.
+- Form Loses Focus: For handling the event of a form losing focus.
+- Format: Activated before displaying or printing the field, and after Deformat.
+- Frame
+Gets Focus: Location for handling the event of the frame getting focus (this is usually when the frame is about to be printed).
+- Get State: Location for handling component-specific preprocessing.
+- Help (Entity): Location for reacting to user's request for online help, entity level.
+- Help (Field): Location for reacting to user's request for online help, field level.
+- Leave Field: Trigger that defines what happens after a user successfully leaves a field (that is, after all data validation checks have completed without error); a negative return value prevents the user leaving the field.
+- Leave Modified Key: Location for handling the processing that should occur after a key (especially a compound key) of an occurrence is modified.
+- Leave Modified Occurrence: Entity (only in form components, not in the Web environment)
+- Leave Printed Occurrence: Location for handling the processing that should occur after an occurrence is printed.
+- Local Proc Modules, component level: Location for defining component-level Proc modules.
+- Local Proc Modules, entity level: Location for defining entity-level Proc modules.
+- Local Proc Modules, field level: Location for defining field-level Proc modules.
+- Lock: The Lock trigger is the location for the lock statement and associated logic. It is activated for cautious and optimistic locking when modifying or writing a database occurrence.
+- Menu (Application): Location for handling the processing that should occur after the structure editor function ^MENU is activated.
+- Menu (Component): Location for handling the processing that should occur after the structure editor function ^MENU is activated.
+- Menu (Entity): Location for handling the processing that should occur after the structure editor function ^MENU is activated.
+- Menu (Field): Location for handling the processing that should occur after the structure editor function ^MENU is activated.
+- Next Field: Location for handling the processing that should occur after the structure editor function ^NEXT_FIELD, or ^FIELD (when the direction is Next), is activated.
+- Occurrence Gets Focus: Location for handling the processing that should occur after an occurrence gets focus.
+- Occurrence Operations: Location for defining entity occurrence operations.
+- On Error (Entity): Location for handling entity-level errors.
+- On Error (Field): Location for handling field-level errors.
+- Operations: Location for defining component operations.
+- Option: Location for handling the processing that should occur after a menu item is selected.
+- Post Load Occurrence: Process an occurrence after it is loaded from a disconnected record set (XML, JSON, or Struct) into a component.
+- Post Request: Location for handling any global post processing.
+- Post Save Occurrence: Process an occurrence after it is saved from a component into a disconnected record set (XML, JSON, or Struct).
+- Pre Load Occurrence: Process an occurrence before it is loaded from a disconnected record set (XML, JSON, or Struct) into a component.
+- Pre Request: Trigger for handling generic processing that must be performed before activating a component operation in a web environment.
+- Pre Save Occurrence: Process an occurrence before it is saved from a component into a disconnected record set.
+- Predisplay: Location for handling the processing that should occur before a menu or menu item is displayed.
+- Previous Field: Location for handling the processing that should occur after the structure editor function ^PREV_FIELD, or ^FIELD (when the direction is Previous), is activated.
+- Print: Location for handling the processing that should occur after the structure editor function ^PRINT is activated.
+- Pulldown (Application): Location for handling the processing that should occur after the structure editor function ^PULLDOWN is activated.
+- Pulldown (Component): Location for handling the processing that should occur after the structure editor function ^PULLDOWN is activated.
+- Quit: Location for handling processing that should occur during a Quit request.
+- Read: Trigger for handling the processing that should fetch an occurrence from the database.
+- Remove Occurrence: Location for handling the processing that should occur after the structure editor function ^REM_OCC is activated.
+- Retrieve: Location for handling the processing that should occur after the structure editor function ^RETRIEVE is activated.
+- Retrieve Sequential: Location for handling the processing that should occur after the structure editor function ^RETRIEVE_SEQ is activated.
+- Set State: Location for handling component-specific postprocessing.
+- Start Modification: Location for handling the processing that should occur whenever a user starts to modifiy a field.
+- Store: Location for handling the processing that should occur after the structure editor function ^STORE is activated.
+- Switch Keyboard: Trigger for handling the processing for loading a new keyboard translation table.
+- Triggers: Standard: Standard triggers are containers for Proc code that is executed when the event associated with the trigger occurs.
+- User Key (Application): Application-level trigger for handling the processing that should occur after a user-defined key is activated.
+- User Key (Component): Component-level trigger for handling the processing that should occur after a user-defined key is activated.
+- Validate Field: Location for handling procedural field validation.
+- Validate Key: Location for handling procedural key validation.
+- Validate Occurrence: Location for handling procedural occurrence validation.
+- Value Changed: Location for handling the processing that should occur after a user completes a change to the value of a field.
+- Write: Location for handling the processing that should write an occurrence to the database.
+- Write Up: Location for handling the processing that should write an occurrence of an up entity to the database.
+
+## Extended Triggers
+File: `triggersextended.md`
+
+- close: The extended trigger close is fired when a tree node is closed, so that its subordinate tree items will no longer be shown in the list view.
+- collapse: The extended trigger collapse is fired when a tree item is collapsed, so that its subordinate tree items are no longer shown in the treeview.
+- Column_Resized: The extended trigger Column_Resized is fired when the user resizes the column width with the mouse or when a column is made visible with the $columnsyntax . It is not fired when the size is changed with the columnwidth entity property.
+- ColumnHeader_LClicked: The extended trigger ColumnHeader_LClicked is fired whenever the user left-clicks a column header of the grid widget.
+- columnsorted: The extended trigger columnSorted is fired when the user clicks a column header in the list view, thereby sorting the list view according to that column, in ascending or descending order.
+- columnwidth: The extended trigger columnWidth is fired when the user clicks and drags the header separator of the tree widget to a new location and drops it. This trigger is fired only in the list view and only when the user releases the dragged header separator.
+- copyto: The extended trigger copyto is fired when a drop with drop action Copy occurs.
+- CornerButton_LClicked: The CornerButton_LClicked trigger is activated when the user clicks the corner button of the grid widget., with or without any combination of the Shift , Alt , and Control keys.
+- createshortcutto: The extended trigger createshortcutto is fired when a drop with drop action Create Shortcut occurs.
+- doubleclick: The extended trigger doubleclick is fired when the user double-clicks a tree or list item.
+- expand: The extended trigger expand is fired when a tree item is expanded, so that its subordinate tree items are shown in the tree view.
+- loadError: Use this trigger to notify the user about an invalid URL or other error returned by the embedded browser in the HTML widget.
+- movefrom: The extended trigger movefrom is fired on the drag source when a drop with drop action Move occurs.
+- moveto: The extended trigger moveto is fired on the drag source when a drop with drop action Move occurs.
+- movewithin: The extended trigger moveWithin is fired on the drag source when a drop with drop action Move occurs, if the drag & drop occurs within the same widget.
+- OnBlur: The OnBlur web trigger is used to program behavior when the DSP widget loses focus.
+- OnChange: Use this trigger to program behavior when data in the DSP widget is interactively changed by the user. The trigger is not activated when data is changed by the Uniface JavaScript API.
+- OnClick: This trigger is used to program behavior when the user clicks on DSP widget.
+- OnDblClick: This trigger is used to program behavior when the user double-clicks the DSP widget.
+- OnEdit: The OnEdit extended trigger is fired as soon as a field value is changed as a result of user interaction, such as entering a character, cutting or pasting text, or undo or redo of character entry.
+- onEdit: Extended trigger for handling changes to the content of an edit box as the user types, when the OnEdit widget property is True . The onEdit trigger is typically used to implement incremental search functionality, in which the retrieved results change as the user enters a search profile
+- OnFocus: The OnFocus web trigger is used to program behavior when the DSP widget gets focus.
+- OnKeyPress: This trigger is used to program behavior when the user presses a key while the widget has focus.
+- OnSyntaxError: The OnSyntaxError web trigger is activated when a field syntax violation is detected in the browser. It can be used to customize or override the default syntax error handling.
+- OnSyntaxErrorResolved: The OnSyntaxErrorResolved web trigger is used to customize behavior when a field syntax error has been corrected.
+- onTabButton: The onTabButton extended trigger is used to implement the processing that should occur when a user clicks the tab button, if present, in the active tab of the TabEx widget.
+- open: The extended trigger open is fired when a tree node is opened, so that its subordinate tree items are shown in the list view.
+- representationChanged: The extended trigger representationChanged is fired when the user ends an inline edit action by pressing Enter or Esc .
+- representationChanging: The extended trigger representationChanging is fired when the user starts to edit a node or leaf in the tree widget.
+- Resized: The extended trigger Resized is fired when the parent form is started, and whenever the widget is resized (which is only possible if the Attach property is set).
+- rollover: The extended trigger rollover is fired when a user moves into a map polygon, if the Sense field has been set to rollover . When this happens, the rollover image demarcates the polygon.
+- RowHeader_LClicked: The extended trigger RowHeader_LClicked is fired whenever the user left-clicks a row header of the grid widget.
+- Triggers: Extended: Extended triggers are script modules that are executed in response to events associated with a widget. They can be fired as a result of user actions, such as clicking a widget, or they can be invoked by the callfieldtrigger Proc command.
+- Viewport_Resized: The extended trigger Viewport_Resized enables you to react to changes made when the form or grid widget is resized.
