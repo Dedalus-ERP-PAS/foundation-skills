@@ -70,6 +70,7 @@ npx skills add Dedalus-ERP-PAS/foundation-skills --skill backend-patterns --skil
 |[Docs generator](docs/docs.md) | Génération automatique de README.md et documentation en français orienté Product Owner |
 | [Fast meeting](docs/fast-meeting.md) | Réunion rapide autonome avec personas : analyse, implémentation et création de MR/PR |
 | [Meeting](docs/meeting.md) | Simulation de réunion avec personas pour analyser un sujet et converger vers une décision |
+| [Uniface ProcScript](docs/uniface-procscript.md) | Référence complète du langage ProcScript pour Uniface 9.7 (594 entrées de documentation) |
 
 ## A quoi sert ce produit ?
 
