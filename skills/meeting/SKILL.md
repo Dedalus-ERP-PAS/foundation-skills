@@ -95,18 +95,18 @@ Pick from this pool or create custom ones based on the subject:
 
 | Persona | Role | Perspective | Bias |
 |---------|------|-------------|------|
-| **SOLID Alex** | Senior Backend Engineer | Code quality, maintainability, technical debt | Prefers proven patterns, cautious about new tech |
-| **Sprint Zero Sarah** | Product Owner | User value, delivery speed, business impact | Prefers shipping fast, pragmatic trade-offs |
+| **SOLID Alex** | Senior Backend Engineer, clean code evangelist & design patterns enforcer | Code quality, maintainability, technical debt | Prefers proven patterns, cautious about new tech |
+| **Sprint Zero Sarah** | Product Owner, backlog tyrant & velocity obsessed | User value, delivery speed, business impact | Prefers shipping fast, pragmatic trade-offs |
 | **Paranoid Shug** | Security Engineer (OWASP certified) | Attack surface analysis, web security (OWASP Top 10), authentication standards (OAuth2, OpenID Connect, JWT), data protection, penetration testing, compliance | Prefers the most secure option, systematically challenges exposed surfaces, risk-averse |
-| **Pipeline Mo** | DevOps/SRE Engineer | Operability, monitoring, deployment, scalability | Prefers simple infrastructure, observable systems |
-| **Pixel-Perfect Hugo** | Frontend Engineer | User experience, performance, accessibility, Vue.js 2 & 3, React, shadcn/ui, PrimeVue LTS, component libraries, responsive design | Prefers user-centric solutions, design-first, advocates for consistent UI component systems |
-| **Whiteboard Damien** | Tech Lead / Architect | System design, long-term vision, team capacity | Prefers sustainable architecture, balanced approach |
-| **Edge-Case Nico** | QA Engineer | Testability, edge cases, regression risk, E2E testing with Playwright, unit/integration testing with Vitest | Prefers thorough coverage, cautious about untested paths, advocates for automated test pipelines |
+| **Pipeline Mo** | DevOps/SRE Engineer, CI/CD perfectionist & zero-downtime deployer | Operability, monitoring, deployment, scalability | Prefers simple infrastructure, observable systems |
+| **Pixel-Perfect Hugo** | Frontend Engineer, CSS wizard & accessibility advocate | User experience, performance, accessibility, Vue.js 2 & 3, React, shadcn/ui, PrimeVue LTS, component libraries, responsive design | Prefers user-centric solutions, design-first, advocates for consistent UI component systems |
+| **Whiteboard Damien** | Tech Lead / Architect, diagram-first thinker & ADR collector | System design, long-term vision, team capacity | Prefers sustainable architecture, balanced approach |
+| **Edge-Case Nico** | QA Engineer, regression hunter & boundary value analyst | Testability, edge cases, regression risk, E2E testing with Playwright, unit/integration testing with Vitest | Prefers thorough coverage, cautious about untested paths, advocates for automated test pipelines |
 | **EXPLAIN PLAN Isabelle** | Senior Database Engineer (Oracle specialist) | Oracle database administration and optimization (11.2 to 19c+), PL/SQL, performance tuning, partitioning, RAC, Data Guard, migration between Oracle versions | Prefers robust schema design, careful about query performance and data integrity |
-| **Schema JB** | Data Engineer | Data integrity, analytics, migration risks | Prefers schema stability, careful migrations |
-| **RFC Santiago** | Senior Interoperability PO | Standards compliance (HL7, FHIR, HPK), cross-system integration, data flow consistency | Prefers standard-based approaches, careful about breaking upstream/downstream systems |
+| **Schema JB** | Data Engineer, migration gatekeeper & referential integrity guardian | Data integrity, analytics, migration risks | Prefers schema stability, careful migrations |
+| **RFC Santiago** | Senior Interoperability PO, standards compliance officer & spec-first negotiator | Standards compliance (HL7, FHIR, HPK), cross-system integration, data flow consistency | Prefers standard-based approaches, careful about breaking upstream/downstream systems |
 | **Legacy Larry** | Senior Fullstack Developer (Uniface specialist) | Uniface application development, legacy system modernization, 4GL/RAD patterns, database-driven UI, migration strategies. Documentation: https://erp-pas.gitlab-pages-erp-pas.dedalus.lan/hexagone/uniface/ | Prefers pragmatic evolution over rewrite, deep knowledge of Uniface runtime and deployment |
-| **HL7 Victor** | Senior Interoperability Fullstack Developer | End-to-end integration (API, middleware, frontend), message parsing (HL7, FHIR, HPK), system connectors, data mapping and transformation | Prefers pragmatic solutions that work across the full stack, bridges the gap between standards and implementation |
+| **HL7 Victor** | Senior Interoperability Fullstack Developer, message parser & protocol translator | End-to-end integration (API, middleware, frontend), message parsing (HL7, FHIR, HPK), system connectors, data mapping and transformation | Prefers pragmatic solutions that work across the full stack, bridges the gap between standards and implementation |
 
 **Custom personas:** If the subject is domain-specific (healthcare, finance, legal...), create a relevant domain expert persona.
 
