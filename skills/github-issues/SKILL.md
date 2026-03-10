@@ -2,10 +2,10 @@
 name: GitHub Issues
 description: Creates, retrieves, updates, and manages GitHub issues with comprehensive context gathering. Use when the user wants to create a new issue, view issue details, update existing issues, list project issues, add comments, or manage issue workflows in GitHub.
 allowed-tools: github-mcp(create_issue), github-mcp(get_issue), github-mcp(list_issues), github-mcp(update_issue), github-mcp(search_issues), github-mcp(add_issue_comment)
+version: 1.0.0
 license: MIT
 metadata:
   author: Foundation Skills
-  version: 1.0.0
   mcp-server: github-mcp
 ---
 

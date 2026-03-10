@@ -2,10 +2,10 @@
 name: fast-meeting
 description: Run a fast autonomous meeting with auto-selected personas, implement the decision, create a MR/PR, commit, push, and post a French summary — all without user intervention.
 allowed-tools: gitlab-mcp(get_issue), gitlab-mcp(create_issue_note), gitlab-mcp(update_issue), gitlab-mcp(list_issues), gitlab-mcp(create_merge_request), gitlab-mcp(update_merge_request)
+version: 1.0.0
 license: MIT
 metadata:
   author: Foundation Skills
-  version: 1.0.0
 ---
 
 # Fast Meeting
