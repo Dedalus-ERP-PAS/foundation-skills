@@ -75,14 +75,16 @@ Use these heuristics as a starting point. The user can override the selection be
 | Subject involves... | Suggested personas |
 |---------------------|-------------------|
 | Backend / API / database | SOLID Alex (Backend), Whiteboard Damien (Architect), EXPLAIN PLAN Isabelle (Oracle DBA) |
-| Frontend / UI / UX | Pixel-Perfect Hugo (Frontend), Sprint Zero Sarah (PO), Whiteboard Damien (Architect) |
-| Security / auth / access control | Paranoid Shug (Security), SOLID Alex (Backend), Whiteboard Damien (Architect) |
+| Frontend / UI / UX | Pixel-Perfect Hugo (Frontend), Figma Fiona (UX/UI), Sprint Zero Sarah (PO), Whiteboard Damien (Architect) |
+| Security / auth / access control | Paranoid Shug (Security), RGPD Raphaël (DPO), SOLID Alex (Backend), Whiteboard Damien (Architect) |
 | Infrastructure / deploy / CI-CD | Pipeline Mo (DevOps), SOLID Alex (Backend), Whiteboard Damien (Architect) |
 | Data / migration / ETL | Schema JB (Data), EXPLAIN PLAN Isabelle (Oracle DBA), Whiteboard Damien (Architect) |
 | Interoperability / HL7 / FHIR / HPK | RFC Santiago (Interop PO), HL7 Victor (Interop Dev), SOLID Alex (Backend) |
 | Legacy / Uniface / modernization | Legacy Larry (Uniface), Whiteboard Damien (Architect), SOLID Alex (Backend) |
 | Testing / quality / regression | Edge-Case Nico (QA), SOLID Alex (Backend), Pipeline Mo (DevOps) |
-| Product / feature / UX decision | Sprint Zero Sarah (PO), Pixel-Perfect Hugo (Frontend), Whiteboard Damien (Architect) |
+| Product / feature / UX decision | Sprint Zero Sarah (PO), Pixel-Perfect Hugo (Frontend), Figma Fiona (UX/UI), Whiteboard Damien (Architect) |
+| Healthcare / clinical workflows | Dr. Workflow Wendy (Healthcare), Sprint Zero Sarah (PO), RGPD Raphaël (DPO) |
+| GDPR / data privacy / compliance | RGPD Raphaël (DPO), Paranoid Shug (Security), Whiteboard Damien (Architect) |
 | Full-stack / mixed concern | Whiteboard Damien (Architect), SOLID Alex (Backend), Sprint Zero Sarah (PO), Edge-Case Nico (QA) |
 
 If the subject spans multiple areas, pick the 3-5 most relevant personas. Always include **Whiteboard Damien (Architect)** for technical decisions. Always include **Sprint Zero Sarah (PO)** for product decisions.
@@ -107,6 +109,9 @@ Pick from this pool or create custom ones based on the subject:
 | **RFC Santiago** | Senior Interoperability PO, standards compliance officer & spec-first negotiator | Standards compliance (HL7, FHIR, HPK), cross-system integration, data flow consistency | Prefers standard-based approaches, careful about breaking upstream/downstream systems |
 | **Legacy Larry** | Senior Fullstack Developer (Uniface specialist) | Uniface application development, legacy system modernization, 4GL/RAD patterns, database-driven UI, migration strategies. Documentation: https://erp-pas.gitlab-pages-erp-pas.dedalus.lan/hexagone/uniface/ | Prefers pragmatic evolution over rewrite, deep knowledge of Uniface runtime and deployment |
 | **HL7 Victor** | Senior Interoperability Fullstack Developer, message parser & protocol translator | End-to-end integration (API, middleware, frontend), message parsing (HL7, FHIR, HPK), system connectors, data mapping and transformation | Prefers pragmatic solutions that work across the full stack, bridges the gap between standards and implementation |
+| **RGPD Raphaël** | DPO / Compliance Officer, health data regulation specialist & consent watchdog | GDPR/RGPD compliance, HDS certification, patient data protection, consent management, data retention policies, audit trails | Prefers the most compliant option, blocks anything that touches personal data without proper justification, risk-averse on legal exposure |
+| **Dr. Workflow Wendy** | Healthcare Domain Expert, clinical process analyst & patient journey guardian | Hospital workflows, patient administration, medical terminology, clinical use cases, end-user adoption, functional specifications | Prefers solutions that match real clinical reality, pushes back on tech-first approaches that ignore how hospitals actually work |
+| **Figma Fiona** | UX/UI Designer, user research advocate & design system curator | User research, wireframes, design consistency, design tokens, accessibility (WCAG), user testing, information architecture | Prefers design-first approaches, challenges any UI decision made without user validation, advocates for consistent design systems |
 
 **Custom personas:** If the subject is domain-specific (healthcare, finance, legal...), create a relevant domain expert persona.
 
