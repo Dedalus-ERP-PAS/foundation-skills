@@ -2,10 +2,10 @@
 name: fast-meeting
 description: Run a fast autonomous meeting with auto-selected personas, implement the decision, create a MR/PR, commit, push, and post a French summary — all without user intervention.
 allowed-tools: gitlab-mcp(get_issue), gitlab-mcp(create_issue_note), gitlab-mcp(update_issue), gitlab-mcp(list_issues), gitlab-mcp(create_merge_request), gitlab-mcp(update_merge_request)
+version: 1.1.0
 license: MIT
 metadata:
   author: Foundation Skills
-  version: 1.2.0
 ---
 
 # Fast Meeting
@@ -52,6 +52,7 @@ Before starting, clean up any stale worktrees from previous meetings that may ha
 
 1. Run `git worktree prune` to remove stale worktree references
 2. Check `git worktree list` — if any entries match sibling directories named `fast-meeting-*` or `fm-*`, remove them with `git worktree remove <path> --force`
+3. Also clean up any legacy `fast-meeting/*` branches: `git branch --list 'fast-meeting/*' | xargs -r git branch -D`
 
 This ensures a clean starting state regardless of previous failures.
 
@@ -311,33 +312,33 @@ Use `gh pr create` to create a pull request with:
 - **Title:** Short description (under 70 chars, in English)
 - **Body:** The French meeting analysis and implementation summary (see template below)
 
-#### MR/PR Description Template (French)
+#### MR/PR Description Template (French — Developer / Technically Oriented)
+
+The MR/PR description targets **developers reviewing the code**. Focus on technical details: what changed, why this approach was chosen technically, and what to watch during review.
 
 ```markdown
-## Analyse de réunion rapide
+## Résumé technique
 
-### Question posée
-[La question de décision]
+### Contexte
+[Brève description du problème technique ou de la décision d'architecture qui a motivé ces changements]
 
-### Participants
-| Persona | Rôle | Position |
-|---------|------|----------|
-| ... | ... | ... |
-
-### Recommandation retenue
-[L'approche recommandée]
-
-**Justification :**
-- [Raison 1]
-- [Raison 2]
-- [Raison 3]
-
-### Risques identifiés
-- [Risque 1 → Mitigation]
-- [Risque 2 → Mitigation]
+### Approche retenue
+[L'approche technique choisie et pourquoi — patterns utilisés, alternatives considérées et rejetées techniquement]
 
 ### Changements implémentés
-- [Description des modifications fichier par fichier]
+| Fichier | Modification | Justification technique |
+|---------|-------------|------------------------|
+| `path/to/file` | [Ce qui a changé] | [Pourquoi ce choix technique] |
+| ... | ... | ... |
+
+### Points d'attention pour la revue
+- [Point technique à vérifier — ex: gestion d'erreurs, performance, rétrocompatibilité]
+- [Impact potentiel sur d'autres modules]
+- [Cas limites à valider]
+
+### Tests
+- [Résultats des tests : nombre exécutés, passés, échoués]
+- [Couverture des cas limites identifiés]
 
 ### Prochaines étapes
 - [ ] Revue de code par l'équipe
@@ -345,19 +346,55 @@ Use `gh pr create` to create a pull request with:
 - [ ] Merge après approbation
 
 ---
-_Analyse et implémentation générées automatiquement par IA 🤖_
-_Version : fast-meeting v1.2.0_
+_Implémentation générée automatiquement par IA 🤖_
+_Version : fast-meeting v1.1.0_
 ```
 
-### Step 7: Post to Issue (If Applicable)
+### Step 7: Post to Issue (If Applicable — PO / Consultant Oriented)
 
-If the subject is linked to a GitLab or GitHub issue:
+If the subject is linked to a GitLab or GitHub issue, post a **Product Owner / consultant oriented** comment. This comment targets stakeholders, not developers — focus on business value, user impact, and strategic reasoning rather than technical details.
 
-1. Post a comment on the issue linking to the MR/PR
-2. Format: `Réunion rapide terminée. MR/PR créée : [link]. Voir la description de la MR/PR pour l'analyse complète.`
-3. Use the appropriate tool:
-   - **GitLab:** `gitlab-mcp(create_issue_note)`
-   - **GitHub:** `gh issue comment`
+#### Issue Comment Template (French)
+
+```markdown
+## Analyse de réunion rapide
+
+### Question posée
+[La question de décision formulée en termes métier]
+
+### Participants
+| Expert | Rôle | Position |
+|--------|------|----------|
+| ... | ... | [Position résumée en termes d'impact métier] |
+
+### Décision retenue
+[L'approche recommandée expliquée en termes de valeur utilisateur et impact business]
+
+**Pourquoi cette décision :**
+- [Bénéfice utilisateur / métier 1]
+- [Bénéfice utilisateur / métier 2]
+- [Alignement avec les objectifs produit]
+
+### Risques projet
+- [Risque 1 formulé en impact métier → Mitigation]
+- [Risque 2 formulé en impact métier → Mitigation]
+
+### Impact
+- **Utilisateurs concernés :** [Qui est impacté et comment]
+- **Délai estimé :** [Si applicable]
+- **Dépendances :** [Autres équipes ou fonctionnalités impactées]
+
+### MR/PR
+[Lien vers la MR/PR] — Les détails techniques d'implémentation sont dans la description de la MR/PR.
+
+---
+_Analyse générée automatiquement par IA 🤖_
+_Version : fast-meeting v1.1.0_
+```
+
+Post the comment using the appropriate tool:
+- **GitLab:** `gitlab-mcp(create_issue_note)`
+- **GitHub:** `gh issue comment`
 
 ## Meeting Quality Rules
 
@@ -429,6 +466,6 @@ User: fast-meeting : refactorer le module d'authentification pour supporter OAut
 - Multiple fast-meetings can run in parallel on different worktrees without conflicts (each gets its own isolated copy)
 - When creating a MR/PR, check for other active fast-meeting branches with `git branch -r | grep '/fm-'`. If other branches exist, add a warning in the MR/PR description: _"Attention : d'autres branches fast-meeting sont actives. Vérifier les conflits potentiels avant merge."_
 - The MR/PR description is always in French
-- Branch names follow Git flow conventions: `<type>/fm-<topic>` (e.g., `feat/fm-<topic>`, `fix/fm-<topic>`)
+- Branch names follow Git flow conventions: `<type>/fm-<topic>` (e.g., `feat/fm-<topic>`, `fix/fm-<topic>`) — determined automatically from the meeting recommendation
 - If the remote type cannot be determined, default to `gh pr create` (GitHub)
 - Never force-push or modify existing branches — always create a new branch

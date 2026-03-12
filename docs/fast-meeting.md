@@ -87,5 +87,5 @@ La sélection est automatique selon le contexte. Des personas spécialisées son
 Le skill produit :
 - Une **analyse affichée** dans la conversation (question, participants, recommandation, risques)
 - Une **branche** `feat/fm-<sujet>`, `fix/fm-<sujet>` ou `refactor/fm-<sujet>` avec le code implémenté
-- Une **MR/PR** avec description complète en français incluant l'analyse, les changements et les résultats de tests
-- Un **commentaire sur l'issue** (si applicable) avec lien vers la MR/PR
+- Une **MR/PR** avec description technique orientée développeur (changements fichier par fichier, justifications techniques, points d'attention pour la revue)
+- Un **commentaire sur l'issue** (si applicable) orienté Product Owner / consultant (valeur métier, impact utilisateur, risques projet) avec lien vers la MR/PR

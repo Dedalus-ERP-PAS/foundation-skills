@@ -1,3 +1,11 @@
+---
+name: backend-patterns
+description: Backend architecture patterns, API design, database optimization, and server-side best practices for Node.js, Express, and Next.js API routes.
+version: 1.0.0
+license: MIT
+metadata:
+  author: Foundation Skills
+---
 # Backend Development Patterns
 
 Backend architecture patterns, API design, database optimization, and server-side best practices for Node.js, Express, and Next.js API routes.

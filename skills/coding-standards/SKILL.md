@@ -1,3 +1,11 @@
+---
+name: coding-standards
+description: Universal coding standards, best practices, and patterns for TypeScript, JavaScript, React, and Node.js development.
+version: 1.0.0
+license: MIT
+metadata:
+  author: Foundation Skills
+---
 # Coding Standards & Best Practices
 
 Universal coding standards, best practices, and patterns for TypeScript, JavaScript, React, and Node.js development.

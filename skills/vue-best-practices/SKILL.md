@@ -1,6 +1,7 @@
 ---
 name: vue-best-practices
 description: Vue.js 3 best practices guidelines covering Composition API, component design, reactivity patterns, Tailwind CSS utility-first styling, PrimeVue component library integration, and code organization. This skill should be used when writing, reviewing, or refactoring Vue.js code to ensure idiomatic patterns and maintainable code.
+version: 1.0.0
 license: MIT
 ---
 

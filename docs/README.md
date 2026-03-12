@@ -59,6 +59,15 @@ Index de toute la documentation disponible pour les Foundation Skills.
 | [gitlab-code-review](gitlab-code-review.md) | Code review GitLab |
 | [changelog-generator](changelog-generator.md) | Génération de changelogs |
 
+### Hexagone / Domaine santé
+
+| Skill | Documentation |
+|-------|---------------|
+| [hexagone-swdoc](hexagone-swdoc.md) | Documentation des web services Hexagone (endpoints, formats, contrats) |
+| [hpk-parser](hpk-parser.md) | Parsing des messages HPK propriétaires |
+| [hl7-pam-parser](hl7-pam-parser.md) | Parsing des messages HL7 v2.5 IHE PAM |
+| [uniface-procscript](uniface-procscript.md) | Référence ProcScript pour Uniface 9.7 |
+
 ### Outils spécialisés
 
 | Skill | Documentation |
@@ -123,6 +132,12 @@ npx skills add Dedalus-ERP-PAS/foundation-skills --skill backend-patterns -g -y
 - github-issues / gitlab-issue
 - gitlab-code-review
 - changelog-generator
+
+### Hexagone / Santé
+- hexagone-swdoc
+- hpk-parser
+- hl7-pam-parser
+- uniface-procscript
 
 ## 🔍 Recherche par technologie
 

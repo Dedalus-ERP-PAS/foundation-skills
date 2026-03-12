@@ -1,6 +1,7 @@
 ---
 name: react-best-practices
 description: Comprehensive React and Next.js best practices guide covering performance optimization, component architecture, shadcn/ui patterns, Motion animations, and modern React 19+ patterns. This skill should be used when writing, reviewing, or refactoring React/Next.js code. Triggers on tasks involving React components, Next.js pages, data fetching, UI components, animations, or code quality improvements.
+version: 1.0.0
 license: MIT
 ---
 
