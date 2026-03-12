@@ -71,6 +71,7 @@ npx skills add Dedalus-ERP-PAS/foundation-skills --skill backend-patterns --skil
 | [Fast meeting](docs/fast-meeting.md) | Réunion rapide autonome avec personas : analyse, implémentation et création de MR/PR |
 | [Meeting](docs/meeting.md) | Simulation de réunion avec personas pour analyser un sujet et converger vers une décision |
 | [Uniface ProcScript](docs/uniface-procscript.md) | Référence complète du langage ProcScript pour Uniface 9.7 (594 entrées de documentation) |
+| [Hexagone Web Services](docs/hexagone-swdoc.md) | Documentation des web services Hexagone depuis le dépôt swdoc GitLab |
 
 ## A quoi sert ce produit ?
 
@@ -144,6 +145,7 @@ Le développeur installe les skills via la commande `npx skills add`. Les fichie
 | **security-review** | Audit de sécurité : secrets, validation inputs, authentification, OWASP Top 10 | [security-review.md](docs/security-review.md) |
 | **vue-best-practices** | Best practices Vue.js 3/Nuxt : Composition API, réactivité, Tailwind CSS, PrimeVue | [vue-best-practices.md](docs/vue-best-practices.md) |
 | **web-design-guidelines** | Audit UI/UX : conformité Web Interface Guidelines, accessibilité | [web-design-guidelines.md](docs/web-design-guidelines.md) |
+| **hexagone-swdoc** | Documentation des web services Hexagone : endpoints, formats, contrats de service | [hexagone-swdoc.md](docs/hexagone-swdoc.md) |
 
 ### Skills de traitement de contenu et documents
 
