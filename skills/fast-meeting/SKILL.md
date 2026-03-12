@@ -46,6 +46,16 @@ Activate when the user:
 
 ## Workflow
 
+### Step 0: Worktree Hygiene
+
+Before starting, clean up any stale worktrees from previous meetings that may have crashed:
+
+1. Run `git worktree prune` to remove stale worktree references
+2. Check `git worktree list` — if any entries match `.claude/worktrees/fast-meeting-*` or sibling directories named `fast-meeting-*`, remove them with `git worktree remove <path> --force`
+3. Also clean up any legacy `fast-meeting/*` branches: `git branch --list 'fast-meeting/*' | xargs -r git branch -D`
+
+This ensures a clean starting state regardless of previous failures.
+
 ### Step 1: Understand the Subject and Gather Context
 
 1. **Read the user's prompt** — extract the topic, constraints, and goals
@@ -66,18 +76,20 @@ Automatically select 3-4 personas based on the subject matter. Use these heurist
 
 | Subject involves... | Auto-select personas |
 |---------------------|---------------------|
-| Backend / API / database | Alex (Backend), Didier (Architect), Isabelle (Oracle DBA) |
-| Frontend / UI / UX | Mohammed (Frontend), Sarah (PO), Didier (Architect) |
-| Security / auth / access control | Shug (Security), Alex (Backend), Didier (Architect) |
-| Infrastructure / deploy / CI-CD | Priya (DevOps), Alex (Backend), Didier (Architect) |
-| Data / migration / ETL | Jean-Baptiste (Data), Isabelle (Oracle DBA), Didier (Architect) |
-| Interoperability / HL7 / FHIR / HPK | Santiago (Interop PO), Victor (Interop Dev), Alex (Backend) |
-| Legacy / Uniface / modernization | Gilles (Uniface), Didier (Architect), Alex (Backend) |
-| Testing / quality / regression | Nicolas (QA), Alex (Backend), Priya (DevOps) |
-| Product / feature / UX decision | Sarah (PO), Mohammed (Frontend), Didier (Architect) |
-| Full-stack / mixed concern | Didier (Architect), Alex (Backend), Sarah (PO), Nicolas (QA) |
+| Backend / API / database | SOLID Alex (Backend), Whiteboard Damien (Architect), EXPLAIN PLAN Isabelle (Oracle DBA) |
+| Frontend / UI / UX | Pixel-Perfect Hugo (Frontend), Figma Fiona (UX/UI), Sprint Zero Sarah (PO), Whiteboard Damien (Architect) |
+| Security / auth / access control | Paranoid Shug (Security), RGPD Raphaël (DPO), SOLID Alex (Backend), Whiteboard Damien (Architect) |
+| Infrastructure / deploy / CI-CD | Pipeline Mo (DevOps), SOLID Alex (Backend), Whiteboard Damien (Architect) |
+| Data / migration / ETL | Schema JB (Data), EXPLAIN PLAN Isabelle (Oracle DBA), Whiteboard Damien (Architect) |
+| Interoperability / HL7 / FHIR / HPK | RFC Santiago (Interop PO), HL7 Victor (Interop Dev), SOLID Alex (Backend) |
+| Legacy / Uniface / modernization | Legacy Larry (Uniface), Whiteboard Damien (Architect), SOLID Alex (Backend) |
+| Testing / quality / regression | Edge-Case Nico (QA), SOLID Alex (Backend), Pipeline Mo (DevOps) |
+| Product / feature / UX decision | Sprint Zero Sarah (PO), Pixel-Perfect Hugo (Frontend), Figma Fiona (UX/UI), Whiteboard Damien (Architect) |
+| Healthcare / clinical workflows | Dr. Workflow Wendy (Healthcare), Sprint Zero Sarah (PO), RGPD Raphaël (DPO) |
+| GDPR / data privacy / compliance | RGPD Raphaël (DPO), Paranoid Shug (Security), Whiteboard Damien (Architect) |
+| Full-stack / mixed concern | Whiteboard Damien (Architect), SOLID Alex (Backend), Sprint Zero Sarah (PO), Edge-Case Nico (QA) |
 
-If the subject spans multiple areas, pick the most relevant 3-4 personas. Always include **Didier (Architect)** for technical decisions. Always include **Sarah (PO)** for product decisions.
+If the subject spans multiple areas, pick the most relevant 3-4 personas. Always include **Whiteboard Damien (Architect)** for technical decisions. Always include **Sprint Zero Sarah (PO)** for product decisions.
 
 **Custom personas:** If the subject is domain-specific (healthcare, finance, legal...), create a relevant domain expert persona automatically.
 
@@ -85,18 +97,21 @@ If the subject spans multiple areas, pick the most relevant 3-4 personas. Always
 
 | Persona | Role | Perspective | Bias |
 |---------|------|-------------|------|
-| **Alex** | Senior Backend Engineer | Code quality, maintainability, technical debt | Prefers proven patterns, cautious about new tech |
-| **Sarah** | Product Owner | User value, delivery speed, business impact | Prefers shipping fast, pragmatic trade-offs |
-| **Shug** | Security Engineer (OWASP certified) | Attack surface analysis, web security (OWASP Top 10), authentication standards (OAuth2, OpenID Connect, JWT), data protection, penetration testing, compliance | Prefers the most secure option, systematically challenges exposed surfaces, risk-averse |
-| **Priya** | DevOps/SRE Engineer | Operability, monitoring, deployment, scalability | Prefers simple infrastructure, observable systems |
-| **Mohammed** | Frontend Engineer | User experience, performance, accessibility, Vue.js 2 & 3, React, shadcn/ui, PrimeVue LTS, component libraries, responsive design | Prefers user-centric solutions, design-first, advocates for consistent UI component systems |
-| **Didier** | Tech Lead / Architect | System design, long-term vision, team capacity | Prefers sustainable architecture, balanced approach |
-| **Nicolas** | QA Engineer | Testability, edge cases, regression risk, E2E testing with Playwright, unit/integration testing with Vitest | Prefers thorough coverage, cautious about untested paths, advocates for automated test pipelines |
-| **Isabelle** | Senior Database Engineer (Oracle specialist) | Oracle database administration and optimization (11.2 to 19c+), PL/SQL, performance tuning, partitioning, RAC, Data Guard, migration between Oracle versions | Prefers robust schema design, careful about query performance and data integrity |
-| **Jean-Baptiste** | Data Engineer | Data integrity, analytics, migration risks | Prefers schema stability, careful migrations |
-| **Santiago** | Senior Interoperability PO | Standards compliance (HL7, FHIR, HPK), cross-system integration, data flow consistency | Prefers standard-based approaches, careful about breaking upstream/downstream systems |
-| **Gilles** | Senior Fullstack Developer (Uniface specialist) | Uniface application development, legacy system modernization, 4GL/RAD patterns, database-driven UI, migration strategies. Documentation: https://erp-pas.gitlab-pages-erp-pas.dedalus.lan/hexagone/uniface/ | Prefers pragmatic evolution over rewrite, deep knowledge of Uniface runtime and deployment |
-| **Victor** | Senior Interoperability Fullstack Developer | End-to-end integration (API, middleware, frontend), message parsing (HL7, FHIR, HPK), system connectors, data mapping and transformation | Prefers pragmatic solutions that work across the full stack, bridges the gap between standards and implementation |
+| **SOLID Alex** | Senior Backend Engineer, clean code evangelist & design patterns enforcer | Code quality, maintainability, technical debt | Prefers proven patterns, cautious about new tech |
+| **Sprint Zero Sarah** | Product Owner, backlog tyrant & velocity obsessed | User value, delivery speed, business impact | Prefers shipping fast, pragmatic trade-offs |
+| **Paranoid Shug** | Security Engineer (OWASP certified) | Attack surface analysis, web security (OWASP Top 10), authentication standards (OAuth2, OpenID Connect, JWT), penetration testing, vulnerability scanning, secure coding practices | Prefers the most secure option, systematically challenges exposed surfaces, assumes every input is hostile |
+| **Pipeline Mo** | DevOps/SRE Engineer, CI/CD perfectionist & zero-downtime deployer | Operability, monitoring, deployment, scalability, Docker, Kubernetes, IaC (Terraform/Ansible), observability (Grafana, Prometheus, ELK), incident response | Prefers simple infrastructure, observable systems, won't approve anything without a rollback plan |
+| **Pixel-Perfect Hugo** | Frontend Engineer, CSS wizard & component library champion | User experience, frontend performance, Vue.js 2 & 3, React, shadcn/ui, PrimeVue LTS, component libraries, responsive design, state management | Prefers user-centric solutions, advocates for consistent UI component systems, won't merge without pixel-perfect alignment |
+| **Whiteboard Damien** | Tech Lead / Architect, diagram-first thinker & ADR collector | System design, long-term vision, team capacity, trade-off analysis, technical debt prioritization, API contract design, system boundaries, C4 model | Prefers sustainable architecture, balanced approach, won't start coding before the diagram is on the wall |
+| **Edge-Case Nico** | QA Engineer, regression hunter & boundary value analyst | Testability, edge cases, regression risk, E2E testing with Playwright, unit/integration testing with Vitest | Prefers thorough coverage, cautious about untested paths, advocates for automated test pipelines |
+| **EXPLAIN PLAN Isabelle** | Senior Database Engineer (Oracle specialist) | Oracle database administration and optimization (11.2 to 19c+), PL/SQL, performance tuning, partitioning, RAC, Data Guard, migration between Oracle versions | Prefers robust schema design, careful about query performance and data integrity |
+| **Schema JB** | Data Engineer, migration gatekeeper & referential integrity guardian | Data integrity, analytics, migration risks, ETL pipelines, data quality, data lineage, data governance | Prefers schema stability, careful migrations, won't approve a deploy without a rollback script |
+| **RFC Santiago** | Senior Interoperability PO, standards compliance officer & spec-first negotiator | Standards compliance (HL7, FHIR, HPK), cross-system integration, data flow consistency | Prefers standard-based approaches, careful about breaking upstream/downstream systems |
+| **Legacy Larry** | Senior Fullstack Developer (Uniface specialist) | Uniface application development, legacy system modernization, 4GL/RAD patterns, database-driven UI, migration strategies. Documentation: https://erp-pas.gitlab-pages-erp-pas.dedalus.lan/hexagone/uniface/ | Prefers pragmatic evolution over rewrite, deep knowledge of Uniface runtime and deployment |
+| **HL7 Victor** | Senior Interoperability Fullstack Developer, message parser & protocol translator | End-to-end integration (API, middleware, frontend), message parsing (HL7, FHIR, HPK), system connectors, data mapping and transformation | Prefers pragmatic solutions that work across the full stack, bridges the gap between standards and implementation |
+| **RGPD Raphaël** | DPO / Compliance Officer, health data regulation specialist & consent watchdog | GDPR/RGPD compliance, HDS certification, patient data protection, consent management, data retention policies, audit trails | Prefers the most compliant option, blocks anything that touches personal data without proper justification, risk-averse on legal exposure |
+| **Dr. Workflow Wendy** | Healthcare Domain Expert, clinical process analyst & patient journey guardian | Hospital workflows, patient administration, medical terminology, clinical use cases, end-user adoption, functional specifications | Prefers solutions that match real clinical reality, pushes back on tech-first approaches that ignore how hospitals actually work |
+| **Figma Fiona** | UX/UI Designer, user research advocate & design system curator | User research, wireframes, design consistency, design tokens, accessibility (WCAG), user testing, information architecture | Prefers design-first approaches, challenges any UI decision made without user validation, advocates for consistent design systems |
 
 **Announce the selected personas and their roles before starting the meeting.**
 
@@ -142,7 +157,7 @@ This is a research task — do NOT write or edit any files.
 
 **Collect all positions** and present them as quotes:
 
-> **Alex (Senior Backend Engineer):** "I recommend..."
+> **SOLID Alex (Senior Backend Engineer):** "I recommend..."
 
 #### Anti-Groupthink Check
 
@@ -223,25 +238,32 @@ Before implementing, estimate the scope of the recommended changes:
 
 **Immediately proceed to implementation without asking the user.** This is the key difference from meeting.
 
-#### 5a: Protect the Working Tree
+#### 5a: Create an Isolated Worktree
 
-Before creating a branch, safeguard any existing work:
+Implementation runs in a **git worktree**, which creates an isolated copy of the repository. The user's working tree is **never modified** — no stash, no branch switch, no risk of state corruption.
 
-1. Run `git status` to check for uncommitted changes (staged, unstaged, or untracked)
-2. **If the working tree is dirty:**
-   - Run `git stash push -m "fast-meeting: auto-stash before <topic>"` to save the user's in-progress work
-   - Remember the original branch name for later restoration
-3. **If the working tree is clean:** proceed normally
+1. **Record the current branch** for reference (e.g., `main`)
+2. **Determine the branch type** based on the meeting recommendation:
+   - Bug fix → `fix/`
+   - New feature → `feature/`
+   - Refactoring → `refactor/`
+   - Default → `feature/`
+3. **Create a worktree** with a dedicated branch:
+   - Branch name: `<type>/<short-kebab-case-topic>` (e.g., `feature/jwt-auth-migration`, `fix/notification-display`, `refactor/auth-oauth2`)
+   - Worktree path: `$(git rev-parse --show-toplevel)/../fast-meeting-<topic>`
+   - Run: `git worktree add ../fast-meeting-<topic> -b <type>/<topic>`
+4. **If worktree creation fails** (e.g., branch already exists from a previous crash):
+   - Try: `git branch -D <type>/<topic>` then retry the worktree creation
+   - If it still fails, fall back to the legacy approach: stash, checkout -b, implement, restore
 
-#### 5b: Create Branch and Implement
+#### 5b: Implement in the Worktree
 
-1. **Create a new branch** from the current branch:
-   - Branch name: `fast-meeting/<short-kebab-case-topic>` (e.g., `fast-meeting/jwt-auth-migration`)
-   - Run: `git checkout -b fast-meeting/<topic>`
+1. **All file modifications happen inside the worktree path** — use the worktree's absolute path for all read/write operations
 2. **Implement the changes** as described in the implementation plan from Step 4
    - Write code, modify files, add tests as needed
    - Follow the project's existing conventions and patterns
-3. **Stage and commit** all changes:
+3. **Stage and commit** all changes from within the worktree:
+   - `cd` into the worktree path before running git commands
    - Use a conventional commit message: `feat(<scope>): <description>`
    - Include `Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>` in the commit message
 
@@ -264,13 +286,15 @@ After committing, validate the implementation against the project's test suite:
      - Push anyway so the team can review
 5. **Include test results summary** in the MR/PR description: number of tests run, passed, failed
 
-#### 5d: Push and Restore
+#### 5d: Push and Clean Up Worktree
 
-4. **Push the branch** to the remote:
-   - Run: `git push -u origin fast-meeting/<topic>`
-5. **Restore the user's working state:**
-   - Run `git checkout <original-branch>` to return to the branch the user was on
-   - If a stash was created in Step 5a, run `git stash pop` to restore the user's uncommitted work
+4. **Push the branch** from within the worktree:
+   - Run: `git push -u origin <type>/<topic>` (from the worktree path)
+5. **Remove the worktree:**
+   - Return to the original repository path
+   - Run: `git worktree remove ../fast-meeting-<topic>`
+   - If removal fails (e.g., uncommitted changes in worktree), run: `git worktree remove ../fast-meeting-<topic> --force`
+6. **No restoration needed:** the user's working tree was never modified — they remain on their original branch with all their uncommitted changes intact
 
 ### Step 6: Create the MR/PR
 
@@ -288,33 +312,33 @@ Use `gh pr create` to create a pull request with:
 - **Title:** Short description (under 70 chars, in English)
 - **Body:** The French meeting analysis and implementation summary (see template below)
 
-#### MR/PR Description Template (French)
+#### MR/PR Description Template (French — Developer / Technically Oriented)
+
+The MR/PR description targets **developers reviewing the code**. Focus on technical details: what changed, why this approach was chosen technically, and what to watch during review.
 
 ```markdown
-## Analyse de réunion rapide
+## Résumé technique
 
-### Question posée
-[La question de décision]
+### Contexte
+[Brève description du problème technique ou de la décision d'architecture qui a motivé ces changements]
 
-### Participants
-| Persona | Rôle | Position |
-|---------|------|----------|
-| ... | ... | ... |
-
-### Recommandation retenue
-[L'approche recommandée]
-
-**Justification :**
-- [Raison 1]
-- [Raison 2]
-- [Raison 3]
-
-### Risques identifiés
-- [Risque 1 → Mitigation]
-- [Risque 2 → Mitigation]
+### Approche retenue
+[L'approche technique choisie et pourquoi — patterns utilisés, alternatives considérées et rejetées techniquement]
 
 ### Changements implémentés
-- [Description des modifications fichier par fichier]
+| Fichier | Modification | Justification technique |
+|---------|-------------|------------------------|
+| `path/to/file` | [Ce qui a changé] | [Pourquoi ce choix technique] |
+| ... | ... | ... |
+
+### Points d'attention pour la revue
+- [Point technique à vérifier — ex: gestion d'erreurs, performance, rétrocompatibilité]
+- [Impact potentiel sur d'autres modules]
+- [Cas limites à valider]
+
+### Tests
+- [Résultats des tests : nombre exécutés, passés, échoués]
+- [Couverture des cas limites identifiés]
 
 ### Prochaines étapes
 - [ ] Revue de code par l'équipe
@@ -322,19 +346,55 @@ Use `gh pr create` to create a pull request with:
 - [ ] Merge après approbation
 
 ---
-_Analyse et implémentation générées automatiquement par IA 🤖_
-_Version : fast-meeting v1.0.0_
+_Implémentation générée automatiquement par IA 🤖_
+_Version : fast-meeting v1.1.0_
 ```
 
-### Step 7: Post to Issue (If Applicable)
+### Step 7: Post to Issue (If Applicable — PO / Consultant Oriented)
 
-If the subject is linked to a GitLab or GitHub issue:
+If the subject is linked to a GitLab or GitHub issue, post a **Product Owner / consultant oriented** comment. This comment targets stakeholders, not developers — focus on business value, user impact, and strategic reasoning rather than technical details.
 
-1. Post a comment on the issue linking to the MR/PR
-2. Format: `Réunion rapide terminée. MR/PR créée : [link]. Voir la description de la MR/PR pour l'analyse complète.`
-3. Use the appropriate tool:
-   - **GitLab:** `gitlab-mcp(create_issue_note)`
-   - **GitHub:** `gh issue comment`
+#### Issue Comment Template (French)
+
+```markdown
+## Analyse de réunion rapide
+
+### Question posée
+[La question de décision formulée en termes métier]
+
+### Participants
+| Expert | Rôle | Position |
+|--------|------|----------|
+| ... | ... | [Position résumée en termes d'impact métier] |
+
+### Décision retenue
+[L'approche recommandée expliquée en termes de valeur utilisateur et impact business]
+
+**Pourquoi cette décision :**
+- [Bénéfice utilisateur / métier 1]
+- [Bénéfice utilisateur / métier 2]
+- [Alignement avec les objectifs produit]
+
+### Risques projet
+- [Risque 1 formulé en impact métier → Mitigation]
+- [Risque 2 formulé en impact métier → Mitigation]
+
+### Impact
+- **Utilisateurs concernés :** [Qui est impacté et comment]
+- **Délai estimé :** [Si applicable]
+- **Dépendances :** [Autres équipes ou fonctionnalités impactées]
+
+### MR/PR
+[Lien vers la MR/PR] — Les détails techniques d'implémentation sont dans la description de la MR/PR.
+
+---
+_Analyse générée automatiquement par IA 🤖_
+_Version : fast-meeting v1.1.0_
+```
+
+Post the comment using the appropriate tool:
+- **GitLab:** `gitlab-mcp(create_issue_note)`
+- **GitHub:** `gh issue comment`
 
 ## Meeting Quality Rules
 
@@ -357,7 +417,7 @@ If the subject is linked to a GitLab or GitHub issue:
 - Run the project's test suite after implementation; attempt one fix cycle on failures
 - Keep changes focused on the recommendation — do not over-engineer
 - Scope guard: if changes exceed 10 files / 500 lines, scope down to the critical first step; if the scope is architectural, abort implementation and suggest `/meeting`
-- Protect the user's working tree: stash uncommitted changes before branching, restore after push
+- Protect the user's working tree: implementation runs in an isolated git worktree — the user's working directory is never modified
 
 ## Examples
 
@@ -366,10 +426,10 @@ If the subject is linked to a GitLab or GitHub issue:
 ```
 User: fast-meeting : est-ce qu'on doit utiliser GraphQL ou REST pour la nouvelle API
 
-→ Auto-selects: Alex (Backend), Mohammed (Frontend), Didier (Architect)
+→ Auto-selects: SOLID Alex (Backend), Pixel-Perfect Hugo (Frontend), Whiteboard Damien (Architect)
 → Runs fast meeting (1 round + synthesis)
 → Implements the recommended approach
-→ Creates branch fast-meeting/graphql-vs-rest-api
+→ Creates branch feature/graphql-vs-rest-api
 → Commits, pushes, creates MR/PR with French description
 ```
 
@@ -379,7 +439,7 @@ User: fast-meeting : est-ce qu'on doit utiliser GraphQL ou REST pour la nouvelle
 User: fast-meeting sur l'issue #42 - les notifications ne s'affichent pas
 
 → Fetches issue #42 details
-→ Auto-selects: Mohammed (Frontend), Alex (Backend), Nicolas (QA)
+→ Auto-selects: Pixel-Perfect Hugo (Frontend), SOLID Alex (Backend), Edge-Case Nico (QA)
 → Runs fast meeting
 → Implements the fix
 → Creates MR/PR, posts link on issue #42
@@ -390,7 +450,7 @@ User: fast-meeting sur l'issue #42 - les notifications ne s'affichent pas
 ```
 User: fast-meeting : refactorer le module d'authentification pour supporter OAuth2
 
-→ Auto-selects: Shug (Security), Alex (Backend), Didier (Architect), Priya (DevOps)
+→ Auto-selects: Paranoid Shug (Security), SOLID Alex (Backend), Whiteboard Damien (Architect), Pipeline Mo (DevOps)
 → Runs fast meeting
 → Implements the refactoring
 → Creates MR/PR with French analysis
@@ -398,11 +458,14 @@ User: fast-meeting : refactorer le module d'authentification pour supporter OAut
 
 ## Important Notes
 
+- **Never create new labels** on GitLab or GitHub. When adding labels to issues or merge requests, only use labels that already exist in the project. If unsure which labels exist, list them first (`gh label list` for GitHub, or check existing issue labels for GitLab) and pick from the available ones. If no suitable label exists, skip labeling rather than creating a new one.
 - **This skill does NOT ask for user confirmation** — it runs the full pipeline autonomously
 - If tests fail after one fix attempt, mark the MR/PR as **Draft** and document the failures
 - If the implementation scope is too large (architectural, multi-service), abort and suggest `/meeting` instead
-- The user's working tree is always protected: uncommitted changes are stashed before branching and restored after push
+- The user's working tree is always protected: implementation runs in an isolated git worktree — no stash, no branch switch, no risk of state corruption
+- Multiple fast-meetings can run in parallel on different worktrees without conflicts (each gets its own isolated copy)
+- When creating a MR/PR, check for other active branches created by fast-meeting by looking at recent remote branches. If potential conflicts are detected, add a warning in the MR/PR description: _"Attention : d'autres branches sont actives. Vérifier les conflits potentiels avant merge."_
 - The MR/PR description is always in French
-- Branch names use the pattern `fast-meeting/<topic>`
+- Branch names follow GitLab flow conventions: `feature/<topic>`, `fix/<topic>`, or `refactor/<topic>` — determined automatically from the meeting recommendation
 - If the remote type cannot be determined, default to `gh pr create` (GitHub)
 - Never force-push or modify existing branches — always create a new branch

@@ -28,7 +28,7 @@ foundation-skills/
 
 ## Key Directories
 
-- `skills/` — Contains 25 skill directories, each with a `SKILL.md` file defining the skill's instructions
+- `skills/` — Contains 26 skill directories, each with a `SKILL.md` file defining the skill's instructions
 - `docs/` — Contains documentation files: one per skill plus general guides (healthcare parsers, installation, etc.)
 
 ## Skill Categories
