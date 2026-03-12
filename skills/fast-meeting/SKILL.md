@@ -2,7 +2,7 @@
 name: fast-meeting
 description: Run a fast autonomous meeting with auto-selected personas, implement the decision, create a MR/PR, commit, push, and post a French summary — all without user intervention.
 allowed-tools: gitlab-mcp(get_issue), gitlab-mcp(create_issue_note), gitlab-mcp(update_issue), gitlab-mcp(list_issues), gitlab-mcp(create_merge_request), gitlab-mcp(update_merge_request)
-version: 1.0.0
+version: 1.1.0
 license: MIT
 metadata:
   author: Foundation Skills
@@ -51,7 +51,7 @@ Activate when the user:
 Before starting, clean up any stale worktrees from previous meetings that may have crashed:
 
 1. Run `git worktree prune` to remove stale worktree references
-2. Check `git worktree list` — if any entries match `.claude/worktrees/fast-meeting-*` or sibling directories named `fast-meeting-*`, remove them with `git worktree remove <path> --force`
+2. Check `git worktree list` — if any entries match sibling directories named `fast-meeting-*` or `fm-*`, remove them with `git worktree remove <path> --force`
 3. Also clean up any legacy `fast-meeting/*` branches: `git branch --list 'fast-meeting/*' | xargs -r git branch -D`
 
 This ensures a clean starting state regardless of previous failures.
@@ -245,15 +245,15 @@ Implementation runs in a **git worktree**, which creates an isolated copy of the
 1. **Record the current branch** for reference (e.g., `main`)
 2. **Determine the branch type** based on the meeting recommendation:
    - Bug fix → `fix/`
-   - New feature → `feature/`
+   - New feature → `feat/`
    - Refactoring → `refactor/`
-   - Default → `feature/`
+   - Default → `feat/`
 3. **Create a worktree** with a dedicated branch:
-   - Branch name: `<type>/<short-kebab-case-topic>` (e.g., `feature/jwt-auth-migration`, `fix/notification-display`, `refactor/auth-oauth2`)
-   - Worktree path: `$(git rev-parse --show-toplevel)/../fast-meeting-<topic>`
-   - Run: `git worktree add ../fast-meeting-<topic> -b <type>/<topic>`
+   - Branch name: `<type>/fm-<short-kebab-case-topic>` (e.g., `feat/fm-jwt-auth-migration`, `fix/fm-notification-display`)
+   - Worktree path: `$(git rev-parse --show-toplevel)/../fm-<topic>`
+   - Run: `git worktree add ../fm-<topic> -b <type>/fm-<topic>`
 4. **If worktree creation fails** (e.g., branch already exists from a previous crash):
-   - Try: `git branch -D <type>/<topic>` then retry the worktree creation
+   - Try: `git branch -D <type>/fm-<topic>` then retry the worktree creation
    - If it still fails, fall back to the legacy approach: stash, checkout -b, implement, restore
 
 #### 5b: Implement in the Worktree
@@ -289,11 +289,11 @@ After committing, validate the implementation against the project's test suite:
 #### 5d: Push and Clean Up Worktree
 
 4. **Push the branch** from within the worktree:
-   - Run: `git push -u origin <type>/<topic>` (from the worktree path)
+   - Run: `git push -u origin <type>/fm-<topic>` (from the worktree path)
 5. **Remove the worktree:**
    - Return to the original repository path
-   - Run: `git worktree remove ../fast-meeting-<topic>`
-   - If removal fails (e.g., uncommitted changes in worktree), run: `git worktree remove ../fast-meeting-<topic> --force`
+   - Run: `git worktree remove ../fm-<topic>`
+   - If removal fails (e.g., uncommitted changes in worktree), run: `git worktree remove ../fm-<topic> --force`
 6. **No restoration needed:** the user's working tree was never modified — they remain on their original branch with all their uncommitted changes intact
 
 ### Step 6: Create the MR/PR
@@ -429,7 +429,7 @@ User: fast-meeting : est-ce qu'on doit utiliser GraphQL ou REST pour la nouvelle
 → Auto-selects: SOLID Alex (Backend), Pixel-Perfect Hugo (Frontend), Whiteboard Damien (Architect)
 → Runs fast meeting (1 round + synthesis)
 → Implements the recommended approach
-→ Creates branch feature/graphql-vs-rest-api
+→ Creates branch feat/fm-graphql-vs-rest-api
 → Commits, pushes, creates MR/PR with French description
 ```
 
@@ -464,8 +464,8 @@ User: fast-meeting : refactorer le module d'authentification pour supporter OAut
 - If the implementation scope is too large (architectural, multi-service), abort and suggest `/meeting` instead
 - The user's working tree is always protected: implementation runs in an isolated git worktree — no stash, no branch switch, no risk of state corruption
 - Multiple fast-meetings can run in parallel on different worktrees without conflicts (each gets its own isolated copy)
-- When creating a MR/PR, check for other active branches created by fast-meeting by looking at recent remote branches. If potential conflicts are detected, add a warning in the MR/PR description: _"Attention : d'autres branches sont actives. Vérifier les conflits potentiels avant merge."_
+- When creating a MR/PR, check for other active fast-meeting branches with `git branch -r | grep '/fm-'`. If other branches exist, add a warning in the MR/PR description: _"Attention : d'autres branches fast-meeting sont actives. Vérifier les conflits potentiels avant merge."_
 - The MR/PR description is always in French
-- Branch names follow GitLab flow conventions: `feature/<topic>`, `fix/<topic>`, or `refactor/<topic>` — determined automatically from the meeting recommendation
+- Branch names follow Git flow conventions: `<type>/fm-<topic>` (e.g., `feat/fm-<topic>`, `fix/fm-<topic>`) — determined automatically from the meeting recommendation
 - If the remote type cannot be determined, default to `gh pr create` (GitHub)
 - Never force-push or modify existing branches — always create a new branch

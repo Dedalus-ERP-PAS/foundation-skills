@@ -17,7 +17,7 @@ Réunion rapide et autonome avec personas IA : analyse, décision, implémentati
 | **Validation utilisateur** | Obligatoire avant implémentation | Aucune — tout est automatique |
 | **Implémentation** | Après validation explicite | Immédiate après la réunion (avec scope guard) |
 | **Tests** | Non inclus | Exécution automatique après implémentation |
-| **Working tree** | Non géré | Stash automatique et restauration |
+| **Working tree** | Non géré | Worktree isolé (aucune modification du répertoire de travail) |
 | **MR/PR** | Non incluse | Créée automatiquement (Draft si tests échouent) |
 | **Description MR/PR** | N/A | En français, avec analyse complète et résultats de tests |
 
@@ -45,13 +45,13 @@ fast-meeting : refactorer le module d'authentification pour OAuth2
 4. **Anime une réunion rapide** — 1 tour de positions parallèles + synthèse
 5. **Vérifie le consensus** — Si toutes les personas sont d'accord, lance un avocat du diable pour challenger la décision
 6. **Évalue le périmètre** — Si le scope est trop large, réduit à la première étape critique ou suggère `/meeting`
-7. **Protège le working tree** — Stash automatique des changements non commités avant de créer la branche
+7. **Protège le working tree** — Implémentation dans un git worktree isolé, aucune modification du répertoire de travail
 8. **Produit une analyse concise** — Recommandation, risques, plan d'implémentation
 9. **Implémente la recommandation** — Code, tests, modifications de fichiers
 10. **Exécute les tests** — Lance la suite de tests du projet, tente une correction si échec
-11. **Crée une branche, commit et push** — Branche `feature/<sujet>`, `fix/<sujet>` ou `refactor/<sujet>` selon le type de changement
+11. **Crée une branche, commit et push** — Branche `feat/fm-<sujet>`, `fix/fm-<sujet>` ou `refactor/fm-<sujet>` selon le type de changement
 12. **Crée la MR/PR** — Avec description complète en français (en Draft si les tests échouent)
-13. **Restaure l'état initial** — Retour sur la branche d'origine et restauration du stash
+13. **Nettoie le worktree** — Suppression automatique du worktree isolé (le répertoire de travail n'a jamais été modifié)
 14. **Poste sur l'issue** — Si applicable, ajoute un lien vers la MR/PR
 
 ## Personas disponibles
@@ -77,7 +77,7 @@ La sélection est automatique selon le contexte. Des personas spécialisées son
 
 | Protection | Comportement |
 |---|---|
-| **Working tree sale** | Stash automatique avant le branchement, restauration après le push |
+| **Working tree sale** | Worktree isolé — le répertoire de travail n'est jamais modifié |
 | **Consensus trop facile** | Lancement d'un avocat du diable si toutes les personas sont d'accord |
 | **Scope trop large** | Réduction au premier pas critique, ou abandon + suggestion de `/meeting` |
 | **Tests en échec** | Une tentative de correction, puis MR/PR en Draft avec détails des échecs |
@@ -86,6 +86,6 @@ La sélection est automatique selon le contexte. Des personas spécialisées son
 
 Le skill produit :
 - Une **analyse affichée** dans la conversation (question, participants, recommandation, risques)
-- Une **branche** `feature/<sujet>`, `fix/<sujet>` ou `refactor/<sujet>` avec le code implémenté
+- Une **branche** `feat/fm-<sujet>`, `fix/fm-<sujet>` ou `refactor/fm-<sujet>` avec le code implémenté
 - Une **MR/PR** avec description technique orientée développeur (changements fichier par fichier, justifications techniques, points d'attention pour la revue)
 - Un **commentaire sur l'issue** (si applicable) orienté Product Owner / consultant (valeur métier, impact utilisateur, risques projet) avec lien vers la MR/PR
