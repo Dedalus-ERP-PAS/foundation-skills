@@ -1,10 +1,10 @@
 ---
 name: security-review
 description: Security audit covering authentication, SQL injection, secrets exposure, CSRF, and OWASP Top 10 vulnerabilities.
+version: 1.0.0
 license: MIT
 metadata:
   author: Foundation Skills
-  version: 1.0.0
 ---
 # Security Review Skill
 

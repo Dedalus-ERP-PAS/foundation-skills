@@ -5,10 +5,10 @@ description: >-
   Externes). Use when the user asks about Hexagone web services, SOAP methods,
   EWPT services, XML DTDs, request/response formats, error codes, or integration
   with Hexagone. Fetches documentation from GitLab Pages — no git clone needed.
+version: 1.1.0
 license: Proprietary
 metadata:
   author: dedalus-erp-pas
-  version: "1.1"
   source-repo: erp-pas/hexagone/swdoc
   source-url: https://gitlab-erp-pas.dedalus.lan/erp-pas/hexagone/swdoc
   pages-url: https://erp-pas.gitlab-pages-erp-pas.dedalus.lan/hexagone/swdoc/

@@ -28,7 +28,7 @@ foundation-skills/
 
 ## Key Directories
 
-- `skills/` — Contains 24 skill directories, each with a `SKILL.md` file defining the skill's instructions
+- `skills/` — Contains 26 skill directories, each with a `SKILL.md` file defining the skill's instructions
 - `docs/` — Contains documentation files: one per skill plus general guides (healthcare parsers, installation, etc.)
 
 ## Skill Categories
@@ -43,10 +43,21 @@ foundation-skills/
 
 - Each skill lives in its own directory under `skills/`
 - The main instruction file is always named `SKILL.md`
+- Every SKILL.md must have YAML frontmatter with at least `name`, `description`, and `version` fields
+- `version` is at the root level of the frontmatter (not nested under `metadata`)
 - Reference materials go in a `reference/` subdirectory
 - Documentation in `docs/` mirrors skill names (e.g., `skills/postgres/` → `docs/postgres.md`)
 - README and docs are written in French
 - SKILL.md files are written in English (they are instructions for AI agents)
+
+## Versioning
+
+- Each skill has its own semver `version` field in its SKILL.md frontmatter
+- **Bump rules:** when a PR modifies a SKILL.md, bump that skill's version:
+  - `patch` (1.0.0 → 1.0.1): typo fixes, wording improvements, minor clarifications
+  - `minor` (1.0.0 → 1.1.0): new features, new sections, meaningful behavior changes
+  - `major` (1.0.0 → 2.0.0): breaking changes (renamed skill, removed features, restructured workflow)
+- The repo is also tagged at the repo level (`v1.0.0`, `v1.1.0`, etc.) for consumers who install the full bundle
 
 ## Useful Commands
 

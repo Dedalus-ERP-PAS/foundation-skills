@@ -1,6 +1,7 @@
 ---
 name: playwright-skill
 description: Complete browser automation and web testing with Playwright. Auto-detects dev servers, manages server lifecycle, writes clean test scripts to /tmp. Test pages, fill forms, take screenshots, check responsive design, validate UX, test login flows, check links, debug dynamic webapps, automate any browser task. Use when user wants to test websites, automate browser interactions, validate web functionality, or perform any browser-based testing.
+version: 1.0.0
 ---
 
 # Playwright Web Testing & Automation
