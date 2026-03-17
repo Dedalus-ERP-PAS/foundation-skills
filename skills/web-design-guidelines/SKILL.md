@@ -2,6 +2,7 @@
 name: web-design-guidelines
 description: 'Visual inspection and code review for Web Interface Guidelines compliance. Triggers on "review my UI", "check accessibility", "audit design", "review UX", "fix the layout", "find design problems". Supports both static code analysis and visual browser inspection with auto-fixing.'
 version: 2.0.0
+license: MIT
 metadata:
   author: vercel
   argument-hint: <url-or-file-pattern>
