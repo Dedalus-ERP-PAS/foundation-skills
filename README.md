@@ -73,6 +73,11 @@ npx skills add Dedalus-ERP-PAS/foundation-skills --skill backend-patterns --skil
 | [Uniface ProcScript](docs/uniface-procscript.md)          | Référence complète du langage ProcScript pour Uniface 9.7 (594 entrées de documentation)  |
 | [Hexagone Web Services](docs/hexagone-swdoc.md)           | Documentation des web services Hexagone depuis le dépôt swdoc GitLab                      |
 | [Hexagone Frontend](docs/hexagone-frontend.md)            | Documentation des composants frontend Hexagone (@his/hexa-components)                     |
+| [TDD](docs/tdd.md)                                        | Développement piloté par les tests avec boucle red-green-refactor                         |
+| [Triage issue](docs/triage-issue.md)                      | Investigation de bugs et création automatique d'issues GitLab/GitHub                      |
+| [Ubiquitous language](docs/ubiquitous-language.md)        | Extraction de glossaire DDD adapté au domaine santé                                       |
+| [Git guardrails](docs/git-guardrails.md)                  | Hooks de sécurité pour bloquer les commandes git dangereuses                              |
+| [Write a skill](docs/write-a-skill.md)                    | Guide de création de nouveaux skills pour le projet                                       |
 
 ## A quoi sert ce produit ?
 
@@ -91,6 +96,9 @@ npx skills add Dedalus-ERP-PAS/foundation-skills --skill backend-patterns --skil
 - **Manipulation de documents** — Création et édition de fichiers Word, Excel, PowerPoint et PDF
 - **Tests et automatisation web** — Tests fonctionnels et visuels avec Playwright
 - **Audit de sécurité** — Détection des vulnérabilités OWASP Top 10 dans le code
+- **TDD et triage de bugs** — Développement piloté par les tests et investigation structurée de bugs
+- **Langage ubiquitaire** — Extraction de glossaires DDD adaptés au domaine santé (HL7, HPK, FHIR)
+- **Gardes-fous git** — Hooks de sécurité bloquant les commandes git dangereuses
 - **Génération de changelogs** — Notes de version automatiques à partir de l'historique git
 
 ## Comment ça fonctionne
@@ -149,6 +157,11 @@ Le développeur installe les skills via la commande `npx skills add`. Les fichie
 | **web-design-guidelines**      | Audit UI/UX : conformité Web Interface Guidelines, accessibilité                                   | [web-design-guidelines.md](docs/web-design-guidelines.md)           |
 | **hexagone-swdoc**             | Documentation des web services Hexagone : endpoints, formats, contrats de service                  | [hexagone-swdoc.md](docs/hexagone-swdoc.md)                         |
 | **hexagone-frontend**          | Documentation des composants frontend Hexagone (@his/hexa-components) : props, events, patterns    | [hexagone-frontend.md](docs/hexagone-frontend.md)                   |
+| **tdd**                        | Développement piloté par les tests : boucle red-green-refactor, vertical slices, tracer bullets    | [tdd.md](docs/tdd.md)                                               |
+| **triage-issue**               | Investigation de bugs : diagnostic, analyse root cause, plan TDD et création d'issue (GitLab/GitHub) | [triage-issue.md](docs/triage-issue.md)                           |
+| **ubiquitous-language**        | Extraction de glossaire DDD depuis les conversations, adapté au domaine santé (HL7, HPK, FHIR)     | [ubiquitous-language.md](docs/ubiquitous-language.md)               |
+| **git-guardrails**             | Hooks de sécurité bloquant les commandes git dangereuses (push --force, reset --hard, etc.)        | [git-guardrails.md](docs/git-guardrails.md)                         |
+| **write-a-skill**              | Méta-skill guidant la création de nouveaux skills avec les conventions du projet                    | [write-a-skill.md](docs/write-a-skill.md)                           |
 
 ### Skills de traitement de contenu et documents
 
