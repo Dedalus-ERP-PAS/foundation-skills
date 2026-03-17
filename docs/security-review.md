@@ -1,57 +1,73 @@
-# Security Review
+# security-review
 
-A comprehensive skill for ensuring code security best practices and identifying vulnerabilities.
+Audit de sécurité complet couvrant l'authentification, l'injection SQL, l'exposition de secrets, CSRF et les vulnérabilités OWASP Top 10.
 
-## Overview
+## Quand utiliser ce skill
 
-The Security Review skill provides systematic security checks across all aspects of application development, from secrets management to authentication, input validation, and deployment security.
+Utilisez ce skill pour :
+- Implémenter de l'authentification ou de l'autorisation
+- Traiter des entrées utilisateur ou des uploads de fichiers
+- Créer de nouveaux endpoints API
+- Manipuler des secrets ou credentials
+- Implémenter des fonctionnalités de paiement
+- Stocker ou transmettre des données sensibles
+- Intégrer des APIs tierces
 
-## When to Use
+## 10 catégories de sécurité
 
-Activate this skill when:
+| # | Catégorie | Points clés |
+|---|-----------|-------------|
+| 1 | **Gestion des secrets** | Variables d'environnement, jamais de credentials en dur |
+| 2 | **Validation des entrées** | Schémas Zod, restrictions sur les uploads |
+| 3 | **Injection SQL** | Requêtes paramétrées, utilisation d'ORM |
+| 4 | **Authentification & Autorisation** | JWT, RBAC, Row Level Security |
+| 5 | **Prévention XSS** | Sanitization HTML, Content Security Policy |
+| 6 | **Protection CSRF** | Tokens CSRF, cookies SameSite |
+| 7 | **Rate Limiting** | Throttling API, limites sur les opérations coûteuses |
+| 8 | **Exposition de données** | Logging sûr, messages d'erreur génériques |
+| 9 | **Sécurité blockchain** | Vérification de wallet, validation de transactions |
+| 10 | **Dépendances** | Scan de vulnérabilités, mises à jour régulières |
 
-- Implementing authentication or authorization
-- Handling user input or file uploads
-- Creating new API endpoints
-- Working with secrets or credentials
-- Implementing payment features
-- Storing or transmitting sensitive data
-- Integrating third-party APIs
+## Checklist pré-déploiement
 
-## Key Features
+Le skill inclut une checklist de **17 points critiques** à vérifier avant chaque mise en production :
 
-### 10 Security Categories
+- Aucun secret en dur dans le code
+- Validation de tous les inputs utilisateur
+- Requêtes SQL paramétrées uniquement
+- JWT avec expiration et rotation
+- Protection XSS et CSP en place
+- CSRF tokens sur les mutations
+- Rate limiting sur les endpoints publics
+- Logging sans données sensibles
+- Dépendances à jour sans vulnérabilités connues
+- ...et plus
 
-1. **Secrets Management** - Environment variables, no hardcoded credentials
-2. **Input Validation** - Zod schemas, file upload restrictions
-3. **SQL Injection Prevention** - Parameterized queries, ORM usage
-4. **Authentication & Authorization** - JWT handling, RBAC, Row Level Security
-5. **XSS Prevention** - HTML sanitization, Content Security Policy
-6. **CSRF Protection** - CSRF tokens, SameSite cookies
-7. **Rate Limiting** - API throttling, expensive operation limits
-8. **Sensitive Data Exposure** - Safe logging, generic error messages
-9. **Blockchain Security** - Wallet verification, transaction validation
-10. **Dependency Security** - Vulnerability scanning, regular updates
+## Tests de sécurité
 
-### Pre-Deployment Checklist
+Le skill fournit des exemples de tests automatisés pour :
+- Vérification des exigences d'authentification
+- Contrôle des autorisations
+- Validation des entrées
+- Enforcement du rate limiting
 
-Comprehensive checklist covering 17 critical security checkpoints before production deployment.
+## Exemples d'utilisation
 
-### Security Testing
+```
+@workspace avec security-review, audite ce endpoint d'authentification
+@workspace avec security-review, vérifie la sécurité de ce formulaire d'upload
+@workspace avec security-review, checklist pré-déploiement pour ce service
+```
 
-Automated test examples for:
-- Authentication requirements
-- Authorization checks
-- Input validation
-- Rate limiting enforcement
+## Démarrage rapide
 
-## Usage
+```bash
+npx skills add Dedalus-ERP-PAS/foundation-skills --skill security-review -g -y
+```
 
-See [skills/security-review/SKILL.md](../skills/security-review/SKILL.md) for the complete security checklist with code examples and verification steps.
-
-## Resources
+## Ressources
 
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/)
 - [Next.js Security](https://nextjs.org/docs/security)
-- [Supabase Security](https://supabase.com/docs/guides/auth)
 - [Web Security Academy](https://portswigger.net/web-security)
+- [SKILL.md complet](../skills/security-review/SKILL.md) — Checklist complète avec exemples de code

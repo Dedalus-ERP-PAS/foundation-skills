@@ -29,17 +29,18 @@ Index de toute la documentation disponible pour les Foundation Skills.
 
 ### Sécurité & Qualité
 
-| Skill                                   | Documentation                     |
-| --------------------------------------- | --------------------------------- |
-| [security-review](security-review.md)   | Audit de sécurité et OWASP Top 10 |
-| [coding-standards](coding-standards.md) | Standards de code                 |
+| Skill                                   | Documentation                                    |
+| --------------------------------------- | ------------------------------------------------ |
+| [security-review](security-review.md)   | Audit de sécurité et OWASP Top 10                |
+| [coding-standards](coding-standards.md) | Standards de code                                |
+| [tdd](tdd.md)                           | Développement piloté par les tests (TDD)         |
+| [git-guardrails](git-guardrails.md)     | Garde-fous Git pour des commits propres          |
 
 ### Automatisation & Tests
 
 | Skill                                   | Documentation                             |
 | --------------------------------------- | ----------------------------------------- |
 | [playwright-skill](playwright-skill.md) | Automatisation navigateur avec Playwright |
-| [webapp-testing](webapp-testing.md)     | Tests d'applications web                  |
 
 ### Documents Office
 
@@ -59,6 +60,9 @@ Index de toute la documentation disponible pour les Foundation Skills.
 | [gitlab-code-review](gitlab-code-review.md)   | Code review GitLab                                            |
 | [changelog-generator](changelog-generator.md) | Génération de changelogs                                      |
 | [grill-me](grill-me.md)                       | Interview approfondie pour validation de plans et conceptions |
+| [triage-issue](triage-issue.md)               | Triage de bugs avec plan de fix TDD                           |
+| [meeting](meeting.md)                         | Réunion simulée avec personas experts                         |
+| [fast-meeting](fast-meeting.md)               | Réunion autonome rapide avec décision et MR/PR                |
 
 ### Hexagone / Domaine santé
 
@@ -76,7 +80,10 @@ Index de toute la documentation disponible pour les Foundation Skills.
 | ----------------------------------------------------------- | ------------------------------------- |
 | [mcp-builder](mcp-builder.md)                               | Création de serveurs MCP              |
 | [article-extractor](article-extractor.md)                   | Extraction d'articles web             |
-| [create-design-system-rules](create-design-system-rules.md) | Génération de règles de design system |
+| [create-design-system-rules](create-design-system-rules.md) | Génération de règles de design system                      |
+| [docs](docs.md)                                             | Génération de README et documentation projet               |
+| [write-a-skill](write-a-skill.md)                           | Guide pour créer un nouveau skill                          |
+| [ubiquitous-language](ubiquitous-language.md)                | Extraction de glossaire DDD (langage ubiquitaire)          |
 
 ## 🚀 Démarrage rapide
 
@@ -122,7 +129,6 @@ npx skills add Dedalus-ERP-PAS/foundation-skills --skill backend-patterns -g -y
 
 ### Automatisation
 - playwright-skill
-- webapp-testing
 
 ### Documentation
 - docx
@@ -171,7 +177,6 @@ npx skills add Dedalus-ERP-PAS/foundation-skills --skill backend-patterns -g -y
 ### Python
 - postgres (scripts)
 - playwright-skill
-- webapp-testing
 - xlsx (recalc)
 
 ## 📖 Patterns courants
@@ -191,14 +196,13 @@ Skills à utiliser :
 2. frontend-design - UI/UX
 3. backend-patterns - API
 4. security-review - Sécurité
-5. webapp-testing - Tests
+5. playwright-skill - Tests
 
 ### Automatiser des tâches
 
 Skills à utiliser :
 1. playwright-skill - Automatisation navigateur
-2. webapp-testing - Tests
-3. docx/xlsx/pdf - Génération de rapports
+2. docx/xlsx/pdf - Génération de rapports
 
 ### Gestion de projet
 

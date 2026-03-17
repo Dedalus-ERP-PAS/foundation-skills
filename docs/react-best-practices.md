@@ -1,26 +1,34 @@
 # react-best-practices
 
-Comprehensive React & Next.js best practices guide covering architecture, performance, shadcn/ui, Motion animations, and modern patterns.
+Guide complet des bonnes pratiques React et Next.js : architecture composants, performance, shadcn/ui, animations Motion et patterns modernes (React 19+).
 
-## Categories by Priority
+## Quand utiliser ce skill
 
-| Priority | Category | Impact |
-|----------|----------|--------|
-| 1 | Component Architecture | CRITICAL |
-| 2 | Eliminating Waterfalls | CRITICAL |
-| 3 | Bundle Size | CRITICAL |
-| 4 | Server Components | HIGH |
-| 5 | shadcn/ui Patterns | HIGH |
-| 6 | State Management | MEDIUM-HIGH |
-| 7 | Motion & Animations | MEDIUM |
-| 8 | Re-render Optimization | MEDIUM |
+Utilisez ce skill pour :
+- Créer des composants React performants et maintenables
+- Optimiser les performances (élimination des waterfalls, bundle size)
+- Utiliser shadcn/ui correctement avec des variants CVA
+- Ajouter des animations avec Motion (ex-Framer Motion)
+- Adopter les patterns React 19+ (Server Components, Server Actions, `useOptimistic`)
 
-## Quick Reference
+## Catégories par priorité
 
-### Component Architecture
+| Priorité | Catégorie | Impact |
+|----------|-----------|--------|
+| 1 | Architecture composants | CRITIQUE |
+| 2 | Élimination des waterfalls | CRITIQUE |
+| 3 | Taille du bundle | CRITIQUE |
+| 4 | Server Components | ÉLEVÉ |
+| 5 | Patterns shadcn/ui | ÉLEVÉ |
+| 6 | Gestion d'état | MOYEN-ÉLEVÉ |
+| 7 | Animations Motion | MOYEN |
+| 8 | Optimisation re-renders | MOYEN |
+
+## Aperçu rapide
+
+### Architecture composants — Composition plutôt qu'héritage
 
 ```typescript
-// Composition over inheritance
 function ProductCard({ product }: { product: Product }) {
   return (
     <Card>
@@ -33,24 +41,18 @@ function ProductCard({ product }: { product: Product }) {
 }
 ```
 
-### Eliminating Waterfalls
+### Élimination des waterfalls — Fetching parallèle
 
 ```typescript
-// Parallel fetching
 const [user, posts] = await Promise.all([
   fetchUser(),
   fetchPosts()
 ])
 ```
 
-### shadcn/ui Components
-
-```bash
-npx shadcn@latest add button card dialog form
-```
+### shadcn/ui — Variants avec CVA
 
 ```typescript
-// Build on primitives with CVA variants
 import { cva } from 'class-variance-authority'
 
 const buttonVariants = cva('inline-flex items-center', {
@@ -63,39 +65,24 @@ const buttonVariants = cva('inline-flex items-center', {
 })
 ```
 
-### Motion Animations
+### Animations Motion
 
 ```typescript
 import { motion, AnimatePresence } from 'motion/react'
 
-// Basic animation
 <motion.div
   initial={{ opacity: 0, y: 20 }}
   animate={{ opacity: 1, y: 0 }}
-  exit={{ opacity: 0 }}
   transition={{ duration: 0.3 }}
 >
   {children}
 </motion.div>
-
-// Interaction states
-<motion.button
-  whileHover={{ scale: 1.02 }}
-  whileTap={{ scale: 0.98 }}
->
-  Click me
-</motion.button>
-
-// Shared element transitions
-<motion.div layoutId={`item-${id}`}>
-  {content}
-</motion.div>
 ```
 
-### Server Components & Actions
+### Server Components et Actions (React 19+)
 
 ```typescript
-// Server Component (default)
+// Server Component (par défaut dans Next.js)
 async function ProductPage({ id }: { id: string }) {
   const product = await db.product.findUnique({ where: { id } })
   return <ProductDetails product={product} />
@@ -109,38 +96,61 @@ export async function createPost(formData: FormData) {
 }
 ```
 
-### React 19+ Hooks
+### Hooks React 19+
 
 ```typescript
-// useOptimistic for instant UI updates
+// useOptimistic — mises à jour UI instantanées
 const [optimisticItems, addOptimisticItem] = useOptimistic(
   items,
   (state, newItem) => [...state, newItem]
 )
 
-// useActionState for form handling
+// useActionState — gestion de formulaires
 const [state, formAction, isPending] = useActionState(submitFn, null)
 ```
 
-### State Management
+## Gestion d'état
 
-- Local state: `useState`, `useReducer`
-- Shared static: `Context`
-- URL state: `useSearchParams`
-- Server state: SWR, TanStack Query
-- Avoid derived state - compute instead
+| Besoin | Solution |
+|--------|----------|
+| État local | `useState`, `useReducer` |
+| État partagé statique | `Context` |
+| État URL | `useSearchParams` |
+| État serveur | SWR, TanStack Query |
+| **Anti-pattern** | État dérivé — calculer plutôt que stocker |
 
-### Accessibility
+## Accessibilité
 
-- Semantic HTML elements
-- Keyboard navigation
-- Focus management in modals
-- Respect `prefers-reduced-motion`
+- Éléments HTML sémantiques
+- Navigation clavier
+- Gestion du focus dans les modales
+- Respect de `prefers-reduced-motion`
 
-## Key Libraries
+## Librairies clés
 
-- [shadcn/ui](https://ui.shadcn.com) - Component primitives
-- [Motion](https://motion.dev) - Animations
-- [Radix UI](https://radix-ui.com) - Accessible primitives
-- [TanStack Query](https://tanstack.com/query) - Server state
-- [Zod](https://zod.dev) - Schema validation
+| Librairie | Usage |
+|-----------|-------|
+| [shadcn/ui](https://ui.shadcn.com) | Primitives de composants |
+| [Motion](https://motion.dev) | Animations |
+| [Radix UI](https://radix-ui.com) | Primitives accessibles |
+| [TanStack Query](https://tanstack.com/query) | État serveur |
+| [Zod](https://zod.dev) | Validation de schémas |
+
+## Exemples d'utilisation
+
+```
+@workspace avec react-best-practices, optimise ce composant Dashboard
+@workspace avec react-best-practices, convertis cette page en Server Component
+@workspace avec react-best-practices, ajoute des animations Motion à cette liste
+```
+
+## Démarrage rapide
+
+```bash
+npx skills add Dedalus-ERP-PAS/foundation-skills --skill react-best-practices -g -y
+```
+
+## Ressources
+
+- [Skill source](https://github.com/Dedalus-ERP-PAS/foundation-skills/tree/main/skills/react-best-practices)
+- [SKILL.md complet](../skills/react-best-practices/SKILL.md) — Toutes les règles avec exemples détaillés

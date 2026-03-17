@@ -7,10 +7,10 @@ description: >-
   syntax, Uniface triggers, database operations, list handling, entity
   manipulation, string functions, error handling, or any Uniface 9.7 programming
   topic.
+version: 3.1.0
 license: Proprietary
 metadata:
   author: dedalus-erp-pas
-  version: "3.1"
   uniface-version: "9.7"
   source-repo: erp-pas/hexagone/uniface-doc
   source-branch: DOC

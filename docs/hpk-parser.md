@@ -1,94 +1,108 @@
-# HPK Message Parser
+# hpk-parser
 
-## Overview
+Parsing et explication des messages HPK — un format propriétaire pipe-delimited utilisé dans les systèmes de santé français (Hexagone).
 
-The HPK Parser skill helps you understand and explain HPK messages - a proprietary pipe-delimited healthcare message format used in French healthcare systems named Hexagone.
+## Quand utiliser ce skill
 
-## What It Does
+Utilisez ce skill pour :
+- Comprendre le contenu d'un message HPK
+- Débugger des problèmes de données ou d'intégration HPK
+- Valider la structure et les champs d'un message
+- Documenter des exemples de messages HPK
+- Apprendre les types de messages et leurs champs
 
-- **Parses** HPK messages and identifies the message type
-- **Extracts** all fields with proper labels
-- **Validates** message structure and field formats
-- **Explains** what the message represents in human-readable format
-- **Documents** business rules and field mappings
+## Ce que fait le skill
 
-## When to Use
+- **Parse** les messages HPK et identifie le type
+- **Extrait** tous les champs avec leurs libellés
+- **Valide** la structure et les formats attendus
+- **Explique** le message en langage humain compréhensible
+- **Documente** les règles métier et les correspondances HL7
 
-Use this skill whenever you need to:
+## Types de messages supportés
 
-- Understand what an HPK message contains
-- Debug HPK message issues or data quality problems
-- Document HPK message examples
-- Validate HPK message structure
-- Learn about HPK message types and fields
+### Identité (ID|*)
 
-## Supported Message Types
+| Code | Description |
+|------|-------------|
+| **ID\|M1** | Données démographiques et enregistrement patient |
+| **ID\|MT** | Affectation du médecin traitant |
+| **ID\|CE** | Consentement éclairé |
 
-### Identity Messages (ID|*)
-- **ID|M1** - Patient demographics and registration
-- **ID|MT** - Treating physician assignment
-- **ID|CE** - Informed consent
+### Mouvements (MV|*)
 
-### Movement Messages (MV|*)
-- **MV|M2** - Hospital admission
-- **MV|M3** - Status change
-- **MV|M6** - Unit/service transfer
-- **MV|M8** - Unit exit
-- **MV|M9** - Hospital discharge
-- **MV|B1** - Emergency box movement
-- **MV|MT** - Temporary movement (exam, procedure)
+| Code | Description |
+|------|-------------|
+| **MV\|M2** | Admission hospitalière |
+| **MV\|M3** | Changement de statut |
+| **MV\|M6** | Transfert d'unité/service |
+| **MV\|M8** | Sortie d'unité |
+| **MV\|M9** | Sortie d'hospitalisation |
+| **MV\|B1** | Mouvement box d'urgence |
+| **MV\|MT** | Mouvement temporaire (examen, acte) |
 
-### Coverage Messages (CV|*)
-- **CV|M1** - Insurance coverage information
+### Couverture (CV|*)
 
-## How to Use
+| Code | Description |
+|------|-------------|
+| **CV\|M1** | Informations de couverture assurance |
 
-Simply provide any HPK message (pipe-delimited text), and the parser will:
+### Et aussi : approvisionnement (PR, FO, MA, CO, LI, RO, FA), inventaire (SO, IM), structure (ST, UT), finances (RD, DD)
 
-1. Identify the message type and code
-2. Extract all fields with proper labels
-3. Validate the structure
-4. Provide a human-readable explanation
+## Exemple d'utilisation
 
-**Example Input**:
+**Message en entrée** :
 ```
 ID|M1|C|HEXAGONE|20260122120000|USER001|PAT12345|DUPONT|JEAN|19750315|M|15 RUE DE LA PAIX|75001|PARIS|FRA|0612345678||||||||||||||||||||||||||||||
 ```
 
-**Example Output**:
+**Résultat** :
 ```
-Message Type: Patient Identity (Demographics)
-Operation: Creation (new record)
-Patient: JEAN DUPONT, born 15/03/1975, Male
-Contact: 06 12 34 56 78
-Address: 15 RUE DE LA PAIX, 75001 PARIS, France
-```
-
-## HPK Message Structure
-
-All HPK messages follow this basic structure:
-
-```
-Type|Message|Mode|Emetteur|Date|User|[additional fields...]
+Type : Identité Patient (Données démographiques)
+Opération : Création (nouvel enregistrement)
+Patient : JEAN DUPONT, né le 15/03/1975, Masculin
+Contact : 06 12 34 56 78
+Adresse : 15 RUE DE LA PAIX, 75001 PARIS, France
 ```
 
-- **Type**: ID (Identity), MV (Movement), CV (Coverage)
-- **Message**: M1, M2, M6, M9, MT, CE, B1, etc.
-- **Mode**: C (Creation), M (Modification), D (Deletion)
-- **Emetteur**: Source system
-- **Date**: Timestamp (YYYYMMDDHHmmss)
-- **User**: User ID
+## Structure d'un message HPK
 
-## Reference
+Tous les messages HPK suivent cette structure de base :
 
-For complete HPK specification and field definitions, see:
-- [HPK ADT Message Specification](./hpk-adt-message.md)
-- [SKILL.md](../skills/hpk-parser/SKILL.md) - Detailed field structures for all message types
+```
+Type|Message|Mode|Émetteur|Date|User|[champs supplémentaires...]
+```
 
-## Related Standards
+| Champ | Description | Valeurs possibles |
+|-------|-------------|-------------------|
+| **Type** | Catégorie de message | ID, MV, CV, PR, FO, MA, CO, LI, RO, FA, SO, IM, ST, UT, RD, DD |
+| **Message** | Code du message | M1, M2, M6, M9, MT, CE, B1, etc. |
+| **Mode** | Type d'opération | C (Création), M (Modification), D (Suppression) |
+| **Émetteur** | Système source | Nom de l'application émettrice |
+| **Date** | Horodatage | Format YYYYMMDDHHmmss |
+| **User** | Identifiant utilisateur | ID de l'opérateur |
 
-While HPK is proprietary, it is often mapped to:
-- HL7 v2.5 standard for interoperability
-- IHE PAM 2.10 profile for patient administration
+## Correspondances avec les standards
 
-See [IHE PAM Specification](https://github.com/Interop-Sante/ihe.iti.pam.fr) for context on healthcare messaging standards.
+Le HPK est un format propriétaire, mais il est souvent mappé vers :
+- **HL7 v2.5** pour l'interopérabilité
+- **IHE PAM 2.10** pour l'administration des patients
+
+| HPK | HL7 | Description |
+|-----|-----|-------------|
+| MV\|M2 | ADT^A01 | Admission |
+| MV\|M6 | ADT^A02 | Transfert |
+| MV\|M9 | ADT^A03 | Sortie |
+| ID\|M1 | ADT^A08 | Mise à jour identité |
+
+## Références
+
+- [Spécification HPK ADT](./hpk-adt-message.md)
+- [Guide des parsers healthcare](./healthcare-parsers-guide.md)
+- [SKILL.md](../skills/hpk-parser/SKILL.md) — Structures détaillées des champs pour tous les types de messages
+
+## Skills connexes
+
+- **hl7-pam-parser** — Parse les messages HL7 v2.5 IHE PAM (standard international)
+- **hexagone-frontend** — Composants frontend Hexagone
+- **hexagone-swdoc** — Documentation des web services Hexagone

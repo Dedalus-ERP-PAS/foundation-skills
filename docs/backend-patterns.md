@@ -1,6 +1,6 @@
-# Backend Development Patterns
+# backend-patterns
 
-Backend architecture patterns, API design, database optimization, and server-side best practices for Node.js, Express, and Next.js API routes.
+Patterns d'architecture backend, API design, optimisation de base de données et bonnes pratiques server-side pour Node.js, Express et Next.js API Routes.
 
 ## Quand utiliser ce skill
 
@@ -34,44 +34,34 @@ npx skills add Dedalus-ERP-PAS/foundation-skills --skill backend-patterns -g -y
 - N+1 Query Prevention (batch fetching)
 - Transaction Pattern (opérations atomiques)
 
-### Caching Strategies
+### Caching
 - Redis Caching Layer (cache-aside pattern)
 - Invalidation de cache
 - TTL management
 
-### Error Handling
-- Centralized Error Handler (ApiError class)
+### Gestion d'erreurs
+- Centralized Error Handler (classe ApiError)
 - Retry with Exponential Backoff
-- Error logging structuré
+- Logging structuré des erreurs
 
-### Authentication & Authorization
+### Authentification & Autorisation
 - JWT Token Validation
 - Role-Based Access Control (RBAC)
 - Permission middleware
 
-### Rate Limiting
-- In-Memory Rate Limiter
-- IP-based limiting
-- Window-based tracking
-
-### Background Jobs & Queues
-- Simple Queue Pattern
-- Job processing avec retry
-- Asynchronous task handling
-
-### Logging & Monitoring
-- Structured Logging (JSON logs)
-- Request tracking
-- Error context
+### Rate Limiting, Jobs, Logging
+- Rate limiter en mémoire (IP-based, window-based)
+- Queue pattern avec retry
+- Structured logging (JSON)
 
 ## Principes clés
 
-1. **Separation of Concerns** - Séparer les couches (API, logique métier, accès données)
-2. **Start Simple** - Commencer simple, ajouter de la complexité quand nécessaire
-3. **Type Safety** - Utiliser TypeScript et validation de schémas
-4. **Error First** - Gérer les erreurs de manière proactive
-5. **Cache Wisely** - Cacher les données fréquemment accédées et rarement modifiées
-6. **Secure by Default** - Toujours valider, authentifier et autoriser
+1. **Separation of Concerns** — Séparer les couches (API, logique métier, accès données)
+2. **Start Simple** — Commencer simple, ajouter de la complexité quand nécessaire
+3. **Type Safety** — Utiliser TypeScript et validation de schémas
+4. **Error First** — Gérer les erreurs de manière proactive
+5. **Cache Wisely** — Cacher les données fréquemment accédées et rarement modifiées
+6. **Secure by Default** — Toujours valider, authentifier et autoriser
 
 ## Exemples d'utilisation
 
@@ -99,7 +89,7 @@ class SupabaseUserRepository implements UserRepository {
 // 3. Utiliser dans le service
 class UserService {
   constructor(private repo: UserRepository) {}
-  
+
   async getUser(id: string) {
     return this.repo.findById(id)
   }
@@ -116,55 +106,21 @@ class CachedUserRepository implements UserRepository {
   ) {}
 
   async findById(id: string): Promise<User | null> {
-    // Check cache
     const cached = await this.redis.get(`user:${id}`)
     if (cached) return JSON.parse(cached)
 
-    // Cache miss - fetch from DB
     const user = await this.baseRepo.findById(id)
-    
     if (user) {
-      // Cache for 5 minutes
       await this.redis.setex(`user:${id}`, 300, JSON.stringify(user))
     }
-
     return user
   }
 }
 ```
 
-### Implémenter l'authentification JWT
-
-```typescript
-export async function requireAuth(request: Request) {
-  const token = request.headers
-    .get('authorization')
-    ?.replace('Bearer ', '')
-
-  if (!token) {
-    throw new ApiError(401, 'Missing token')
-  }
-
-  return verifyToken(token)
-}
-
-// Usage dans une API route
-export async function GET(request: Request) {
-  const user = await requireAuth(request)
-  const data = await getUserData(user.id)
-  return NextResponse.json({ success: true, data })
-}
-```
-
 ## Technologies supportées
 
-- Node.js
-- Express
-- Next.js API Routes
-- TypeScript
-- Supabase / PostgreSQL
-- Redis
-- JWT
+Node.js, Express, Next.js API Routes, TypeScript, Supabase / PostgreSQL, Redis, JWT
 
 ## Bonnes pratiques
 
@@ -175,13 +131,8 @@ export async function GET(request: Request) {
 - Logger avec contexte structuré (JSON)
 - Sécuriser les endpoints avec auth middleware
 - Rate limit les APIs publiques
-- Cacher les données fréquemment accédées
 
 ## Ressources
 
 - [Skill source](https://github.com/Dedalus-ERP-PAS/foundation-skills/tree/main/skills/backend-patterns)
-- [Source originale](https://github.com/affaan-m/everything-claude-code/blob/main/skills/backend-patterns.md)
-
-## Licence
-
-MIT
+- [SKILL.md complet](../skills/backend-patterns/SKILL.md) — Tous les patterns avec exemples détaillés
