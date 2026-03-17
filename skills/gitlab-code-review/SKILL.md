@@ -1,5 +1,5 @@
 ---
-name: GitLab Code Review
+name: gitlab-code-review
 description: Performs comprehensive code reviews of GitLab merge requests, analyzing code quality, security, performance, and best practices. Use when the user says "review" or "code review" or asks to review merge requests or analyze branch changes before merging.
 allowed-tools: gitlab-mcp(get_merge_request), gitlab-mcp(get_merge_request_diffs), gitlab-mcp(list_merge_requests), gitlab-mcp(create_note), gitlab-mcp(create_merge_request_thread), gitlab-mcp(mr_discussions), gitlab-mcp(get_issue), gitlab-mcp(list_commits), gitlab-mcp(get_commit), gitlab-mcp(get_commit_diff), gitlab-mcp(get_branch_diffs), gitlab-mcp(get_file_contents), gitlab-mcp(get_project), gitlab-mcp(list_pipelines), gitlab-mcp(list_pipeline_jobs), gitlab-mcp(get_pipeline), gitlab-mcp(get_pipeline_job_output)
 version: 1.0.0

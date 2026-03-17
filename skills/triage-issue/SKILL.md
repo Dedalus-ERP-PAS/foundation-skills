@@ -1,5 +1,5 @@
 ---
-name: Triage Issue
+name: triage-issue
 description: Triage a bug or issue by exploring the codebase to find root cause, then create a GitLab or GitHub issue with a TDD-based fix plan. Use when user reports a bug, wants to file an issue, mentions "triage", or wants to investigate and plan a fix for a problem.
 version: 1.0.0
 license: MIT

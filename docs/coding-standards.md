@@ -1,36 +1,72 @@
-# Coding Standards
+# coding-standards
 
-Universal coding standards, best practices, and patterns for TypeScript, JavaScript, React, and Node.js development.
+Standards de code universels et bonnes pratiques pour TypeScript, JavaScript, React et Node.js.
 
-## Overview
+## Quand utiliser ce skill
 
-This skill provides comprehensive coding standards covering:
-- Code quality principles (KISS, DRY, YAGNI)
-- TypeScript/JavaScript best practices
-- React patterns and hooks
-- API design standards
-- File organization
-- Performance optimization
-- Testing guidelines
-- Code smell detection
+Utilisez ce skill pour :
+- Démarrer un nouveau projet avec des conventions solides
+- Faire une revue de code qualité
+- Établir des standards d'équipe
+- Refactorer du code existant
+- Former des développeurs juniors aux bonnes pratiques
 
-## Usage
+## Principes fondamentaux
 
-Reference this skill when:
-- Starting new projects
-- Reviewing code
-- Establishing team standards
-- Refactoring existing code
-- Training new developers
+| Principe | Description |
+|----------|-------------|
+| **KISS** | Keep It Simple — pas de complexité inutile |
+| **DRY** | Don't Repeat Yourself — factoriser le code dupliqué |
+| **YAGNI** | You Ain't Gonna Need It — ne pas anticiper des besoins futurs hypothétiques |
+| **Readability First** | Le code est lu bien plus souvent qu'il n'est écrit |
+| **Immutability** | Toujours utiliser les spread operators, ne jamais muter directement |
 
-## Key Principles
+## Contenu du skill
 
-1. **Readability First** - Code is read more than written
-2. **Type Safety** - Use proper TypeScript types, avoid `any`
-3. **Immutability** - Always use spread operators, never mutate directly
-4. **Error Handling** - Comprehensive try-catch with meaningful errors
-5. **Testing** - Use AAA pattern with descriptive test names
+### TypeScript / JavaScript
+- Typage strict (`noImplicitAny`, éviter `any`)
+- Nommage clair et cohérent (camelCase variables, PascalCase composants)
+- Préférer `const` à `let`, jamais `var`
+- Déstructuration et spread operators
+- Fonctions pures et immutabilité
 
-## Quick Reference
+### React
+- Composition plutôt qu'héritage
+- Custom hooks pour la logique partagée
+- Mémoïsation ciblée (`useMemo`, `useCallback`)
+- Gestion d'état minimale et locale d'abord
 
-See [SKILL.md](../skills/coding-standards/SKILL.md) for complete standards and examples.
+### API Design
+- URLs basées sur les ressources
+- Codes HTTP appropriés
+- Gestion d'erreurs cohérente
+- Validation des entrées avec Zod
+
+### Organisation des fichiers
+- Colocation (tests à côté du code)
+- Exports nommés (pas de `default export`)
+- Un composant par fichier
+
+### Qualité du code
+- Tests AAA (Arrange, Act, Assert)
+- Noms de tests descriptifs (`should_return_error_when_...`)
+- Détection de code smells (fonctions longues, nesting profond, magic numbers)
+
+## Exemples d'utilisation
+
+```
+@workspace avec coding-standards, refactore ce service pour suivre les bonnes pratiques
+@workspace avec coding-standards, revois ce fichier et signale les code smells
+@workspace avec coding-standards, établis les conventions pour ce nouveau projet
+```
+
+## Démarrage rapide
+
+```bash
+npx skills add Dedalus-ERP-PAS/foundation-skills --skill coding-standards -g -y
+```
+
+## Ressources
+
+- [Skill source](https://github.com/Dedalus-ERP-PAS/foundation-skills/tree/main/skills/coding-standards)
+- [SKILL.md complet](../skills/coding-standards/SKILL.md) — Standards et exemples détaillés

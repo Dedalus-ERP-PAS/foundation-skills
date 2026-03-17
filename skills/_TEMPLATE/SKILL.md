@@ -1,10 +1,10 @@
 ---
 name: my-skill-name
 description: One-sentence description of what this skill does and when to invoke it.
+version: 1.0.0
 license: MIT
 metadata:
   author: Foundation Skills
-  version: 1.0.0
 ---
 
 # My Skill Name
