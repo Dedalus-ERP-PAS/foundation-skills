@@ -1,7 +1,7 @@
 ---
 name: hexagone-web-feature-extractor
-description: "Explore any Hexagone Web space via Claude in Chrome, capture screenshots, and produce a PO-oriented Markdown document."
-version: 1.1.0
+description: "Explore any Hexagone Web space via Playwright headless browser, capture screenshots, and produce a PO-oriented Markdown document."
+version: 2.0.0
 ---
 
 # Hexagone Web Feature Extractor
@@ -10,10 +10,9 @@ Explore a Hexagone Web functional space, capture screenshots of every page/tab, 
 
 ## Prerequisites
 
-- **Claude in Chrome** enabled and connected
+- **Node.js** installed
+- **Playwright** npm package (`npm install playwright`) — installs headless Chromium automatically
 - Network access to the Hexagone Web server (default: `https://ws004202.dedalus.lan:8065/hexagone-01/vue/login`)
-- SSL certificate manually accepted if self-signed (user must do this before launching the skill)
-- Node.js installed (no external dependencies needed)
 
 ## Configuration
 
@@ -21,227 +20,315 @@ Default values calibrated for the standard Hexagone Web layout at 1920x1080. Adj
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
-| Sidebar click X coordinate | `38` | Horizontal pixel position for sidebar menu clicks |
-| Sidebar max left boundary | `250` | Max `rect.left` value to identify sidebar links |
-| Header height offset | `60` | Min `rect.top` value to exclude header elements |
-| Login wait timeout | `20s` | Max time to poll for successful login |
+| Viewport | `1920x1080` | Browser viewport size |
+| Sidebar click X coordinate | `38` | Horizontal pixel position for sidebar icon clicks (collapsed mode) |
+| Sidebar max left boundary | `280` | Max `rect.left` value to identify sidebar links (expanded mode) |
+| Header height offset | `55` | Min `rect.top` value to exclude header elements |
+| Login wait timeout | `30s` | Max time to poll for successful login |
 | Page load wait timeout | `10s` | Max time to poll for page load after navigation |
-| Screenshot bridge port | `8765` | HTTP port for the screenshot bridge server |
-| Screenshots directory | `/home/claude/screenshots` | Where screenshots are saved (configurable via `--screenshots` arg) |
+| Screenshots directory | `./screenshots` | Where screenshots are saved (relative to working directory) |
 
 ## Workflow Overview
 
 ```
-1. CONNECTION   → Log in to Hexagone Web via Chrome
-2. NAVIGATION   → Navigate to the target space
-3. DISCOVERY    → List all sidebar menu pages
-4. EXPLORATION  → Visit each page, capture screenshots + metadata
-5. TRANSFER     → Transfer screenshots to the container filesystem
+1. SETUP        → Install Playwright, launch headless Chromium
+2. CONNECTION   → Log in to Hexagone Web
+3. NAVIGATION   → Navigate to the target space
+4. DISCOVERY    → Expand sidebar, list all menu pages
+5. EXPLORATION  → Visit each page, capture screenshots + metadata
 6. GENERATION   → Produce the Markdown document with embedded screenshots
 ```
 
+**Key advantage over Chrome extension approach**: Screenshots save directly to disk via `page.screenshot()` — no bridge server or transfer step needed.
+
 ---
 
-## Step 1: Connection to Hexagone Web
+## Step 1: Setup
 
-### 1.1 Prepare the Chrome Tab
+### 1.1 Install Playwright
 
+```bash
+npm install playwright
+npx playwright install chromium
 ```
-1. Call tabs_context_mcp(createIfEmpty=true) to get a tab
-2. Create a dedicated tab: tabs_create_mcp()
-3. Navigate to the login URL (default: `https://ws004202.dedalus.lan:8065/hexagone-01/vue/login`, unless the user provides another)
+
+### 1.2 Launch Browser
+
+```javascript
+const { chromium } = require('playwright');
+
+const browser = await chromium.launch({
+  headless: true,
+  args: ['--ignore-certificate-errors', '--no-sandbox']
+});
+const context = await browser.newContext({
+  viewport: { width: 1920, height: 1080 },
+  ignoreHTTPSErrors: true  // Handles self-signed certs automatically
+});
+const page = await context.newPage();
 ```
 
-**IMPORTANT**: Initial navigation may fail (timeout) if the SSL certificate is not accepted. In that case:
-- Ask the user to manually click "Advanced" > "Continue to site"
-- Wait for the login page to display
-- Resume control
+**Why headless Chromium?** Eliminates the need for manual SSL certificate acceptance, Chrome extension setup, and screenshot bridge transfers. The `ignoreHTTPSErrors: true` option handles self-signed certificates programmatically.
 
-### 1.2 Fill the Login Form
+---
+
+## Step 2: Connection to Hexagone Web
+
+### 2.1 Navigate to Login Page
+
+```javascript
+await page.goto(LOGIN_URL, { waitUntil: 'domcontentloaded', timeout: 30000 });
+await sleep(3000); // Wait for Vue.js to mount
+```
+
+### 2.2 Fill the Login Form
 
 The Hexagone Web login form has 3 fields: Username, Password, Manager code. Default credentials: username `apvhn` with a random password, unless the user provides others.
 
-**Recommended method**: Use native JavaScript to fill the fields. The `form_input` method works but button clicks may fail (`chrome-extension:// URL` error). Use JavaScript for the entire process:
+Use `page.evaluate()` with the native setter pattern — **required for Vue.js** which does not detect value changes injected directly:
 
 ```javascript
-// Fill via JavaScript with event dispatching (required for Vue.js)
-const nativeSetter = Object.getOwnPropertyDescriptor(
-  window.HTMLInputElement.prototype, 'value'
-).set;
+await page.evaluate(({ username, password }) => {
+  const nativeSetter = Object.getOwnPropertyDescriptor(
+    window.HTMLInputElement.prototype, 'value'
+  ).set;
 
-// Username (default: apvhn, unless user specifies another)
-const userInput = document.querySelector('input[type="text"]');
-nativeSetter.call(userInput, 'apvhn');
-userInput.dispatchEvent(new Event('input', { bubbles: true }));
-userInput.dispatchEvent(new Event('change', { bubbles: true }));
+  const userInput = document.querySelector('input[type="text"]');
+  if (userInput) {
+    nativeSetter.call(userInput, username);
+    userInput.dispatchEvent(new Event('input', { bubbles: true }));
+  }
 
-// Password (random by default, unless user specifies one)
-const pwdInput = document.querySelector('input[type="password"]');
-nativeSetter.call(pwdInput, 'Rand' + Math.random().toString(36).slice(2, 10));
-pwdInput.dispatchEvent(new Event('input', { bubbles: true }));
-pwdInput.dispatchEvent(new Event('change', { bubbles: true }));
+  const pwdInput = document.querySelector('input[type="password"]');
+  if (pwdInput) {
+    nativeSetter.call(pwdInput, password);
+    pwdInput.dispatchEvent(new Event('input', { bubbles: true }));
+  }
 
-// Click the login button — use text content to avoid selecting the wrong button
-const buttons = Array.from(document.querySelectorAll('button'));
-const loginBtn = buttons.find(b => /connect/i.test(b.textContent));
-if (loginBtn) loginBtn.click();
+  const loginBtn = Array.from(document.querySelectorAll('button'))
+    .find(b => /connect/i.test(b.textContent));
+  if (loginBtn) loginBtn.click();
+}, { username: USERNAME, password: PASSWORD });
 ```
 
-**Why JavaScript?** The Vue.js framework in Hexagone Web does not detect value changes injected directly. The `nativeInputValueSetter` + `dispatchEvent('input')` simulates real user input.
+### 2.3 Verify Connection
 
-### 1.3 Verify Connection
-
-After clicking, **poll every 2s for up to 20s** until one of these conditions is met:
-- The tab title changes (e.g., "Hexagone Web - Portail patient")
-- A screenshot shows the home page with the "Bienvenue sur l'espace..." message
-
-**If login fails after 20s**: Check for an error message element on the page (`document.querySelector('.error, .alert, [role="alert"]')`) and report the failure reason to the user.
-
----
-
-## Step 2: Navigation to the Target Space
-
-### 2.1 Open the Space Selector
-
-The active space is displayed in the orange bar at the top (e.g., "PORTAIL PATIENT"). Click on it to open the dropdown list of all available spaces.
-
-### 2.2 Select the Space
-
-The dropdown (orange background) may require scrolling. Spaces are listed alphabetically. Scroll and click on the desired space.
-
-### 2.3 Wait for Loading
-
-Hexagone Web redirects via an intermediate "Connexion... Redirection..." page. **Poll every 2s for up to 15s** until:
-- The URL has changed
-- The breadcrumb displays the new space name
-
----
-
-## Step 3: Page Discovery
-
-### 3.1 Identify Sidebar Menu Entries
-
-The sidebar (left side) contains icons without visible text by default. Use JavaScript to list them:
+**Poll every 2s for up to 30s** until the URL no longer contains `/login`:
 
 ```javascript
-const links = document.querySelectorAll('a.hexa');
-const items = [];
-links.forEach(el => {
-  const rect = el.getBoundingClientRect();
-  if (rect.left < 250 && rect.top > 60) {
-    const raw = el.textContent.trim();
-    items.push({
-      label: raw,
-      y: Math.round(rect.top)
-    });
+for (let i = 0; i < 15; i++) {
+  await sleep(2000);
+  if (!page.url().includes('/login')) break;
+}
+```
+
+**If login fails**: Take a debug screenshot with `page.screenshot()` and report the failure.
+
+---
+
+## Step 3: Navigation to the Target Space
+
+### 3.1 Open the Space Selector
+
+**CRITICAL**: Use `page.mouse.click()` — NOT `el.click()` via `page.evaluate()`.
+
+Vue.js event handlers require native mouse events (mousedown + mouseup + click). JavaScript's `el.click()` only dispatches the `click` event and **will not trigger the space dropdown**. This was the #1 bug found during development.
+
+The space selector is the `div` with class `bg:orange-dark` in the orange breadcrumb bar. It contains an icon `<i class="hexa-icons">changer_espaces</i>` followed by a `<span>` with the current space name.
+
+```javascript
+// Find the space selector coordinates
+const selectorRect = await page.evaluate(() => {
+  for (const el of document.querySelectorAll('div, span')) {
+    const cls = typeof el.className === 'string' ? el.className : '';
+    if (cls.includes('bg:orange-dark') && !cls.includes('uppercase') && !cls.includes('hover:')) {
+      const rect = el.getBoundingClientRect();
+      if (rect.top > 30 && rect.top < 70 && rect.height > 15) {
+        return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+      }
+    }
   }
+  return null;
 });
-JSON.stringify(items, null, 2);
+
+// Click with REAL mouse events (mandatory for Vue.js)
+await page.mouse.click(selectorRect.x, selectorRect.y);
+await sleep(3000);
 ```
 
-**Typical sidebar structure**: Links have the CSS class `hexa`. The text is prefixed by the icon name (e.g., `tdbTableau de bord`, `lettres_budgetLettres budgets`). Extract the part after the icon prefix.
+### 3.2 Select the Space
 
-### 3.2 Validation Gate
-
-**IMPORTANT**: After collecting items, verify the result:
+The dropdown renders inside the sidebar area as a list of `<div>` elements with class `px:1 py:3/4 hover:bg:orange-dark cursor:pointer`. Spaces are listed alphabetically.
 
 ```javascript
-if (items.length === 0) {
-  // Primary selector failed — try fallback selectors
-  const fallbackLinks = document.querySelectorAll(
-    '[data-menu-item], nav a, .sidebar a, .v-navigation-drawer a'
-  );
-  // Retry with wider bounding box: rect.left < 350 && rect.top > 40
-  // If still zero items: STOP and report failure with DOM state
-}
-```
-
-**If zero items are found after fallback**: Stop the exploration and report the failure. Do NOT proceed to Step 4 with an empty page list — this would produce an empty document.
-
-### 3.3 Build the Exploration Plan
-
-Create an ordered list of all pages to visit, with their Y coordinates for clicking. Exclude utility pages (Tableau de bord, Mes post-its) if not relevant to the PO deliverable.
-
----
-
-## Step 4: Exploration and Capture
-
-### 4.1 For Each Page in the Menu
-
-```
-1. Click on the menu entry (use the Y coordinate with x=38)
-   - If direct click fails, use JavaScript: el.click()
-2. Poll every 1s for up to 10s until the main content area has changed
-   (compare URL fragment or main content container innerHTML before/after)
-3. Take a screenshot: computer(action="screenshot", save_to_disk=true)
-4. Extract key textual information via read_page or JavaScript
-5. If the page has tabs, iterate through them one by one
-6. If the page has sub-pages, explore them
-7. Store the screenshot ID and metadata in a list
-```
-
-### 4.2 Identify Internal Tabs
-
-Some pages have internal tabs (e.g., Plan comptable → Comptes de résultat / Tableau de financement / Comptes de tiers). Find them with:
-
-```javascript
-// Look for tabs by structural role
-const tabs = document.querySelectorAll('[role="tab"]');
-// Fallback if no ARIA roles
-if (tabs.length === 0) {
-  const tabLinks = document.querySelectorAll('.tab-link, .v-tab, [data-tab]');
-}
-```
-
-### 4.3 Store Metadata
-
-Maintain a JSON array of explored pages:
-
-```json
-[
-  {
-    "id": 1,
-    "page": "Tableau de bord",
-    "screenshotId": "ss_XXXXX",
-    "description": "Synthetic view by fiscal year...",
-    "tabs": [],
-    "subpages": []
+// Find the target space element
+const target = await page.evaluate((spaceName) => {
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT);
+  while (walker.nextNode()) {
+    const el = walker.currentNode;
+    if (el.textContent.trim() === spaceName) {
+      const rect = el.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0 && rect.top > 30) {
+        return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+      }
+    }
   }
-]
+  return null;
+}, TARGET_SPACE);
+
+// Click with mouse (not el.click())
+await page.mouse.click(target.x, target.y);
+```
+
+### 3.3 Wait for Loading
+
+Hexagone Web redirects via an intermediate "Connexion... Redirection..." page. **Poll every 2s for up to 24s** until the URL no longer contains `patient-portal` (the default landing space):
+
+```javascript
+for (let i = 0; i < 12; i++) {
+  await sleep(2000);
+  if (!page.url().includes('patient-portal')) break;
+}
+await sleep(3000); // Extra wait for Vue.js rendering
 ```
 
 ---
 
-## Step 5: Screenshot Transfer to the Container
+## Step 4: Page Discovery
 
-### Known Limitation
+### 4.1 Expand the Sidebar
 
-Screenshots taken via `computer(action="screenshot")` are stored in memory by the Chrome extension with an ID (e.g., `ss_49478g4in`). They are **not** directly accessible from the container filesystem (`/home/claude/`).
+The sidebar is collapsed by default (icons only, width ~65px). Click the hamburger menu to expand it and reveal text labels:
 
-### Solution: HTTP Bridge
-
-Read the file `scripts/screenshot-bridge.md` for the complete transfer procedure.
-
-**Summary**:
-1. Start an HTTP server in the container (`scripts/screenshot-server.js`)
-2. Navigate a Chrome tab to the bridge page (`http://localhost:8765/bridge.html`)
-3. For each screenshot, use `upload_image(imageId, tabId, ref)` to upload via the bridge page's file input
-4. JavaScript on the page sends the file to the server which saves it
-5. Files are available in the screenshots directory
-
-### Verification Gate
-
-**IMPORTANT**: Before proceeding to Step 6, verify the screenshot transfer:
-
-```bash
-# Count files in screenshots directory
-ls -1 /home/claude/screenshots/ | wc -l
+```javascript
+await page.mouse.click(34, 50); // Hamburger icon position
+await sleep(2000);
 ```
 
-Compare the count against the expected number of screenshots from Step 4. If screenshots are missing:
-- Report which specific screenshots failed to transfer (compare filenames against the metadata list)
-- Attempt to re-transfer missing screenshots
-- If re-transfer fails, proceed to Step 6 but warn the user that the document will contain placeholder boxes for missing screenshots
+### 4.2 Identify Sidebar Menu Entries
+
+**Primary method**: Look for elements with `cursor:pointer` class in the left 280px. Strip icon text from `<i class="hexa-icons">` children:
+
+```javascript
+const menuItems = await page.evaluate((excludeLabels) => {
+  const items = [];
+  const seen = new Set();
+  const allEls = document.querySelectorAll('[class*="cursor:pointer"], a');
+  for (const el of allEls) {
+    const rect = el.getBoundingClientRect();
+    if (rect.left < 280 && rect.top > 55 && rect.height > 15 && rect.height < 60) {
+      let text = el.textContent.trim();
+      // Strip icon prefix text
+      const icon = el.querySelector('i');
+      if (icon) text = text.replace(icon.textContent.trim(), '').trim();
+      if (!text || text.length <= 1 || text.length >= 60 || seen.has(text)) continue;
+      if (excludeLabels.includes(text)) continue;
+      // Skip section headers (all-caps short text like "ACHATS")
+      if (/^[A-Z ]+$/.test(text) && text.length < 15) continue;
+      seen.add(text);
+      items.push({
+        label: text,
+        y: Math.round(rect.top + rect.height / 2),
+        x: Math.round(rect.left + rect.width / 2)
+      });
+    }
+  }
+  return items;
+}, ['Trier par Importance', 'Trier par Emetteur']);
+```
+
+**Sidebar DOM structure** (observed):
+```html
+<div class="sidebar--section min-w:sidebar bg:teal-darker">
+  <div class="py:1 transition cursor:pointer w:inherit hover:bg:teal-dark">
+    <div class="flex items:center whitespace:no-wrap">
+      <i class="hexa-icons text:3/2" aria-label="Fournisseurs">fournisseurs</i>
+      <span class="sidebar--label">Fournisseurs</span>
+    </div>
+  </div>
+</div>
+```
+
+**Note**: The old `a.hexa` selector does NOT work for all spaces. The sidebar elements are `<div>` elements with `cursor:pointer` class, not `<a>` tags.
+
+### 4.3 Items to Exclude
+
+Filter out UI elements that are not pages:
+- `Trier par Importance` / `Trier par Emetteur` — sort buttons in the Mes Post-Its panel
+- Section headers (all-caps short text like `ACHATS`) — section dividers, not clickable pages
+
+### 4.4 Validation Gate
+
+**If zero items are found after discovery**: Stop the exploration and take a debug screenshot. Do NOT proceed with an empty page list. Save the DOM to a debug file for analysis.
+
+### 4.5 Collapse Sidebar
+
+After discovery, collapse the sidebar before starting exploration:
+```javascript
+await page.mouse.click(34, 50); // Toggle hamburger
+await sleep(1000);
+```
+
+---
+
+## Step 5: Exploration and Capture
+
+### 5.1 For Each Page in the Menu
+
+**CRITICAL**: The sidebar collapses after clicking a menu item. You MUST re-expand the sidebar and re-discover the item's position before each click.
+
+```
+For each menu item:
+  1. Expand sidebar: page.mouse.click(34, 50), wait 1.5s
+  2. Re-discover the item position via page.evaluate() (label matching)
+  3. Click the item: page.mouse.click(freshPos.x, freshPos.y)
+  4. Wait for page load (networkidle + 1.5s extra)
+  5. Take screenshot: page.screenshot({ path: ... })
+  6. Extract metadata via page.evaluate()
+  7. If tabs found, explore them (see 5.2)
+  8. Build feature description with PO-oriented text
+```
+
+**Why re-discover each time?** The sidebar re-renders its content when expanded. Item coordinates shift depending on scroll position and which items are visible. Using stale coordinates from the initial discovery will click on the main content area instead of the sidebar.
+
+### 5.2 Identify Internal Tabs
+
+Some pages have internal tabs (e.g., Fournisseurs → Saisie / Consultation / Réalisé, Marchés → SAISIE / CONSULTATION / DÉBLOCAGE). Use `page.mouse.click()` for tabs too:
+
+```javascript
+const tabCoords = await page.evaluate((label) => {
+  for (const tab of document.querySelectorAll('[role="tab"], .v-tab')) {
+    if (tab.textContent.trim() === label) {
+      const rect = tab.getBoundingClientRect();
+      return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+    }
+  }
+  return null;
+}, tabLabel);
+
+if (tabCoords) {
+  await page.mouse.click(tabCoords.x, tabCoords.y);
+  await sleep(2500);
+  await page.screenshot({ path: tabScreenshotPath });
+}
+```
+
+**Warning**: The selector `[class*="tab"]` is too broad — it matches pagination controls, filter dropdowns, and elements from previously rendered pages. Prefer `[role="tab"]` or `.v-tab` for tab detection.
+
+### 5.3 Take Screenshots
+
+Screenshots save directly to disk — no bridge or transfer needed:
+
+```javascript
+await page.screenshot({
+  path: path.join(SCREENSHOT_DIR, `${index}-${sanitize(pageName)}.png`),
+  fullPage: false  // Capture viewport only (1920x1080)
+});
+```
+
+### 5.4 Store Metadata
+
+Build a `features.json` array during exploration with PO-oriented descriptions enriched from page content analysis (tables, forms, actions, tabs).
 
 ---
 
@@ -249,7 +336,7 @@ Compare the count against the expected number of screenshots from Step 4. If scr
 
 ### 6.1 Prepare the Input
 
-Create a `features.json` file from the metadata collected in Step 4. The file must conform to this structure:
+Create a `features.json` file from the metadata collected in Step 5. The file must conform to this structure:
 
 ```json
 {
@@ -261,7 +348,7 @@ Create a `features.json` file from the metadata collected in Step 4. The file mu
       "capabilities": ["Capability 1", "Capability 2"],
       "businessValue": "Business value description (string)",
       "screenshots": [
-        { "file": "filename.jpg", "caption": "Screenshot description" }
+        { "file": "filename.png", "caption": "Screenshot description" }
       ]
     }
   ]
@@ -318,20 +405,29 @@ The user must provide:
 - **Login URL** *(optional)*: defaults to `https://ws004202.dedalus.lan:8065/hexagone-01/vue/login`. The user can provide a different URL if needed.
 - **Username** *(optional)*: defaults to `apvhn`. The user can provide a different code if needed.
 - **Password** *(optional)*: defaults to a random value. The user can provide a specific password if needed.
-- **Target space**: Exact name of the space to explore (e.g., "STRUCTURES / NOMENCLATURES")
+- **Target space**: Exact name of the space to explore (e.g., "HA GHT", "STRUCTURES / NOMENCLATURES")
+
+## Critical Rules (learned from production runs)
+
+1. **Always use `page.mouse.click()`** for any Vue.js interaction — NEVER use `el.click()` via `page.evaluate()`. Vue.js requires native mousedown/mouseup events that only `page.mouse.click()` provides.
+2. **Re-expand sidebar before every page click** — the sidebar collapses after each navigation. Using stale coordinates from initial discovery will miss the sidebar entirely.
+3. **Re-discover item positions each iteration** — sidebar coordinates shift on re-render. Always query the DOM for fresh coordinates.
+4. **Use `[class*="cursor:pointer"]` not `a.hexa`** for sidebar items — sidebar elements are `<div>` elements, not `<a>` tags.
+5. **Strip `<i class="hexa-icons">` text** from sidebar labels — icon text is prepended (e.g., `tdbTableau de bord` → `Tableau de bord`).
+6. **Exclude utility buttons** like "Trier par Importance" from the page list — they are sort controls in the Post-Its panel, not pages.
+7. **Use narrow tab selectors** (`[role="tab"]`, `.v-tab`) — `[class*="tab"]` is too broad and picks up pagination, filters, and stale elements from previously rendered pages.
 
 ## Troubleshooting
 
 | Problem | Cause | Solution |
 |---------|-------|----------|
-| Navigation timeout | SSL certificate not accepted | User must accept manually |
-| `chrome-extension:// URL` error | Focus on extension popup | Use JavaScript instead of direct click |
-| Fields not detected by Vue.js | Direct injection without events | Use `nativeInputValueSetter` + `dispatchEvent` |
-| Dropdown menu not visible | Scroll needed | `scroll(direction="down")` in the menu |
-| Screenshot not accessible from filesystem | Stored in Chrome extension memory | Use the HTTP bridge (Step 5) |
-| Zero menu items discovered | CSS class `a.hexa` not matching | Try fallback selectors (see Step 3.2) |
+| Space dropdown does not open | Used `el.click()` instead of `page.mouse.click()` | Always use `page.mouse.click()` for Vue.js interactions |
+| All page screenshots are identical | Sidebar collapsed, clicks miss sidebar items | Re-expand sidebar + re-discover coordinates before each click |
+| Sidebar items not found | Used `a.hexa` selector | Use `[class*="cursor:pointer"]` with icon text stripping |
+| Too many "tabs" detected | Broad selector `[class*="tab"]` | Use `[role="tab"]` or `.v-tab` only |
+| "Trier par Importance" in page list | Sort button mistaken for page | Add to exclude list: `['Trier par Importance', 'Trier par Emetteur']` |
+| Fields not detected by Vue.js | Direct value injection without events | Use `nativeInputValueSetter` + `dispatchEvent('input')` |
 | Login button click selects wrong button | Multiple buttons on page | Use text-content matching: `buttons.find(b => /connect/i.test(b.textContent))` |
-| Page content not loaded after click | Slow server or heavy page | Use poll-based waiting instead of fixed delay |
-| Screenshot bridge upload fails | Port 8765 already in use | Check port availability, try port 8766-8775 |
-| Generated document has missing screenshot placeholders | Screenshots not transferred | Run verification gate (Step 5) before generation |
+| Page content not loaded after click | Slow server or heavy page | Use `page.waitForLoadState('networkidle')` + extra sleep |
+| SSL certificate error | Self-signed cert on Hexagone Web server | `ignoreHTTPSErrors: true` in browser context (handled automatically) |
 | `generate-md.js` fails with validation error | Malformed features.json | Check required fields: `space`, `features[].title`, `features[].description` |
