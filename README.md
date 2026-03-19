@@ -73,6 +73,7 @@ npx skills add Dedalus-ERP-PAS/foundation-skills --skill backend-patterns --skil
 | [Uniface ProcScript](docs/uniface-procscript.md)          | Référence complète du langage ProcScript pour Uniface 9.7 (594 entrées de documentation)  |
 | [Hexagone Web Services](docs/hexagone-swdoc.md)           | Documentation des web services Hexagone depuis le dépôt swdoc GitLab                      |
 | [Hexagone Frontend](docs/hexagone-frontend.md)            | Documentation des composants frontend Hexagone (@his/hexa-components)                     |
+| [Hexagone Web Feature Extractor](docs/hexagone-web-feature-extractor.md) | Exploration d'un espace Hexagone Web avec capture d'écrans et génération de document Word PO |
 | [TDD](docs/tdd.md)                                        | Développement piloté par les tests avec boucle red-green-refactor                         |
 | [Testing patterns](docs/testing-patterns.md)               | Patterns de test : unitaire, intégration, E2E, mocking et organisation                    |
 | [TypeScript migration](docs/typescript-migration.md)       | Guide de migration incrémentale JavaScript vers TypeScript                                |
@@ -161,6 +162,7 @@ Le développeur installe les skills via la commande `npx skills add`. Les fichie
 | **web-design-guidelines**      | Audit UI/UX : conformité Web Interface Guidelines, accessibilité                                   | [web-design-guidelines.md](docs/web-design-guidelines.md)           |
 | **hexagone-swdoc**             | Documentation des web services Hexagone : endpoints, formats, contrats de service                  | [hexagone-swdoc.md](docs/hexagone-swdoc.md)                         |
 | **hexagone-frontend**          | Documentation des composants frontend Hexagone (@his/hexa-components) : props, events, patterns    | [hexagone-frontend.md](docs/hexagone-frontend.md)                   |
+| **hexagone-web-feature-extractor** | Exploration d'un espace Hexagone Web : capture d'écrans, description fonctionnelle et document Word PO | [hexagone-web-feature-extractor.md](docs/hexagone-web-feature-extractor.md) |
 | **tdd**                        | Développement piloté par les tests : boucle red-green-refactor, vertical slices, tracer bullets    | [tdd.md](docs/tdd.md)                                               |
 | **triage-issue**               | Investigation de bugs : diagnostic, analyse root cause, plan TDD et création d'issue (GitLab/GitHub) | [triage-issue.md](docs/triage-issue.md)                           |
 | **ubiquitous-language**        | Extraction de glossaire DDD depuis les conversations, adapté au domaine santé (HL7, HPK, FHIR)     | [ubiquitous-language.md](docs/ubiquitous-language.md)               |
