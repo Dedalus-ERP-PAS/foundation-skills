@@ -1,20 +1,19 @@
 ---
 name: hexagone-web-feature-extractor
-description: "Explore any Hexagone Web space via Claude in Chrome, capture screenshots, and produce a PO-oriented Word document."
-version: 1.0.0
+description: "Explore any Hexagone Web space via Claude in Chrome, capture screenshots, and produce a PO-oriented Markdown document."
+version: 1.1.0
 ---
 
 # Hexagone Web Feature Extractor
 
-Explore a Hexagone Web functional space, capture screenshots of every page/tab, and produce a Word document (.docx) oriented for Product Owners with functional descriptions and embedded screenshots.
+Explore a Hexagone Web functional space, capture screenshots of every page/tab, and produce a Markdown document (.md) oriented for Product Owners with functional descriptions and embedded screenshots.
 
 ## Prerequisites
 
 - **Claude in Chrome** enabled and connected
 - Network access to the Hexagone Web server (default: `https://ws004202.dedalus.lan:8065/hexagone-01/vue/login`)
 - SSL certificate manually accepted if self-signed (user must do this before launching the skill)
-- The **docx** skill must be available for final document generation
-- Node.js dependencies installed: run `npm install` in the `scripts/` directory
+- Node.js installed (no external dependencies needed)
 
 ## Configuration
 
@@ -38,7 +37,7 @@ Default values calibrated for the standard Hexagone Web layout at 1920x1080. Adj
 3. DISCOVERY    → List all sidebar menu pages
 4. EXPLORATION  → Visit each page, capture screenshots + metadata
 5. TRANSFER     → Transfer screenshots to the container filesystem
-6. GENERATION   → Produce the Word document with embedded screenshots
+6. GENERATION   → Produce the Markdown document with embedded screenshots
 ```
 
 ---
@@ -246,7 +245,7 @@ Compare the count against the expected number of screenshots from Step 4. If scr
 
 ---
 
-## Step 6: Word Document Generation
+## Step 6: Markdown Document Generation
 
 ### 6.1 Prepare the Input
 
@@ -276,40 +275,39 @@ Create a `features.json` file from the metadata collected in Step 4. The file mu
 - `capabilities` must be an array of strings (can be empty)
 - `screenshots` must be an array of objects with `file` (string) and `caption` (string)
 
-### 6.2 Read the docx Skill
+### 6.2 Generate the Document
 
-Always read the docx skill before generating the document.
-
-### 6.3 Generate the Document
-
-Use the script `scripts/generate-docx.js`:
+Use the script `scripts/generate-md.js`:
 
 ```bash
-cd scripts && npm install  # First time only
-node generate-docx.js --input features.json --output /path/to/output.docx --screenshots /path/to/screenshots
+node scripts/generate-md.js --input features.json --output /path/to/output.md --screenshots /path/to/screenshots
 ```
 
-The `--input` argument is **required**. The script validates the input and fails with clear error messages if the JSON is malformed.
+The `--input` argument is **required**. The script validates the input and fails with clear error messages if the JSON is malformed. No `npm install` needed — the script uses only Node.js built-in modules.
 
-### 6.4 Document Structure
+### 6.3 Document Structure
 
 ```
-Cover page (Dedalus teal/orange branding)
-Table of contents
+# Title (space name)
+> Subtitle with date
+
+## Table of contents (linked)
+
 For each feature:
-  - Title (Heading 2, orange)
+  ## N. Feature title
   - Functional description
-  - Screenshot of the page
-  - "Key capabilities" table (numbered, teal background)
-  - "Business value" section (orange title)
-[No final summary — the document is self-contained per feature]
+  - Screenshot(s) as ![caption](relative/path)
+  ### Key capabilities (numbered list)
+  ### Business value
+  ---
 ```
 
-### 6.5 Validation and Output
+### 6.4 Validation and Output
+
+Verify the generated file exists and contains all expected features:
 
 ```bash
-python /mnt/skills/public/docx/scripts/office/validate.py output.docx
-cp output.docx /mnt/user-data/outputs/
+grep -c '^## [0-9]' output.md  # Should match the number of features
 ```
 
 ---
@@ -335,5 +333,5 @@ The user must provide:
 | Login button click selects wrong button | Multiple buttons on page | Use text-content matching: `buttons.find(b => /connect/i.test(b.textContent))` |
 | Page content not loaded after click | Slow server or heavy page | Use poll-based waiting instead of fixed delay |
 | Screenshot bridge upload fails | Port 8765 already in use | Check port availability, try port 8766-8775 |
-| Generated document has placeholder boxes | Screenshots not transferred | Run verification gate (Step 5) before generation |
-| `generate-docx.js` fails with validation error | Malformed features.json | Check required fields: `space`, `features[].title`, `features[].description` |
+| Generated document has missing screenshot placeholders | Screenshots not transferred | Run verification gate (Step 5) before generation |
+| `generate-md.js` fails with validation error | Malformed features.json | Check required fields: `space`, `features[].title`, `features[].description` |

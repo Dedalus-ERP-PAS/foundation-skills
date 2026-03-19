@@ -4,10 +4,7 @@
   "private": true,
   "description": "Scripts for the hexagone-web-feature-extractor skill",
   "scripts": {
-    "generate": "node generate-docx.js",
+    "generate": "node generate-md.js",
     "bridge": "node screenshot-server.js"
-  },
-  "dependencies": {
-    "docx": "^9.0.0"
   }
 }
