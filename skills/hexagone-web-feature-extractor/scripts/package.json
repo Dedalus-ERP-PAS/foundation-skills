@@ -1,0 +1,13 @@
+{
+  "name": "hexagone-web-feature-extractor-scripts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Scripts for the hexagone-web-feature-extractor skill",
+  "scripts": {
+    "generate": "node generate-docx.js",
+    "bridge": "node screenshot-server.js"
+  },
+  "dependencies": {
+    "docx": "^9.0.0"
+  }
+}
