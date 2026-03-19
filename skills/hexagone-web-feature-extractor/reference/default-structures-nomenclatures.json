@@ -1,0 +1,129 @@
+{
+  "space": "Structures / Nomenclatures",
+  "features": [
+    {
+      "title": "Tableau de bord synthétique",
+      "description": "Le tableau de bord offre une vue consolidée et immédiate de la structure budgétaire de l\u2019établissement, par exercice comptable. Il affiche en un coup d\u2019œil les indicateurs clés : nombre d\u2019entités juridiques, lettres budgets actives, unités fonctionnelles validées et comptes ordonnateurs. Un graphique camembert permet de visualiser la répartition par établissement.",
+      "capabilities": [
+        "Vue multi-exercice (N et N-1) avec comparaison des indicateurs clés",
+        "Indicateur de validation de structure (pastille verte/orange) avec date et responsable",
+        "Onglets dédiés : Lettres Budgets, UF Valides, Comptes Ordonnateurs",
+        "Graphique de répartition par entité juridique (camembert interactif)",
+        "Widget Post-its intégré avec tri par importance et par émetteur",
+        "Affichage du nombre total de comptes ordonnateurs par exercice"
+      ],
+      "businessValue": "Permet aux décideurs et aux gestionnaires financiers de piloter la cohérence de la structure budgétaire en temps réel. La comparaison inter-exercices facilite le suivi de l\u2019évolution et la préparation des EPRD.",
+      "screenshots": [{ "file": "01-tableau-de-bord.jpg", "caption": "Tableau de bord avec exercices 2025 et 2026, graphiques de répartition par établissement" }]
+    },
+    {
+      "title": "Post-its collaboratifs",
+      "description": "Système de messagerie interne légère permettant aux utilisateurs d\u2019échanger des notes contextualisées directement dans l\u2019espace de travail. Les post-its peuvent être classés par importance (Urgent, Important, Normal) et filtrés par émetteur.",
+      "capabilities": [
+        "Création de post-its avec niveau de priorité (Urgent / Important / Normal)",
+        "Vue des post-its envoyés et reçus",
+        "Tri par importance ou par émetteur",
+        "Compteurs synthétiques sur le tableau de bord"
+      ],
+      "businessValue": "Favorise la communication inter-équipes sans quitter l\u2019application. Particulièrement utile pour les échanges entre DAF, contrôle de gestion et cellule budgétaire lors des campagnes EPRD.",
+      "screenshots": [{ "file": "02-post-its.jpg", "caption": "Écran Mes Post-its (envoyés) avec bouton d\u2019ajout" }]
+    },
+    {
+      "title": "Regroupement multi-entités juridiques (GHT)",
+      "description": "Cet écran permet de configurer et de gérer le Groupement Hospitalier de Territoire (GHT) auquel l\u2019établissement est rattaché. Il centralise les informations réglementaires (date d\u2019approbation ARS, SIRET, profil acheteur) et les paramètres de gestion mutualisée des achats.",
+      "capabilities": [
+        "Fiche GHT complète : dénomination, date ARS, SIRET, URL profil acheteur",
+        "Configuration du module HA GHT : gestion centralisée / non centralisée / non mis en œuvre",
+        "Numérotation automatique fournisseurs et produits avec compteur paramétrable",
+        "Liste des entités juridiques adhérentes avec codes FINESS",
+        "Identification du site support GHT et du SIH Hexagone",
+        "Accès rapides vers les fiches détaillées de chaque EJ"
+      ],
+      "businessValue": "Répond aux obligations réglementaires liées à la mutualisation des achats en GHT. Simplifie le paramétrage initial et la gestion courante des regroupements multi-établissements.",
+      "screenshots": [{ "file": "03-ght.jpg", "caption": "Formulaire GHT avec entités juridiques adhérentes" }]
+    },
+    {
+      "title": "Lettres budgets",
+      "description": "Gestion centralisée des lettres budgets de l\u2019établissement pour chaque exercice comptable. Chaque lettre budget (A à M) correspond à un périmètre fonctionnel (Budget général, EHPAD, IFSI, Long séjour, Centre de santé, GHT, etc.) avec sa nomenclature comptable associée (M21).",
+      "capabilities": [
+        "Liste complète des lettres budgets par exercice avec libellé et nomenclature",
+        "Création et paramétrage de nouvelles lettres budgets",
+        "Dépliage hiérarchique pour visualiser les détails de chaque lettre",
+        "Sélection d\u2019exercice (2025, 2026…) avec statut de validation",
+        "Détection d\u2019anomalies intégrée",
+        "Export des données"
+      ],
+      "businessValue": "Offre une vision structurée de l\u2019ensemble des budgets annexes et du budget principal. Essentiel pour la préparation du Budget Initial, de l\u2019EPRD et du suivi infra-annuel dans le respect de la nomenclature M21.",
+      "screenshots": [{ "file": "04-lettres-budgets.jpg", "caption": "Liste des lettres budgets A à M avec nomenclature M21" }]
+    },
+    {
+      "title": "Découpages comptable",
+      "description": "Module de gestion du découpage analytique de l\u2019établissement, organisé en deux axes : les unités fonctionnelles (UF) et les pôles / niveaux de regroupements. Ce module permet de structurer l\u2019organigramme budgétaire de l\u2019hôpital.",
+      "capabilities": [
+        "Onglet Unités Fonctionnelles : recherche multi-critères (UF, libellé, EJ, lettre budget GHT, dates)",
+        "Onglet Pôles et Niveaux de Regroupements : gestion des natures et hiérarchies",
+        "Ajout d\u2019UF, de natures et de regroupements",
+        "Filtrage par lettre budget GHT et entité juridique",
+        "Export au format CSV (tableur)",
+        "Réinitialisation des filtres de recherche"
+      ],
+      "businessValue": "Permet d\u2019aligner le découpage comptable avec l\u2019organisation médicale en pôles. Indispensable pour le suivi analytique par UF, la contractualisation interne et le reporting réglementaire (RTC, SAE).",
+      "screenshots": [
+        { "file": "05a-decoupages-uf.jpg", "caption": "Onglet Unités Fonctionnelles avec formulaire de recherche" },
+        { "file": "05b-decoupages-poles.jpg", "caption": "Onglet Pôles et Niveaux de Regroupements" }
+      ]
+    },
+    {
+      "title": "Plan comptable",
+      "description": "Consultation et gestion du plan comptable de l\u2019établissement, découpé en trois vues complémentaires : comptes de résultat, tableau de financement et comptes de tiers. L\u2019arborescence est organisée par lettre budget et conforme à la nomenclature M21.",
+      "capabilities": [
+        "Onglet Comptes de Résultat : arbre charges/produits par lettre budget dépliable",
+        "Onglet Tableau de Financement : vue emplois/ressources par lettre budget",
+        "Onglet Comptes de Tiers : liste paginée (593 comptes) avec recherche par code ou libellé",
+        "Filtres avancés : niveau ordonnateur, nature, chapitre, nomenclature, exécutoire",
+        "Actions d\u2019édition en ligne sur les comptes de tiers",
+        "Extraction CSV et fonctions replier/déplier",
+        "Ajout de comptes de tiers"
+      ],
+      "businessValue": "Donne aux équipes financières une vision complète et navigable du plan comptable M21. Facilite la gestion quotidienne des imputations, la création de comptes de tiers et les contrôles de cohérence.",
+      "screenshots": [
+        { "file": "06a-plan-comptable-resultat.jpg", "caption": "Comptes de résultat avec arborescence par lettre budget" },
+        { "file": "06b-plan-comptable-financement.jpg", "caption": "Tableau de financement" },
+        { "file": "06c-plan-comptable-tiers.jpg", "caption": "Comptes de tiers avec recherche et pagination" }
+      ]
+    },
+    {
+      "title": "Paramétrages généraux",
+      "description": "Hub de paramétrage centralisé organisé en trois catégories thématiques : Structures (données de référence), Récupération (import de données externes) et Historique (suivi des évolutions budgétaires).",
+      "capabilities": [
+        "Structures : Banques, Nationalités, Communes, Codes postaux, Civilités — chaque rubrique avec formulaire de recherche, ajout et import fichier",
+        "Récupération : Import de Comptes ordonnateurs, Historiques, Recettes diverses, GEF avec filtres (exercice, type, état d\u2019intégration)",
+        "Historique : Masse financière et Consommations pour le suivi pluriannuel",
+        "Chaque sous-module possède son propre formulaire de recherche avancée",
+        "Fonctions d\u2019intégration avec validation",
+        "Import par fichier pour chargement en masse"
+      ],
+      "businessValue": "Centralise le paramétrage de toutes les données de référence nécessaires au fonctionnement de l\u2019ERP. Les fonctions d\u2019import facilitent la reprise de données et la mise à jour en masse lors des changements réglementaires.",
+      "screenshots": [
+        { "file": "07a-parametrages-hub.jpg", "caption": "Hub de paramétrage avec 3 colonnes thématiques" },
+        { "file": "07b-parametrages-banques.jpg", "caption": "Sous-page Banques avec formulaire de recherche" }
+      ]
+    },
+    {
+      "title": "Référentiel GAP",
+      "description": "Gestion des nomenclatures et référentiels utilisés par le module GAP (Gestion Administrative du Patient). Trois niveaux sont distingués : livrés (Dedalus), nationaux (réglementaires) et téléchargés (mis à jour périodiquement).",
+      "capabilities": [
+        "Onglet Livrés (16 nomenclatures) : Codes proches, Lettres clé B2/DRE, Modes de PEC, Pièces justificatives, Protections civiles, Titres de praticiens, etc.",
+        "Onglet Nationaux (8 référentiels) : Activités socioprofessionnelles, Codes GIR, Disciplines Médico-Tarifaires, Spécialités médicales, etc.",
+        "Onglet Téléchargés (10 référentiels versionnés) : CCAM v82, NABM v93, LPP v800, GHS/GHT, UCD v715, COG, ICR, RIHN, ATU, Organismes SESAM-Vitale",
+        "Filtre de recherche par nom de nomenclature",
+        "Indicateur de version et date de mise à jour pour chaque référentiel"
+      ],
+      "businessValue": "Garantit la conformité réglementaire en centralisant tous les référentiels nécessaires à la facturation, l\u2019identito-vigilance et la gestion du parcours patient. Le versionnement assure une traçabilité complète des mises à jour.",
+      "screenshots": [
+        { "file": "08a-referentiel-livres.jpg", "caption": "Référentiels livrés (16 nomenclatures)" },
+        { "file": "08b-referentiel-nationaux.jpg", "caption": "Référentiels nationaux" },
+        { "file": "08c-referentiel-telecharges.jpg", "caption": "Référentiels téléchargés avec versions" }
+      ]
+    }
+  ]
+}
