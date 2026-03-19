@@ -72,6 +72,7 @@ Index de toute la documentation disponible pour les Foundation Skills.
 | ------------------------------------------- | ---------------------------------------------------------------------- |
 | [hexagone-swdoc](hexagone-swdoc.md)         | Documentation des web services Hexagone (endpoints, formats, contrats) |
 | [hexagone-frontend](hexagone-frontend.md)   | Documentation des composants frontend Hexagone (@his/hexa-components)  |
+| [hexagone-web-feature-extractor](hexagone-web-feature-extractor.md) | Exploration et capture d'un espace Hexagone Web en document Word PO |
 | [hpk-parser](hpk-parser.md)                 | Parsing des messages HPK propriétaires                                 |
 | [hl7-pam-parser](hl7-pam-parser.md)         | Parsing des messages HL7 v2.5 IHE PAM                                  |
 | [uniface-procscript](uniface-procscript.md) | Référence ProcScript pour Uniface 9.7                                  |
@@ -146,6 +147,7 @@ npx skills add Dedalus-ERP-PAS/foundation-skills --skill backend-patterns -g -y
 ### Hexagone / Santé
 - hexagone-swdoc
 - hexagone-frontend
+- hexagone-web-feature-extractor
 - hpk-parser
 - hl7-pam-parser
 - uniface-procscript
