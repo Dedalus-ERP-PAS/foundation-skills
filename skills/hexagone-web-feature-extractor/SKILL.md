@@ -1,55 +1,71 @@
 ---
 name: hexagone-web-feature-extractor
-description: "Skill pour se connecter à Hexagone Web via Claude in Chrome, parcourir systématiquement un espace applicatif, capturer des screenshots de chaque page/onglet, et produire un document Word (.docx) orienté Product Owner avec descriptions fonctionnelles et captures d'écran embarquées. Utiliser ce skill dès que l'utilisateur demande d'explorer Hexagone Web, d'extraire des features, de documenter un espace fonctionnel, de produire une fiche produit ou une présentation client depuis Hexagone Web. Fonctionne aussi pour tout autre espace que Structures/Nomenclatures."
+description: "Explore any Hexagone Web space via Claude in Chrome, capture screenshots, and produce a PO-oriented Word document."
+version: 1.0.0
 ---
 
 # Hexagone Web Feature Extractor
 
-Skill permettant d'explorer un espace Hexagone Web, d'en capturer les écrans et de produire un document Word orienté PO/client.
+Explore a Hexagone Web functional space, capture screenshots of every page/tab, and produce a Word document (.docx) oriented for Product Owners with functional descriptions and embedded screenshots.
 
-## Prérequis
+## Prerequisites
 
-- **Claude in Chrome** activé et connecté
-- Accès réseau au serveur Hexagone Web (par défaut : `https://ws004202.dedalus.lan:8065/hexagone-01/vue/login`)
-- Acceptation manuelle du certificat SSL si auto-signé (l'utilisateur doit le faire avant de lancer le skill)
-- Le skill **docx** doit être disponible pour la génération du document final
+- **Claude in Chrome** enabled and connected
+- Network access to the Hexagone Web server (default: `https://ws004202.dedalus.lan:8065/hexagone-01/vue/login`)
+- SSL certificate manually accepted if self-signed (user must do this before launching the skill)
+- The **docx** skill must be available for final document generation
+- Node.js dependencies installed: run `npm install` in the `scripts/` directory
 
-## Vue d'ensemble du workflow
+## Configuration
+
+Default values calibrated for the standard Hexagone Web layout at 1920x1080. Adjust if the layout differs.
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| Sidebar click X coordinate | `38` | Horizontal pixel position for sidebar menu clicks |
+| Sidebar max left boundary | `250` | Max `rect.left` value to identify sidebar links |
+| Header height offset | `60` | Min `rect.top` value to exclude header elements |
+| Login wait timeout | `20s` | Max time to poll for successful login |
+| Page load wait timeout | `10s` | Max time to poll for page load after navigation |
+| Screenshot bridge port | `8765` | HTTP port for the screenshot bridge server |
+| Screenshots directory | `/home/claude/screenshots` | Where screenshots are saved (configurable via `--screenshots` arg) |
+
+## Workflow Overview
 
 ```
-1. CONNEXION     → Se connecter à Hexagone Web via Chrome
-2. NAVIGATION    → Accéder à l'espace cible
-3. DÉCOUVERTE    → Lister toutes les pages/menus du sidebar
-4. EXPLORATION   → Parcourir chaque page, capturer screenshots + texte
-5. TRANSFERT     → Transférer les screenshots vers le conteneur
-6. GÉNÉRATION    → Produire le document Word avec captures embarquées
+1. CONNECTION   → Log in to Hexagone Web via Chrome
+2. NAVIGATION   → Navigate to the target space
+3. DISCOVERY    → List all sidebar menu pages
+4. EXPLORATION  → Visit each page, capture screenshots + metadata
+5. TRANSFER     → Transfer screenshots to the container filesystem
+6. GENERATION   → Produce the Word document with embedded screenshots
 ```
 
 ---
 
-## Étape 1 : Connexion à Hexagone Web
+## Step 1: Connection to Hexagone Web
 
-### 1.1 Préparer l'onglet Chrome
+### 1.1 Prepare the Chrome Tab
 
 ```
-1. Appeler tabs_context_mcp(createIfEmpty=true) pour obtenir un onglet
-2. Créer un nouvel onglet dédié : tabs_create_mcp()
-3. Naviguer vers l'URL de login (par défaut `https://ws004202.dedalus.lan:8065/hexagone-01/vue/login`, sauf si l'utilisateur en fournit une autre)
+1. Call tabs_context_mcp(createIfEmpty=true) to get a tab
+2. Create a dedicated tab: tabs_create_mcp()
+3. Navigate to the login URL (default: `https://ws004202.dedalus.lan:8065/hexagone-01/vue/login`, unless the user provides another)
 ```
 
-**IMPORTANT** : La navigation initiale peut échouer (timeout) si le certificat SSL n'est pas accepté. Dans ce cas :
-- Demander à l'utilisateur de cliquer manuellement sur "Paramètres avancés" > "Continuer vers le site"
-- Attendre que la page de login soit affichée
-- Reprendre le contrôle
+**IMPORTANT**: Initial navigation may fail (timeout) if the SSL certificate is not accepted. In that case:
+- Ask the user to manually click "Advanced" > "Continue to site"
+- Wait for the login page to display
+- Resume control
 
-### 1.2 Remplir le formulaire de login
+### 1.2 Fill the Login Form
 
-Le formulaire Hexagone Web a 3 champs : Nom utilisateur, Mot de passe, Code gestionnaire. Par défaut, utiliser l'utilisateur `apvhn` avec un mot de passe aléatoire, sauf si l'utilisateur en fournit d'autres.
+The Hexagone Web login form has 3 fields: Username, Password, Manager code. Default credentials: username `apvhn` with a random password, unless the user provides others.
 
-**Méthode recommandée** : Utiliser JavaScript natif pour remplir les champs. La méthode `form_input` fonctionne mais le clic sur le bouton peut échouer (`chrome-extension:// URL` error). Utiliser JavaScript pour tout le processus :
+**Recommended method**: Use native JavaScript to fill the fields. The `form_input` method works but button clicks may fail (`chrome-extension:// URL` error). Use JavaScript for the entire process:
 
 ```javascript
-// Remplir via JavaScript avec dispatch d'événements (nécessaire pour Vue.js)
+// Fill via JavaScript with event dispatching (required for Vue.js)
 const nativeSetter = Object.getOwnPropertyDescriptor(
   window.HTMLInputElement.prototype, 'value'
 ).set;
@@ -66,45 +82,47 @@ nativeSetter.call(pwdInput, 'Rand' + Math.random().toString(36).slice(2, 10));
 pwdInput.dispatchEvent(new Event('input', { bubbles: true }));
 pwdInput.dispatchEvent(new Event('change', { bubbles: true }));
 
-// Cliquer sur "Se connecter"
-document.querySelector('button').click();
+// Click the login button — use text content to avoid selecting the wrong button
+const buttons = Array.from(document.querySelectorAll('button'));
+const loginBtn = buttons.find(b => /connect/i.test(b.textContent));
+if (loginBtn) loginBtn.click();
 ```
 
-**Pourquoi JavaScript ?** Le framework Vue.js d'Hexagone Web ne détecte pas les changements de valeur injectés directement. Le `nativeInputValueSetter` + `dispatchEvent('input')` simule une saisie utilisateur réelle.
+**Why JavaScript?** The Vue.js framework in Hexagone Web does not detect value changes injected directly. The `nativeInputValueSetter` + `dispatchEvent('input')` simulates real user input.
 
-### 1.3 Vérifier la connexion
+### 1.3 Verify Connection
 
-Après le clic, attendre 5s puis vérifier :
-- Le titre de l'onglet change (ex: "Hexagone Web - Portail patient")
-- Un screenshot montre la page d'accueil avec le message "Bienvenue sur l'espace..."
+After clicking, **poll every 2s for up to 20s** until one of these conditions is met:
+- The tab title changes (e.g., "Hexagone Web - Portail patient")
+- A screenshot shows the home page with the "Bienvenue sur l'espace..." message
+
+**If login fails after 20s**: Check for an error message element on the page (`document.querySelector('.error, .alert, [role="alert"]')`) and report the failure reason to the user.
 
 ---
 
-## Étape 2 : Navigation vers l'espace cible
+## Step 2: Navigation to the Target Space
 
-### 2.1 Ouvrir le sélecteur d'espaces
+### 2.1 Open the Space Selector
 
-L'espace actif est affiché dans la barre orange en haut (ex: "PORTAIL PATIENT"). Cliquer dessus pour ouvrir la liste déroulante de tous les espaces disponibles.
+The active space is displayed in the orange bar at the top (e.g., "PORTAIL PATIENT"). Click on it to open the dropdown list of all available spaces.
 
-```
-Coordonnée approximative : cliquer sur le texte orange de l'espace actif dans le breadcrumb
-```
+### 2.2 Select the Space
 
-### 2.2 Sélectionner l'espace
+The dropdown (orange background) may require scrolling. Spaces are listed alphabetically. Scroll and click on the desired space.
 
-La liste déroulante (fond orange) peut nécessiter un scroll. Les espaces sont listés alphabétiquement. Scroller et cliquer sur l'espace souhaité (ex: "STRUCTURES / NOMENCLATURES").
+### 2.3 Wait for Loading
 
-### 2.3 Attendre le chargement
-
-Hexagone Web redirige via une page intermédiaire "Connexion... Redirection...". Attendre 5s minimum et vérifier que l'URL a changé et que le breadcrumb affiche le nouvel espace.
+Hexagone Web redirects via an intermediate "Connexion... Redirection..." page. **Poll every 2s for up to 15s** until:
+- The URL has changed
+- The breadcrumb displays the new space name
 
 ---
 
-## Étape 3 : Découverte des pages
+## Step 3: Page Discovery
 
-### 3.1 Identifier les entrées du menu latéral
+### 3.1 Identify Sidebar Menu Entries
 
-Le menu latéral (sidebar gauche) contient des icônes sans texte visible par défaut. Utiliser JavaScript pour les lister :
+The sidebar (left side) contains icons without visible text by default. Use JavaScript to list them:
 
 ```javascript
 const links = document.querySelectorAll('a.hexa');
@@ -122,43 +140,63 @@ links.forEach(el => {
 JSON.stringify(items, null, 2);
 ```
 
-**Structure typique du sidebar** : Les liens ont la classe CSS `hexa`. Le texte est préfixé par le nom de l'icône (ex: `tdbTableau de bord`, `lettres_budgetLettres budgets`). Extraire la partie après le préfixe d'icône.
+**Typical sidebar structure**: Links have the CSS class `hexa`. The text is prefixed by the icon name (e.g., `tdbTableau de bord`, `lettres_budgetLettres budgets`). Extract the part after the icon prefix.
 
-### 3.2 Construire le plan d'exploration
+### 3.2 Validation Gate
 
-Créer une liste ordonnée de toutes les pages à visiter, avec leurs coordonnées Y pour le clic. Exclure les pages utilitaires (Tableau de bord, Mes post-its) si non pertinentes pour le livrable PO.
+**IMPORTANT**: After collecting items, verify the result:
+
+```javascript
+if (items.length === 0) {
+  // Primary selector failed — try fallback selectors
+  const fallbackLinks = document.querySelectorAll(
+    '[data-menu-item], nav a, .sidebar a, .v-navigation-drawer a'
+  );
+  // Retry with wider bounding box: rect.left < 350 && rect.top > 40
+  // If still zero items: STOP and report failure with DOM state
+}
+```
+
+**If zero items are found after fallback**: Stop the exploration and report the failure. Do NOT proceed to Step 4 with an empty page list — this would produce an empty document.
+
+### 3.3 Build the Exploration Plan
+
+Create an ordered list of all pages to visit, with their Y coordinates for clicking. Exclude utility pages (Tableau de bord, Mes post-its) if not relevant to the PO deliverable.
 
 ---
 
-## Étape 4 : Exploration et capture
+## Step 4: Exploration and Capture
 
-### 4.1 Pour chaque page du menu
+### 4.1 For Each Page in the Menu
 
 ```
-1. Cliquer sur l'entrée du menu (utiliser la coordonnée Y avec x=38)
-   - Si le clic direct échoue, utiliser JavaScript : el.click()
-2. Attendre 3 secondes le chargement
-3. Prendre un screenshot : computer(action="screenshot", save_to_disk=true)
-4. Extraire les informations textuelles clés via read_page ou JavaScript
-5. Si la page a des onglets, les parcourir un par un
-6. Si la page a des sous-pages (ex: Paramétrages > Banques), les explorer
-7. Stocker l'ID du screenshot et les métadonnées dans une liste
+1. Click on the menu entry (use the Y coordinate with x=38)
+   - If direct click fails, use JavaScript: el.click()
+2. Poll every 1s for up to 10s until the main content area has changed
+   (compare URL fragment or main content container innerHTML before/after)
+3. Take a screenshot: computer(action="screenshot", save_to_disk=true)
+4. Extract key textual information via read_page or JavaScript
+5. If the page has tabs, iterate through them one by one
+6. If the page has sub-pages, explore them
+7. Store the screenshot ID and metadata in a list
 ```
 
-### 4.2 Identifier les onglets internes
+### 4.2 Identify Internal Tabs
 
-Certaines pages ont des onglets internes (ex: Plan comptable → Comptes de résultat / Tableau de financement / Comptes de tiers). Les trouver avec :
+Some pages have internal tabs (e.g., Plan comptable → Comptes de résultat / Tableau de financement / Comptes de tiers). Find them with:
 
 ```javascript
-// Chercher les onglets
-const tabs = document.querySelectorAll('[role="tab"], .tab-link, a[href="javascript:;"]');
+// Look for tabs by structural role
+const tabs = document.querySelectorAll('[role="tab"]');
+// Fallback if no ARIA roles
+if (tabs.length === 0) {
+  const tabLinks = document.querySelectorAll('.tab-link, .v-tab, [data-tab]');
+}
 ```
 
-Ou utiliser `find(query="tab")` pour les localiser.
+### 4.3 Store Metadata
 
-### 4.3 Stocker les métadonnées
-
-Maintenir un tableau JSON des pages explorées :
+Maintain a JSON array of explored pages:
 
 ```json
 [
@@ -166,7 +204,7 @@ Maintenir un tableau JSON des pages explorées :
     "id": 1,
     "page": "Tableau de bord",
     "screenshotId": "ss_XXXXX",
-    "description": "Vue synthétique par exercice...",
+    "description": "Synthetic view by fiscal year...",
     "tabs": [],
     "subpages": []
   }
@@ -175,53 +213,99 @@ Maintenir un tableau JSON des pages explorées :
 
 ---
 
-## Étape 5 : Transfert des screenshots vers le conteneur
+## Step 5: Screenshot Transfer to the Container
 
-### Problème connu
+### Known Limitation
 
-Les screenshots pris via `computer(action="screenshot")` sont stockés en mémoire par l'extension Chrome avec un ID (ex: `ss_49478g4in`). Ils ne sont **pas** directement accessibles depuis le filesystem du conteneur (`/home/claude/`).
+Screenshots taken via `computer(action="screenshot")` are stored in memory by the Chrome extension with an ID (e.g., `ss_49478g4in`). They are **not** directly accessible from the container filesystem (`/home/claude/`).
 
-### Solution : Bridge HTTP
+### Solution: HTTP Bridge
 
-Lire le fichier `scripts/screenshot-bridge.md` pour la procédure complète de transfert des screenshots du navigateur vers le conteneur.
+Read the file `scripts/screenshot-bridge.md` for the complete transfer procedure.
 
-**Résumé** :
-1. Lancer un serveur HTTP dans le conteneur (`scripts/screenshot-server.js`)
-2. Naviguer un onglet Chrome vers la page bridge (`http://localhost:PORT/bridge.html`)
-3. Pour chaque screenshot, utiliser `upload_image(imageId, tabId, ref)` pour l'uploader via le file input de la page bridge
-4. JavaScript sur la page envoie le fichier au serveur qui le sauvegarde
-5. Les fichiers sont disponibles dans `/home/claude/screenshots/`
+**Summary**:
+1. Start an HTTP server in the container (`scripts/screenshot-server.js`)
+2. Navigate a Chrome tab to the bridge page (`http://localhost:8765/bridge.html`)
+3. For each screenshot, use `upload_image(imageId, tabId, ref)` to upload via the bridge page's file input
+4. JavaScript on the page sends the file to the server which saves it
+5. Files are available in the screenshots directory
+
+### Verification Gate
+
+**IMPORTANT**: Before proceeding to Step 6, verify the screenshot transfer:
+
+```bash
+# Count files in screenshots directory
+ls -1 /home/claude/screenshots/ | wc -l
+```
+
+Compare the count against the expected number of screenshots from Step 4. If screenshots are missing:
+- Report which specific screenshots failed to transfer (compare filenames against the metadata list)
+- Attempt to re-transfer missing screenshots
+- If re-transfer fails, proceed to Step 6 but warn the user that the document will contain placeholder boxes for missing screenshots
 
 ---
 
-## Étape 6 : Génération du document Word
+## Step 6: Word Document Generation
 
-### 6.1 Lire le skill docx
+### 6.1 Prepare the Input
 
-Toujours lire `/mnt/skills/public/docx/SKILL.md` avant de générer le document.
+Create a `features.json` file from the metadata collected in Step 4. The file must conform to this structure:
 
-### 6.2 Générer le document
-
-Utiliser le script `scripts/generate-docx.js` comme base. Le script :
-- Prend en entrée un fichier JSON de métadonnées (pages, descriptions, chemins screenshots)
-- Génère un .docx avec page de couverture, sommaire, et une section par feature
-- Chaque section inclut : titre, description PO, tableau des fonctionnalités clés, valeur métier, et screenshot embarqué
-
-### 6.3 Structure du document
-
-```
-Page de couverture (couleurs Dedalus teal/orange)
-Sommaire
-Pour chaque feature :
-  - Titre (Heading 2, orange)
-  - Description fonctionnelle
-  - Screenshot de la page
-  - Tableau "Fonctionnalités clés" (numéroté, fond teal)
-  - Section "Valeur métier" (titre orange)
-[Pas de synthèse finale - le document est auto-porteur par feature]
+```json
+{
+  "space": "Name of the explored space",
+  "features": [
+    {
+      "title": "Feature name (string, required)",
+      "description": "PO-oriented functional description (string, required)",
+      "capabilities": ["Capability 1", "Capability 2"],
+      "businessValue": "Business value description (string)",
+      "screenshots": [
+        { "file": "filename.jpg", "caption": "Screenshot description" }
+      ]
+    }
+  ]
+}
 ```
 
-### 6.4 Validation et sortie
+**Validation rules:**
+- `space` must be a non-empty string
+- `features` must be a non-empty array
+- Each feature must have `title` (string) and `description` (string)
+- `capabilities` must be an array of strings (can be empty)
+- `screenshots` must be an array of objects with `file` (string) and `caption` (string)
+
+### 6.2 Read the docx Skill
+
+Always read the docx skill before generating the document.
+
+### 6.3 Generate the Document
+
+Use the script `scripts/generate-docx.js`:
+
+```bash
+cd scripts && npm install  # First time only
+node generate-docx.js --input features.json --output /path/to/output.docx --screenshots /path/to/screenshots
+```
+
+The `--input` argument is **required**. The script validates the input and fails with clear error messages if the JSON is malformed.
+
+### 6.4 Document Structure
+
+```
+Cover page (Dedalus teal/orange branding)
+Table of contents
+For each feature:
+  - Title (Heading 2, orange)
+  - Functional description
+  - Screenshot of the page
+  - "Key capabilities" table (numbered, teal background)
+  - "Business value" section (orange title)
+[No final summary — the document is self-contained per feature]
+```
+
+### 6.5 Validation and Output
 
 ```bash
 python /mnt/skills/public/docx/scripts/office/validate.py output.docx
@@ -230,20 +314,26 @@ cp output.docx /mnt/user-data/outputs/
 
 ---
 
-## Paramètres d'entrée attendus
+## Input Parameters
 
-L'utilisateur doit fournir :
-- **URL de login** *(optionnel)* : par défaut `https://ws004202.dedalus.lan:8065/hexagone-01/vue/login` (environnement de développement). L'utilisateur peut fournir une autre URL si nécessaire.
-- **Nom utilisateur** *(optionnel)* : par défaut `apvhn`. L'utilisateur peut fournir un autre code si nécessaire.
-- **Mot de passe** *(optionnel)* : par défaut une valeur aléatoire. L'utilisateur peut fournir un mot de passe spécifique si nécessaire.
-- **Espace cible** : nom exact de l'espace à explorer (ex: "STRUCTURES / NOMENCLATURES")
+The user must provide:
+- **Login URL** *(optional)*: defaults to `https://ws004202.dedalus.lan:8065/hexagone-01/vue/login`. The user can provide a different URL if needed.
+- **Username** *(optional)*: defaults to `apvhn`. The user can provide a different code if needed.
+- **Password** *(optional)*: defaults to a random value. The user can provide a specific password if needed.
+- **Target space**: Exact name of the space to explore (e.g., "STRUCTURES / NOMENCLATURES")
 
 ## Troubleshooting
 
-| Problème | Cause | Solution |
-|----------|-------|----------|
-| Navigation timeout | Certificat SSL | Utilisateur accepte manuellement |
-| `chrome-extension:// URL` error | Focus sur popup extension | Utiliser JavaScript au lieu de click direct |
-| Champs non détectés par Vue.js | Injection directe sans events | Utiliser `nativeInputValueSetter` + `dispatchEvent` |
-| Menu déroulant non visible | Scroll nécessaire | `scroll(direction="down")` dans le menu |
-| Screenshot non accessible | Stockage en mémoire extension | Utiliser le bridge HTTP (étape 5) |
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| Navigation timeout | SSL certificate not accepted | User must accept manually |
+| `chrome-extension:// URL` error | Focus on extension popup | Use JavaScript instead of direct click |
+| Fields not detected by Vue.js | Direct injection without events | Use `nativeInputValueSetter` + `dispatchEvent` |
+| Dropdown menu not visible | Scroll needed | `scroll(direction="down")` in the menu |
+| Screenshot not accessible from filesystem | Stored in Chrome extension memory | Use the HTTP bridge (Step 5) |
+| Zero menu items discovered | CSS class `a.hexa` not matching | Try fallback selectors (see Step 3.2) |
+| Login button click selects wrong button | Multiple buttons on page | Use text-content matching: `buttons.find(b => /connect/i.test(b.textContent))` |
+| Page content not loaded after click | Slow server or heavy page | Use poll-based waiting instead of fixed delay |
+| Screenshot bridge upload fails | Port 8765 already in use | Check port availability, try port 8766-8775 |
+| Generated document has placeholder boxes | Screenshots not transferred | Run verification gate (Step 5) before generation |
+| `generate-docx.js` fails with validation error | Malformed features.json | Check required fields: `space`, `features[].title`, `features[].description` |

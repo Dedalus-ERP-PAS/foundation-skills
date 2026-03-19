@@ -1,10 +1,10 @@
 # Hexagone Web Feature Extractor
 
-Skill permettant d'explorer un espace Hexagone Web via Claude in Chrome, de capturer systématiquement chaque page/onglet, et de produire un document Word (.docx) orienté Product Owner avec descriptions fonctionnelles et captures d'écran embarquées.
+Skill permettant d'explorer **n'importe quel** espace Hexagone Web via Claude in Chrome, de capturer systématiquement chaque page/onglet, et de produire un document Word (.docx) orienté Product Owner avec descriptions fonctionnelles et captures d'écran embarquées.
 
 ## Cas d'usage
 
-- Explorer et documenter un espace fonctionnel Hexagone Web (ex : Structures / Nomenclatures)
+- Explorer et documenter un espace fonctionnel Hexagone Web (tout espace, pas uniquement Structures / Nomenclatures)
 - Produire une fiche produit ou une présentation client à partir des écrans Hexagone
 - Capturer l'intégralité des pages et onglets d'un module pour audit fonctionnel
 
@@ -14,6 +14,7 @@ Skill permettant d'explorer un espace Hexagone Web via Claude in Chrome, de capt
 - Accès réseau au serveur Hexagone Web (URL interne type `https://wsXXXXXX.dedalus.lan:PORT/hexagone-XX/vue/login`)
 - Certificat SSL accepté manuellement si auto-signé
 - Le skill **docx** doit être disponible pour la génération du document final
+- Dépendances Node.js : exécuter `npm install` dans le répertoire `scripts/`
 
 ## Workflow
 
@@ -22,8 +23,8 @@ Skill permettant d'explorer un espace Hexagone Web via Claude in Chrome, de capt
 2. NAVIGATION    → Accéder à l'espace cible
 3. DÉCOUVERTE    → Lister toutes les pages/menus du sidebar
 4. EXPLORATION   → Parcourir chaque page, capturer screenshots + texte
-5. TRANSFERT     → Transférer les screenshots vers le conteneur
-6. GÉNÉRATION    → Produire le document Word avec captures embarquées
+5. TRANSFERT     → Transférer les screenshots vers le conteneur (avec vérification)
+6. GÉNÉRATION    → Produire le document Word avec captures embarquées (avec validation JSON)
 ```
 
 ## Paramètres d'entrée
@@ -47,6 +48,8 @@ Le skill produit un fichier `.docx` structuré :
 
 - Skill [docx](docx.md) pour la génération du document Word
 - Scripts inclus : `generate-docx.js`, `screenshot-server.js`, `screenshot-bridge.md`
+- `package.json` avec dépendance `docx` (exécuter `npm install` avant la première utilisation)
+- Données d'exemple : `reference/default-structures-nomenclatures.json`
 
 ## Liens
 
