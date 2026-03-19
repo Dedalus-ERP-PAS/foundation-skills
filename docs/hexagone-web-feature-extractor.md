@@ -1,11 +1,11 @@
 # Hexagone Web Feature Extractor
 
-Explore **n'importe quel** espace Hexagone Web via Claude in Chrome. Capture chaque page/onglet et produit un document Word (.docx) orienté PO (Product Owner) avec descriptions fonctionnelles et captures d'écran.
+Explore **n'importe quel** espace Hexagone Web via Claude in Chrome. Capture chaque page/onglet et produit un document Markdown (.md) orienté PO (Product Owner) avec descriptions fonctionnelles et captures d'écran.
 
 ## Cas d'usage
 
 - Documenter un espace fonctionnel Hexagone Web (tout espace, pas uniquement Structures / Nomenclatures)
-- Produire une fiche produit ou présentation client depuis les écrans
+- Produire une fiche produit ou documentation client depuis les écrans
 - Capturer les pages et onglets d'un module pour audit fonctionnel
 
 ## Prérequis
@@ -13,8 +13,7 @@ Explore **n'importe quel** espace Hexagone Web via Claude in Chrome. Capture cha
 - **Claude in Chrome** activé et connecté
 - Accès réseau au serveur Hexagone Web (URL interne type `https://wsXXXXXX.dedalus.lan:PORT/hexagone-XX/vue/login`)
 - Certificat SSL (Secure Sockets Layer) accepté si auto-signé
-- Le skill **docx** doit être disponible
-- Dépendances Node.js : exécuter `npm install` dans le répertoire `scripts/`
+- Node.js installé (aucune dépendance externe nécessaire)
 
 ## Workflow
 
@@ -24,7 +23,7 @@ Explore **n'importe quel** espace Hexagone Web via Claude in Chrome. Capture cha
 3. DÉCOUVERTE    → Lister toutes les pages/menus du sidebar
 4. EXPLORATION   → Parcourir chaque page, capturer screenshots + texte
 5. TRANSFERT     → Transférer les screenshots vers le conteneur (avec vérification)
-6. GÉNÉRATION    → Produire le document Word avec captures embarquées (avec validation JSON)
+6. GÉNÉRATION    → Produire le document Markdown avec captures embarquées (avec validation JSON)
 ```
 
 ## Paramètres d'entrée
@@ -38,17 +37,16 @@ Explore **n'importe quel** espace Hexagone Web via Claude in Chrome. Capture cha
 
 ## Document généré
 
-Le skill produit un fichier `.docx` structuré :
+Le skill produit un fichier `.md` structuré :
 
-- **Page de couverture** aux couleurs Dedalus (teal/orange)
-- **Sommaire** automatique
-- **Une section par feature** : titre, description fonctionnelle, screenshot, tableau des fonctionnalités clés, valeur métier
+- **Titre et sous-titre** avec nom de l'espace et date
+- **Sommaire** avec liens internes
+- **Une section par feature** : titre, description fonctionnelle, screenshot(s) en image Markdown, liste numérotée des fonctionnalités clés, valeur métier
 
 ## Dépendances
 
-- Skill [docx](docx.md) pour la génération du document Word
-- Scripts inclus : `generate-docx.js`, `screenshot-server.js`, `screenshot-bridge.md`
-- `package.json` avec dépendance `docx` (exécuter `npm install` avant la première utilisation)
+- Scripts inclus : `generate-md.js`, `screenshot-server.js`, `screenshot-bridge.md`
+- Aucune dépendance npm (utilise uniquement les modules natifs Node.js)
 - Données d'exemple : `reference/default-structures-nomenclatures.json`
 
 ## Liens
