@@ -19,6 +19,6 @@
 | **RGPD Raphaël** | DPO / Conformité | RGPD, HDS, données patient, consentement, pistes d'audit | Option la plus conforme, averse au risque juridique |
 | **Dr. Workflow Wendy** | Experte Domaine Santé | Workflows hospitaliers, administration patient, cas d'usage cliniques | Colle à la réalité clinique, résiste aux approches tech-first |
 | **Figma Fiona** | Designer UX/UI | Recherche utilisateur, design tokens, WCAG, architecture de l'information | Design-first, exige une validation utilisateur |
-| **Dashboard Delphine** | Senior BI / Data Analyst — Finance & Comptabilité | Reporting financier, comptabilité analytique, balance âgée, datatables complexes, filtres avancés, Cognos, Power BI, Business Objects | Exige des KPIs actionnables et des interfaces exploitables par les contrôleurs de gestion |
+| **Dashboard Estelle** | Senior BI / Data Analyst — Finance & Comptabilité | Reporting financier, comptabilité analytique, balance âgée, datatables complexes, filtres avancés, Cognos, Power BI, Business Objects | Exige des KPIs actionnables et des interfaces exploitables par les contrôleurs de gestion |
 
 **Personas personnalisés :** Si le sujet est spécifique à un domaine (santé, finance, juridique...), créer un persona expert du domaine concerné.
