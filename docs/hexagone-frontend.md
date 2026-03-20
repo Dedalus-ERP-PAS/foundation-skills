@@ -1,12 +1,15 @@
-# Hexagone Frontend Documentation
+# Hexagone Frontend
+
+Ce skill donne aux agents IA un accès à la documentation de la bibliothèque `@his/hexa-components`. Il couvre les composants **Vue.js**, les classes **CSS (Cascading Style Sheets)** utilitaires et le store **Vuex**.
 
 ## Vue d'ensemble
 
-Le skill **hexagone-frontend** donne aux agents IA un accès à la documentation de la bibliothèque `@his/hexa-components` utilisée dans les applications web Hexagone. Il couvre les composants Vue.js, les patterns d'utilisation, les classes CSS utilitaires et les modules du store Vuex -- sans cloner le dépôt.
+- Composants Vue.js, patterns d'utilisation et classes CSS utilitaires
+- Modules du store Vuex, sans cloner le dépôt
 
 ## Ce qu'il fait
 
-- **Consulte à la demande** la documentation optimisée LLM (Large Language Model) depuis le dépôt GitLab (`docs/llm/`)
+- **Consulte à la demande** la documentation optimisée **LLM (Large Language Model)** depuis le dépôt GitLab (`docs/llm/`)
 - **Explique** les composants Hexagone : props, events, slots et exemples
 - **Liste** les 36 composants par catégorie (formulaires, navigation, affichage, feedback)
 - **Documente** les patterns (API, Store Vuex) et références (directives, événements, validation)
@@ -36,13 +39,11 @@ npx skills add Dedalus-ERP-PAS/foundation-skills --skill hexagone-frontend -g -y
 
 ## Fonctionnement
 
-Le skill utilise **WebFetch** pour consulter les fichiers Markdown directement depuis le dépôt GitLab :
+Le skill utilise **WebFetch** pour consulter les fichiers Markdown depuis le dépôt GitLab :
 
-1. **Identification du composant/pattern** : à partir de la question, le skill identifie le fichier concerné grâce à un catalogue intégré.
-
-2. **Récupération du fichier** : appel WebFetch sur l'URL brute du fichier dans le dépôt GitLab.
-
-3. **Extraction et présentation** : extraction des props, events et exemples pertinents, puis présentation structurée.
+1. **Identification du composant/pattern** : le skill identifie le fichier via un catalogue intégré
+2. **Récupération du fichier** : appel WebFetch sur l'URL brute du dépôt GitLab
+3. **Extraction et présentation** : extraction des props, events et exemples pertinents
 
 ## Composants disponibles
 

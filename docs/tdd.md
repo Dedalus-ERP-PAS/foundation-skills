@@ -1,21 +1,22 @@
 # TDD — Test-Driven Development
 
+Le **TDD (Test-Driven Development)** est une méthode de développement piloté par les tests. Ce skill guide l'agent IA pour appliquer le cycle red-green-refactor de manière rigoureuse.
+
 ## Qu'est-ce que le TDD ?
 
-Le **TDD** (Test-Driven Development) est une méthode où l'on écrit les tests **avant** le code de production. Le cycle fondamental est le **red-green-refactor** :
+- Vous écrivez les tests **avant** le code de production
+- Le cycle fondamental est le **red-green-refactor** :
 
 1. **RED** — Écrire un test qui échoue (il décrit un comportement attendu)
 2. **GREEN** — Écrire le minimum de code pour faire passer le test
 3. **REFACTOR** — Améliorer le code en gardant les tests au vert
 
-## Pourquoi utiliser cette skill ?
-
-Cette skill guide l'agent IA pour appliquer le TDD de manière rigoureuse :
+## Quand utiliser ce skill
 
 - **Tranches verticales** : un test puis son implémentation, jamais tous les tests d'un coup
 - **Tracer bullet** : le premier test prouve le chemin de bout en bout
-- **Tests comportementaux** : on teste ce que le système fait (interface publique), pas comment il le fait (détails internes)
-- **Agnostique au framework** : fonctionne avec Vitest, Jest, Playwright, Cypress, pytest ou tout autre outil de test
+- **Tests comportementaux** : on teste l'interface publique, pas les détails internes
+- **Agnostique au framework** : fonctionne avec Vitest, Jest, Playwright, Cypress, pytest, etc.
 
 ## Contenu
 
@@ -36,8 +37,9 @@ npx skills add Dedalus-ERP-PAS/foundation-skills --skill tdd -g -y
 
 ## Utilisation
 
-Demandez simplement à votre agent IA de développer une fonctionnalité en TDD :
+Demandez à votre agent IA de développer une fonctionnalité en TDD :
 
 > « Implémente la validation du formulaire de commande en TDD. »
 
-L'agent suivra automatiquement le cycle red-green-refactor. Il vous demandera de valider le plan et les comportements avant de commencer.
+- L'agent suit automatiquement le cycle red-green-refactor
+- Il vous demande de valider le plan et les comportements avant de commencer

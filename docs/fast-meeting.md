@@ -5,7 +5,7 @@ Réunion rapide et autonome avec personas IA. Analyse, décision, implémentatio
 ## Quand l'utiliser
 
 - Vous voulez une décision ET une implémentation automatique
-- Vous faites confiance a l'analyse IA pour une décision technique ou produit
+- Vous faites confiance à l'analyse IA pour une décision technique ou produit
 - Vous voulez aller vite : un prompt déclenche analyse, code et MR/PR
 
 ## Différence avec meeting
@@ -50,8 +50,8 @@ fast-meeting : refactorer le module d'authentification pour OAuth2
 9. **Implémente la recommandation** — Code, tests, modifications de fichiers
 10. **Exécute les tests** — Lance la suite de tests du projet, tente une correction si échec
 11. **Crée une branche, commit et push** — Branche `feat/fm-*`, `fix/fm-*` ou `refactor/fm-*`
-12. **Crée la MR/PR** — Description en francais, Draft si les tests echouent
-13. **Nettoie le worktree** — Suppression automatique apres execution
+12. **Crée la MR/PR** — Description en français, Draft si les tests échouent
+13. **Nettoie le worktree** — Suppression automatique après exécution
 14. **Poste sur l'issue** — Si applicable, ajoute un lien vers la MR/PR
 
 ## Personas disponibles

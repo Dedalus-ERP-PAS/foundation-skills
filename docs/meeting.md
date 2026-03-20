@@ -48,7 +48,7 @@ Discutons avec des personas : doit-on ajouter des notifications temps réel ?
 | Mohammed | Ingénieur Frontend | UX, performance, Vue.js 2 & 3, React, PrimeVue |
 | Didier | Tech Lead / Architecte | Vision long terme, capacité de l'équipe |
 | Nicolas | Ingénieur QA (Quality Assurance) | Testabilité, cas limites, tests E2E (Playwright), tests unitaires (Vitest) |
-| Isabelle | Ingénieure BDD Senior (Oracle) | Oracle (11.2 a 19c+), PL/SQL, tuning, RAC, Data Guard |
+| Isabelle | Ingénieure BDD Senior (Oracle) | Oracle (11.2 à 19c+), PL/SQL, tuning, RAC, Data Guard |
 | Jean-Baptiste | Ingénieur Data | Intégrité des données, migrations |
 | Santiago | PO (Product Owner) Interopérabilité Senior | Standards (HL7, FHIR, HPK), intégration inter-systèmes |
 | Gilles | Développeur Fullstack Senior (Uniface) | Modernisation legacy, patterns 4GL/RAD, migration |
