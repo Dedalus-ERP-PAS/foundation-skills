@@ -1,21 +1,21 @@
 # Documents Word (docx)
 
-Manipulation de documents Word (.docx) : lecture, creation, edition et suivi des modifications.
+Manipulation de documents Word (.docx) : lecture, création, édition et suivi des modifications.
 
 ## Contexte
 
-Ce skill permet a l'agent de travailler avec des fichiers Word. Il couvre la lecture, la creation et l'edition, y compris le **redlining** (suivi des modifications pour revision collaborative).
+Ce skill permet à l'agent de travailler avec des fichiers Word. Il couvre la lecture, la création et l'édition. Il inclut le **redlining** (suivi des modifications, ou "tracked changes"), utilisé pour la révision collaborative.
 
-## Operations disponibles
+## Opérations disponibles
 
-| Operation | Outil | Commande |
+| Opération | Outil | Commande |
 |-----------|-------|----------|
 | **Lire** | pandoc | `pandoc --track-changes=all fichier.docx -o output.md` |
-| **Creer** | docx-js (JavaScript) | Via l'API `Document`, `Packer`, `Paragraph` |
-| **Editer** | python-docx (Python) | Decompresser, modifier le XML, recompresser |
-| **Redlining** | pandoc / python-docx | Tracked changes pour revision |
+| **Créer** | docx-js (JavaScript) | Via l'API `Document`, `Packer`, `Paragraph` |
+| **Éditer** | python-docx (Python) | Décompresser, modifier le XML, recompresser |
+| **Redlining** | pandoc / python-docx | Tracked changes pour révision |
 
-## Creer un document (section technique)
+## Créer un document (section technique)
 
 ```javascript
 const { Document, Packer, Paragraph } = require('docx')
@@ -27,14 +27,14 @@ Packer.toBuffer(doc).then(buf =>
 )
 ```
 
-## Editer un document (section technique)
+## Éditer un document (section technique)
 
-Le format `.docx` est une archive ZIP contenant du XML. Le workflow d'edition :
+Le format `.docx` est une archive ZIP contenant du XML. Le workflow d'édition :
 
-1. **Decompresser** le fichier .docx
+1. **Décompresser** le fichier .docx
 2. **Modifier** les fichiers XML internes
 3. **Recompresser** en .docx
 
 ## Redlining
 
-Le **redlining** (tracked changes) permet de marquer les insertions et suppressions. Utile pour la revision collaborative de documents.
+Le **redlining** (suivi des modifications, ou "tracked changes") marque les insertions et suppressions. Il est utile pour la révision collaborative de documents.

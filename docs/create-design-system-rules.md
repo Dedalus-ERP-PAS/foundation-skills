@@ -1,6 +1,6 @@
 # create-design-system-rules
 
-Génère des règles de design system personnalisées pour les workflows Figma-to-code.
+Génère des **règles de design system** pour les workflows Figma-to-code. Ces règles définissent les composants, tokens et conventions de styling à respecter lors de la conversion de maquettes Figma en code.
 
 ## Quand utiliser ce skill
 
@@ -37,11 +37,11 @@ Génère les guidelines de design system pour notre monorepo
 
 ## Ce que le skill génère
 
-- Règles d'organisation des composants
-- Règles de styling et tokens
-- Règles d'intégration Figma via MCP
-- Règles de gestion des assets
-- Conventions spécifiques au projet
+- **Règles d'organisation des composants** : structure des dossiers, nommage, hiérarchie
+- **Règles de styling et tokens** : couleurs, typographie, espacements, breakpoints
+- **Règles d'intégration Figma via MCP** : correspondance entre composants Figma et code
+- **Règles de gestion des assets** : icônes, images, exports
+- **Conventions spécifiques au projet** : adaptées au framework et à la stack détectés
 
 ## Ressources
 

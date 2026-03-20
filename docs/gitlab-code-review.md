@@ -1,10 +1,6 @@
 # GitLab Code Review
 
-Revue de code des merge requests (MR) GitLab couvrant qualité, sécurité, performance et bonnes pratiques.
-
-**Instance GitLab utilisée :** https://gitlab-erp-pas.dedalus.lan
-
-Configuré pour l'instance GitLab auto-hébergée de Dedalus.
+Revue de code des **merge requests** (MR) GitLab. Couvre qualité, sécurité, performance et bonnes pratiques.
 
 ## Utilisation
 
@@ -28,9 +24,9 @@ Montre-moi les MR ouvertes à reviewer
 
 ## Prérequis
 
-- Serveur MCP (Model Context Protocol) GitLab configuré (`gitlab-mcp`)
-- Accès à l'instance GitLab auto-hébergée : https://gitlab-erp-pas.dedalus.lan
-- Identifiants et permissions appropriés sur les projets GitLab concernés
+- Serveur **MCP** (Model Context Protocol) GitLab configuré (`gitlab-mcp`)
+- Accès à l'instance GitLab auto-hébergée Dedalus : https://gitlab-erp-pas.dedalus.lan
+- Identifiants et permissions appropriés sur les projets concernés
 
 ## Fonctionnalités
 
@@ -115,4 +111,4 @@ npx skills add Dedalus-ERP-PAS/foundation-skills --skill gitlab-code-review -g -
 
 ## Ressources
 
-- [SKILL.md complet](../skills/gitlab-code-review/SKILL.md) -- Guide détaillé
+- [SKILL.md complet](../skills/gitlab-code-review/SKILL.md) — Guide détaillé

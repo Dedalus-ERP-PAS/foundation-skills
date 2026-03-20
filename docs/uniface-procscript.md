@@ -36,7 +36,7 @@ Utilisez ce skill quand vous avez besoin de :
 | Struct Functions | 13 | Fonctions struct (`$name`, `$parent`, `$scalar`, `$tags`, ...) |
 | Predefined Operations | 8 | Opérations prédéfinies (`Exec`, `Init`, `Cleanup`, `Quit`, ...) |
 
-## Comment ca fonctionne
+## Comment ça fonctionne
 
 La documentation est organisée en fichiers fusionnés par catégorie. Chaque fichier contient toutes les entrées, séparées par des règles horizontales (`---`). L'agent utilise Grep pour localiser une entrée spécifique.
 

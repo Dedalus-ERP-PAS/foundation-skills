@@ -73,7 +73,7 @@ npx skills add Dedalus-ERP-PAS/foundation-skills --skill backend-patterns --skil
 | [Uniface ProcScript](docs/uniface-procscript.md)          | Référence complète du langage ProcScript pour Uniface 9.7 (594 entrées de documentation)  |
 | [Hexagone Web Services](docs/hexagone-swdoc.md)           | Documentation des web services Hexagone depuis le dépôt swdoc GitLab                      |
 | [Hexagone Frontend](docs/hexagone-frontend.md)            | Documentation des composants frontend Hexagone (@his/hexa-components)                     |
-| [Hexagone Web Feature Extractor](docs/hexagone-web-feature-extractor.md) | Exploration d'un espace Hexagone Web avec capture d'écrans et génération de document Word PO |
+| [Hexagone Web Feature Extractor](docs/hexagone-web-feature-extractor.md) | Exploration d'un espace Hexagone Web avec capture d'écrans et génération de document Markdown PO |
 | [TDD](docs/tdd.md)                                        | Développement piloté par les tests avec boucle red-green-refactor                         |
 | [Testing patterns](docs/testing-patterns.md)               | Patterns de test : unitaire, intégration, E2E, mocking et organisation                    |
 | [TypeScript migration](docs/typescript-migration.md)       | Guide de migration incrémentale JavaScript vers TypeScript                                |

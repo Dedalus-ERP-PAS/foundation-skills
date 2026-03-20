@@ -1,6 +1,9 @@
 # Grill Me
 
-L'agent IA vous interview en profondeur sur un plan ou une conception. Il explore chaque branche de décision et résout les dépendances une par une, jusqu'à une compréhension partagée complète.
+Ce skill applique une approche **DDD (Domain-Driven Design)** pour challenger vos plans et conceptions. L'agent IA vous interroge en profondeur jusqu'à une compréhension partagée complète.
+
+- L'agent explore chaque branche de décision
+- Il résout les dépendances une par une
 
 ## Cas d'usage
 
@@ -12,11 +15,11 @@ L'agent IA vous interview en profondeur sur un plan ou une conception. Il explor
 ## Déclenchement
 
 Ce skill s'active quand vous :
-- Demandez a stress-tester un plan
+- Demandez à stress-tester un plan
 - Utilisez les phrases : **"grill me"** / **"interroge-moi"** / **"challenge-moi"** / **"questionne-moi"**
 - Souhaitez valider une idée en profondeur
 
-## Comment ca fonctionne
+## Comment ça fonctionne
 
 1. **Analyse** le plan ou la conception présentée
 2. **Identifie** les hypothèses implicites et les dépendances

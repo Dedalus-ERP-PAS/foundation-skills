@@ -1,6 +1,6 @@
 # Hexagone Web Feature Extractor
 
-Explore **n'importe quel** espace Hexagone Web via Claude in Chrome. Capture chaque page/onglet et produit un document Markdown (.md) orienté PO (Product Owner) avec descriptions fonctionnelles et captures d'écran.
+Ce skill explore **n'importe quel** espace Hexagone Web via **Playwright** (navigateur headless). Il capture chaque page/onglet et produit un document **Markdown** (.md) orienté **PO (Product Owner)** avec descriptions fonctionnelles et captures d'écran.
 
 ## Cas d'usage
 
@@ -10,20 +10,19 @@ Explore **n'importe quel** espace Hexagone Web via Claude in Chrome. Capture cha
 
 ## Prérequis
 
-- **Claude in Chrome** activé et connecté
+- **Node.js** installé
+- **Playwright** installé (`npm install playwright`)
 - Accès réseau au serveur Hexagone Web (URL interne type `https://wsXXXXXX.dedalus.lan:PORT/hexagone-XX/vue/login`)
-- Certificat SSL (Secure Sockets Layer) accepté si auto-signé
-- Node.js installé (aucune dépendance externe nécessaire)
+- Certificat **SSL (Secure Sockets Layer)** accepté si auto-signé
 
 ## Workflow
 
 ```
-1. CONNEXION     → Se connecter à Hexagone Web via Chrome
+1. CONNEXION     → Se connecter à Hexagone Web via Playwright
 2. NAVIGATION    → Accéder à l'espace cible
 3. DÉCOUVERTE    → Lister toutes les pages/menus du sidebar
 4. EXPLORATION   → Parcourir chaque page, capturer screenshots + texte
-5. TRANSFERT     → Transférer les screenshots vers le conteneur (avec vérification)
-6. GÉNÉRATION    → Produire le document Markdown avec captures embarquées (avec validation JSON)
+5. GÉNÉRATION    → Produire le document Markdown avec captures embarquées
 ```
 
 ## Paramètres d'entrée
@@ -41,12 +40,12 @@ Le skill produit un fichier `.md` structuré :
 
 - **Titre et sous-titre** avec nom de l'espace et date
 - **Sommaire** avec liens internes
-- **Une section par feature** : titre, description fonctionnelle, screenshot(s) en image Markdown, liste numérotée des fonctionnalités clés, valeur métier
+- **Une section par feature** : titre, description fonctionnelle, screenshots embarqués, fonctionnalités clés, valeur métier
 
 ## Dépendances
 
 - Scripts inclus : `generate-md.js`, `screenshot-server.js`, `screenshot-bridge.md`
-- Aucune dépendance npm (utilise uniquement les modules natifs Node.js)
+- **Playwright** pour la navigation headless
 - Données d'exemple : `reference/default-structures-nomenclatures.json`
 
 ## Liens

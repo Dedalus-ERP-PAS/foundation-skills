@@ -1,18 +1,18 @@
-# Presentations PowerPoint (pptx)
+# Présentations PowerPoint (pptx)
 
-Creation et manipulation de presentations PowerPoint (.pptx) avec templates, design avance et generation HTML vers PPTX.
+Création et manipulation de présentations PowerPoint (.pptx) avec templates, design avancé et génération HTML vers PPTX.
 
 ## Contexte
 
-Ce skill permet de creer, modifier et exporter des presentations PowerPoint. Il propose deux workflows : creation libre ou modification de templates existants.
+Ce skill permet de créer, modifier et exporter des présentations PowerPoint. Il propose deux workflows : création libre ou modification de templates existants.
 
 ## Cas d'utilisation
 
-- **Creer** des presentations depuis zero
-- **Modifier** des presentations existantes avec template
-- **Generer** des presentations a partir de HTML
+- **Créer** des présentations depuis zéro
+- **Modifier** des présentations existantes avec template
+- **Générer** des présentations à partir de HTML
 - **Appliquer** un design professionnel (palettes, typographie)
-- **Creer des thumbnails** pour apercu visuel
+- **Créer des thumbnails** pour aperçu visuel
 
 ## Deux workflows
 
@@ -24,8 +24,8 @@ graph LR
     D --> E[Rearrange]
 ```
 
-- **Sans template** : creation libre a partir de HTML, ideal pour du contenu nouveau.
-- **Avec template** : modification d'un fichier existant, ideal pour respecter une charte graphique.
+- **Sans template** : création libre à partir de HTML, idéal pour du contenu nouveau.
+- **Avec template** : modification d'un fichier existant, idéal pour respecter une charte graphique.
 
 ### Sans template (section technique)
 
@@ -43,10 +43,10 @@ python scripts/rearrange.py in.pptx out.pptx --order "1,3,2,5"
 
 ## Design et mise en forme
 
-- **16 palettes de couleurs** predefinies
-- **Typographie** adaptee aux presentations professionnelles
-- **Layouts** optimises (deux colonnes prefere au stacking)
-- **Graphiques et diagrammes** integres
+- **16 palettes de couleurs** prédéfinies
+- **Typographie** adaptée aux présentations professionnelles
+- **Layouts** optimisés (deux colonnes préféré au stacking)
+- **Graphiques et diagrammes** intégrés
 
 ## Commandes utiles (section technique)
 
@@ -58,12 +58,12 @@ python scripts/rearrange.py in.pptx out.pptx --order "1,3,2,5"
 ## Utilisation
 
 ```
-@workspace avec pptx, cree une presentation de 10 slides sur [sujet]
-@workspace avec pptx, modifie ce template avec les donnees du JSON
-@workspace avec pptx, genere des thumbnails de cette presentation
+@workspace avec pptx, créez une présentation de 10 slides sur [sujet]
+@workspace avec pptx, modifiez ce template avec les données du JSON
+@workspace avec pptx, générez des thumbnails de cette présentation
 ```
 
-## Demarrage rapide
+## Démarrage rapide
 
 ```bash
 npx skills add Dedalus-ERP-PAS/foundation-skills --skill pptx -g -y
@@ -71,4 +71,4 @@ npx skills add Dedalus-ERP-PAS/foundation-skills --skill pptx -g -y
 
 ## Ressources
 
-- [SKILL.md complet](../skills/pptx/SKILL.md) — Guide detaille avec palettes et options visuelles
+- [SKILL.md complet](../skills/pptx/SKILL.md) — Guide détaillé avec palettes et options visuelles

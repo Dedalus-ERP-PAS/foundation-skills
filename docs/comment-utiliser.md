@@ -2,14 +2,14 @@
 
 Guide pour installer et utiliser les skills avec vos assistants IA (GitHub Copilot, Claude, Cursor, Windsurf).
 
-## Prerequis
+## Prérequis
 
-- **Node.js** 18+ et npm installes
+- **Node.js** 18+ et npm installés
 - Un **assistant IA** compatible (GitHub Copilot, Claude, Cursor, Windsurf)
 - Git (pour certains skills)
-- **Activation de l'option "Use Agent skills"** dans les parametres de votre IDE
+- **Activation de l'option "Use Agent skills"** dans les paramètres de votre IDE
   - VS Code : ouvrir les settings (`Ctrl+,`) et rechercher "agent skills"
-  - Cursor / Windsurf : verifier dans les preferences
+  - Cursor / Windsurf : vérifier dans les préférences
 
 ## Installation
 
@@ -22,45 +22,45 @@ npx skills add Dedalus-ERP-PAS/foundation-skills -g -y
 - `-g` : installation globale (disponible dans tous vos projets)
 - `-y` : accepte automatiquement les prompts
 
-### Installation selective
+### Installation sélective
 
 ```bash
-# Skills specifiques
+# Skills spécifiques
 npx skills add Dedalus-ERP-PAS/foundation-skills \
   --skill backend-patterns \
   --skill react-best-practices \
   -g -y
 
-# Agents specifiques
+# Agents spécifiques
 npx skills add Dedalus-ERP-PAS/foundation-skills \
   -a cursor -a github-copilot -g -y
 ```
 
-### Installation locale (projet specifique)
+### Installation locale (projet spécifique)
 
 ```bash
 cd votre-projet
 npx skills add Dedalus-ERP-PAS/foundation-skills -y
 ```
 
-## Utilisation avec differents agents
+## Utilisation avec différents agents
 
 ### GitHub Copilot (VS Code)
 
-Les skills sont charges automatiquement. Pour activer un skill :
+Les skills sont chargés automatiquement. Pour activer un skill :
 
 1. Ouvrez la palette de commandes (`Ctrl+Shift+P`)
 2. Tapez "GitHub Copilot: Chat"
 3. Mentionnez le skill dans votre prompt :
 
 ```
-@workspace en utilisant backend-patterns, cree une API REST
+@workspace en utilisant backend-patterns, créez une API REST
 ```
 
 ### Claude (Desktop App / VS Code)
 
 ```
-Utilise react-best-practices pour optimiser ce composant
+Utilisez react-best-practices pour optimiser ce composant
 ```
 
 ### Cursor
@@ -68,37 +68,37 @@ Utilise react-best-practices pour optimiser ce composant
 Utilisez le Chat Composer (`Ctrl+L`) ou Inline chat (`Ctrl+K`).
 
 ```
-Avec backend-patterns, implemente un systeme de caching Redis
+Avec backend-patterns, implémentez un système de caching Redis
 ```
 
 ### Windsurf
 
 ```
-Applique frontend-design pour creer une page de login
+Appliquez frontend-design pour créer une page de login
 ```
 
 ## Exemples d'utilisation
 
-### Creer une API backend
+### Créer une API backend
 
 ```
-Cree une API REST pour gerer des taches avec :
+Créez une API REST pour gérer des tâches avec :
 - CRUD complet, Repository pattern, validation Zod
 - Authentification JWT
-- Utilise backend-patterns
+- Utilisez backend-patterns
 ```
 
 ### Parser un message HPK
 
 ```
-Avec hpk-parser, explique ce message HPK :
+Avec hpk-parser, expliquez ce message HPK :
 ID|M1|C|HEXAGONE|20260122120000|USER001|PAT12345|...
 ```
 
 ### Parser un message HL7 IHE PAM
 
 ```
-Utilise hl7-pam-parser pour analyser ce message HL7 ADT :
+Utilisez hl7-pam-parser pour analyser ce message HL7 ADT :
 MSH|^~\&|HEXAFLUX|CHU_PARIS|TARGET|DEST|20260122140000||ADT^A01...
 ```
 
@@ -108,38 +108,38 @@ MSH|^~\&|HEXAFLUX|CHU_PARIS|TARGET|DEST|20260122140000||ADT^A01...
 # Lister les skills disponibles
 npx skills add Dedalus-ERP-PAS/foundation-skills --list
 
-# Mettre a jour
+# Mettre à jour
 npx skills add Dedalus-ERP-PAS/foundation-skills -g -y --update
 
-# Desinstaller un skill
+# Désinstaller un skill
 npx skills remove backend-patterns
 
-# Verifier l'installation
+# Vérifier l'installation
 ls ~/.config/code/skills/   # globale
 ls .skills/                  # locale
 ```
 
 ## Astuces
 
-- **Mentionner le skill explicitement** pour de meilleurs resultats
-- **Combiner plusieurs skills** dans un meme prompt (ex : `react-best-practices` + `frontend-design`)
-- **Commencer simple** puis iterer progressivement
-- **Demander des explications** quand un pattern n'est pas clair
+- **Mentionnez le skill explicitement** pour de meilleurs résultats
+- **Combinez plusieurs skills** dans un même prompt (ex : `react-best-practices` + `frontend-design`)
+- **Commencez simple** puis itérez progressivement
+- **Demandez des explications** quand un pattern n'est pas clair
 
-## Depannage
+## Dépannage
 
-### Les skills ne sont pas detectes
+### Les skills ne sont pas détectés
 
-1. Verifiez l'installation : `npx skills add Dedalus-ERP-PAS/foundation-skills --list`
-2. Reinstallez : `npx skills add Dedalus-ERP-PAS/foundation-skills -g -y --force`
-3. Redemarrez votre IDE
+1. Vérifiez l'installation : `npx skills add Dedalus-ERP-PAS/foundation-skills --list`
+2. Réinstallez : `npx skills add Dedalus-ERP-PAS/foundation-skills -g -y --force`
+3. Redémarrez votre IDE
 
 ### Erreur "skill not found"
 
-- Verifiez le nom exact du skill (voir [README.md](README.md))
-- Installez le skill specifique avec `--skill nom-du-skill`
+- Vérifiez le nom exact du skill (voir [README.md](README.md))
+- Installez le skill spécifique avec `--skill nom-du-skill`
 
-### Problemes de permissions (Linux/Mac)
+### Problèmes de permissions (Linux/Mac)
 
 ```bash
 sudo npx skills add Dedalus-ERP-PAS/foundation-skills -g -y
