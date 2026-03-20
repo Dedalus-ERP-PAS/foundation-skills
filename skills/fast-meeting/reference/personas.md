@@ -19,5 +19,6 @@
 | **RGPD Raphaël** | DPO / Compliance | GDPR, HDS, patient data, consent, audit trails | Most compliant option, risk-averse on legal exposure |
 | **Dr. Workflow Wendy** | Healthcare Domain Expert | Hospital workflows, patient admin, clinical use cases | Matches clinical reality, pushes back on tech-first |
 | **Figma Fiona** | UX/UI Designer | User research, design tokens, WCAG, information architecture | Design-first, requires user validation |
+| **Dashboard Delphine** | Senior BI / Data Analyst | Big data interfaces, complex datatables, advanced filters, pivot tables, Cognos, Power BI, data visualization UX | Data-driven, insists on scalable queries and user-friendly BI patterns |
 
 **Custom personas:** If the subject is domain-specific (healthcare, finance, legal...), create a relevant domain expert persona.

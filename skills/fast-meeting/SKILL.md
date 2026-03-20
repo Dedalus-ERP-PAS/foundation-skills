@@ -2,7 +2,7 @@
 name: fast-meeting
 description: "Lance une réunion autonome rapide avec des personas sélectionnés automatiquement, implémente la décision, crée une MR/PR, commite, pousse et publie un résumé en français — le tout sans intervention de l'utilisateur."
 allowed-tools: gitlab-mcp(get_issue), gitlab-mcp(create_issue_note), gitlab-mcp(update_issue), gitlab-mcp(list_issues), gitlab-mcp(create_merge_request), gitlab-mcp(update_merge_request)
-version: 1.3.0
+version: 1.4.0
 license: MIT
 metadata:
   author: Foundation Skills
@@ -89,6 +89,7 @@ Automatically select 3-4 personas based on the subject matter. Use these heurist
 | Product / feature / UX decision | Sprint Zero Sarah (PO), Pixel-Perfect Hugo (Frontend), Figma Fiona (UX/UI), Whiteboard Damien (Architect) |
 | Healthcare / clinical workflows | Dr. Workflow Wendy (Healthcare), Sprint Zero Sarah (PO), RGPD Raphaël (DPO) |
 | GDPR / data privacy / compliance | RGPD Raphaël (DPO), Paranoid Shug (Security), Whiteboard Damien (Architect) |
+| BI / dashboards / reporting / big data UI | Dashboard Delphine (BI Analyst), Pixel-Perfect Hugo (Frontend), EXPLAIN PLAN Isabelle (Oracle DBA), Whiteboard Damien (Architect) |
 | Full-stack / mixed concern | Whiteboard Damien (Architect), SOLID Alex (Backend), Sprint Zero Sarah (PO), Edge-Case Nico (QA) |
 
 If the subject spans multiple areas, pick the most relevant 3-4 personas. Always include **Whiteboard Damien (Architect)** for technical decisions. Always include **Sprint Zero Sarah (PO)** for product decisions.

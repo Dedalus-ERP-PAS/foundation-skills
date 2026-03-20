@@ -2,7 +2,7 @@
 name: meeting
 description: "Lance une réunion simulée avec plusieurs personas experts pour analyser un sujet sous des perspectives diverses, prendre une décision et proposer une solution avant implémentation. Peut optionnellement publier l'analyse de la réunion sur une issue GitLab ou GitHub liée."
 allowed-tools: gitlab-mcp(get_issue), gitlab-mcp(create_issue_note), gitlab-mcp(update_issue), gitlab-mcp(list_issues), gitlab-mcp(create_merge_request), gitlab-mcp(update_merge_request)
-version: 1.1.0
+version: 1.2.0
 license: MIT
 metadata:
   author: Foundation Skills
@@ -85,6 +85,7 @@ Use these heuristics as a starting point. The user can override the selection be
 | Product / feature / UX decision | Sprint Zero Sarah (PO), Pixel-Perfect Hugo (Frontend), Figma Fiona (UX/UI), Whiteboard Damien (Architect) |
 | Healthcare / clinical workflows | Dr. Workflow Wendy (Healthcare), Sprint Zero Sarah (PO), RGPD Raphaël (DPO) |
 | GDPR / data privacy / compliance | RGPD Raphaël (DPO), Paranoid Shug (Security), Whiteboard Damien (Architect) |
+| BI / dashboards / reporting / big data UI | Dashboard Delphine (BI Analyst), Pixel-Perfect Hugo (Frontend), EXPLAIN PLAN Isabelle (Oracle DBA), Whiteboard Damien (Architect) |
 | Full-stack / mixed concern | Whiteboard Damien (Architect), SOLID Alex (Backend), Sprint Zero Sarah (PO), Edge-Case Nico (QA) |
 
 If the subject spans multiple areas, pick the 3-5 most relevant personas. Always include **Whiteboard Damien (Architect)** for technical decisions. Always include **Sprint Zero Sarah (PO)** for product decisions.
