@@ -85,7 +85,7 @@ Use these heuristics as a starting point. The user can override the selection be
 | Product / feature / UX decision | Sprint Zero Sarah (PO), Pixel-Perfect Hugo (Frontend), Figma Fiona (UX/UI), Whiteboard Damien (Architect) |
 | Healthcare / clinical workflows | Dr. Workflow Wendy (Healthcare), Sprint Zero Sarah (PO), RGPD Raphaël (DPO) |
 | GDPR / data privacy / compliance | RGPD Raphaël (DPO), Paranoid Shug (Security), Whiteboard Damien (Architect) |
-| BI / dashboards / reporting / big data UI | Dashboard Delphine (BI Analyst), Pixel-Perfect Hugo (Frontend), EXPLAIN PLAN Isabelle (Oracle DBA), Whiteboard Damien (Architect) |
+| BI / dashboards / reporting / finance / comptabilité | Dashboard Delphine (BI Finance), Pixel-Perfect Hugo (Frontend), EXPLAIN PLAN Isabelle (Oracle DBA), Whiteboard Damien (Architect) |
 | Full-stack / mixed concern | Whiteboard Damien (Architect), SOLID Alex (Backend), Sprint Zero Sarah (PO), Edge-Case Nico (QA) |
 
 If the subject spans multiple areas, pick the 3-5 most relevant personas. Always include **Whiteboard Damien (Architect)** for technical decisions. Always include **Sprint Zero Sarah (PO)** for product decisions.
