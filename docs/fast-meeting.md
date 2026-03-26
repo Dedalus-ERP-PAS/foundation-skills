@@ -44,7 +44,7 @@ fast-meeting : refactorer le module d'authentification pour OAuth2
 3. **Sélectionne 3-4 personas automatiquement** — Selon le domaine du sujet
 4. **Anime une réunion rapide** — 1 tour de positions parallèles + synthèse
 5. **Vérifie le consensus** — Lance un avocat du diable si toutes les personas sont d'accord
-6. **Assure la traçabilité** — Si aucune issue n'est liée, propose d'en créer une (seule question posée à l'utilisateur)
+6. **Assure la traçabilité** — Si aucune issue n'est liée, en crée une automatiquement avec un résumé orienté PO
 7. **Évalue le périmètre** — Réduit au premier pas critique si le scope est trop large
 8. **Protège le working tree** — Implémentation dans un worktree Git isolé
 9. **Produit une analyse concise** — Recommandation, risques, plan d'implémentation
@@ -53,7 +53,7 @@ fast-meeting : refactorer le module d'authentification pour OAuth2
 12. **Crée une branche, commit et push** — Branche `feat/fm-*`, `fix/fm-*` ou `refactor/fm-*`
 13. **Crée la MR/PR** — Description en français, Draft si les tests échouent, `Closes #XX` si issue liée
 14. **Nettoie le worktree** — Suppression automatique après exécution
-15. **Poste sur l'issue** — Résumé PO/consultant avec lien vers la MR/PR
+15. **Poste sur l'issue** — Résumé PO/consultant avec lien vers la MR/PR (si une issue existe)
 
 ## Personas disponibles
 
@@ -85,7 +85,7 @@ La sélection est automatique selon le contexte. Des personas spécialisées son
 | **Consensus trop facile** | Lancement d'un avocat du diable si toutes les personas sont d'accord |
 | **Scope trop large** | Réduction au premier pas critique, ou abandon + suggestion de `/meeting` |
 | **Tests en échec** | Une tentative de correction, puis MR/PR en Draft avec détails des échecs |
-| **Pas d'issue liée** | Propose de créer une issue pour traçabilité (seule question posée à l'utilisateur) |
+| **Pas d'issue liée** | Crée une issue automatiquement pour assurer la traçabilité (sans intervention de l'utilisateur) |
 | **Exécutions parallèles** | Step 0 vérifie les processus actifs avant de nettoyer — pas de risque de supprimer un worktree en cours d'utilisation |
 
 ## Exemple de résultat

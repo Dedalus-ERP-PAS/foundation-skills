@@ -212,21 +212,17 @@ Write a compact analysis displayed to the user:
 
 If an issue was already referenced in Step 1, it is already available — skip to Step 5.
 
-If **no issue was referenced**, ask the user once whether to create one for traceability. This is the **only user prompt** in the entire fast-meeting pipeline.
+If **no issue was referenced**, create one automatically for traceability — no user prompt, no confirmation. This is consistent with the full-autonomy contract of fast-meeting.
 
-1. **Build a proposed issue from the meeting analysis:**
+1. **Build the issue from the meeting analysis:**
    - **Title:** Short form of the decision question (under 70 chars, in French)
    - **Description:** PO-oriented summary using the template below
-2. **Ask the user:**
-   > _"Aucune issue n'est liée à cette réunion. Voulez-vous en créer une ?"_
-   >
-   > Display the proposed title and a 2-line summary so the user can judge.
-3. **If the user accepts:**
+2. **Create the issue immediately:**
    - **GitLab:** Use `gitlab-mcp(create_issue)` with `project_id`, `title`, and `description`
    - **GitHub:** Use `gh issue create --title "<title>" --body "<description>"`
    - Store the newly created issue number and URL for Steps 8 and 9
    - **Do not add labels** unless you have verified they already exist in the project (list them first)
-4. **If the user declines:** proceed without an issue — Steps 8 and 9 will adapt accordingly
+3. **If issue creation fails** (API error, permission denied, no project found): log the error in the Run Summary, proceed without an issue — Steps 8 and 9 will adapt accordingly
 
 #### Auto-Created Issue Description Template (French — PO / Consultant Oriented)
 
@@ -407,11 +403,11 @@ The MR/PR description targets **developers reviewing the code**. Focus on techni
 - [ ] Validation des tests
 - [ ] Merge après approbation
 
-Closes #XX _(inclure uniquement si une issue existe — remplacer XX par le numéro réel)_
-
 ---
 _Implémentation générée automatiquement par IA_
 ```
+
+**Issue linking:** if an issue exists (referenced in Step 1 or created in Step 4b), append `Closes #<issue_number>` on its own line after the `---` separator and before the italic footer. If no issue exists, omit this line entirely.
 
 ### Step 9: Post to Issue (PO / Consultant Oriented)
 
@@ -420,7 +416,7 @@ Post a **Product Owner / consultant oriented** comment to the linked issue. This
 **Issue resolution:**
 - **Issue was referenced in Step 1:** post the comment on that issue
 - **Issue was created in Step 4b:** post the comment on the newly created issue
-- **No issue exists** (user declined creation in Step 4b): **skip this step** — there is no issue to comment on
+- **Issue creation failed in Step 4b:** skip this step — log the failure in the Run Summary
 
 #### Issue Comment Template (French)
 
@@ -475,7 +471,7 @@ Post the comment using the appropriate tool:
 - **Push :** succès / échec ([erreur si applicable])
 - **MR/PR :** [URL] / non créé ([raison si applicable])
 - **Tests :** [N exécutés, N passés, N échoués] / non détectés
-- **Issue :** liée (#XX) / créée (#XX) / déclinée par l'utilisateur / pas d'issue
+- **Issue :** liée (#XX) / créée (#XX) / échec de création ([erreur])
 - **Commentaire issue :** publié (#XX) / ignoré (pas d'issue)
 - **Durée totale :** [durée wall-clock de l'ensemble du pipeline]
 ```
@@ -550,8 +546,7 @@ User: fast-meeting : migrer le cache Redis vers Valkey
 → Pas d'issue référencée
 → Auto-sélection : SOLID Alex (Backend), Pipeline Mo (DevOps), Whiteboard Damien (Architecte)
 → Lance le fast meeting (1 tour + synthèse)
-→ "Aucune issue n'est liée à cette réunion. Voulez-vous en créer une ?" → Oui
-→ Crée l'issue #58 avec résumé PO
+→ Crée automatiquement l'issue #58 avec résumé PO (aucune confirmation requise)
 → Implémente la migration dans un worktree isolé
 → Commit, push, crée la MR/PR (Closes #58) avec description technique
 → Poste le résumé PO sur l'issue #58
@@ -560,7 +555,7 @@ User: fast-meeting : migrer le cache Redis vers Valkey
 ## Important Notes
 
 - **Never create new labels** on GitLab or GitHub. When adding labels to issues or merge requests, only use labels that already exist in the project. If unsure which labels exist, list them first (`gh label list` for GitHub, or check existing issue labels for GitLab) and pick from the available ones. If no suitable label exists, skip labeling rather than creating a new one.
-- **This skill does NOT ask for user confirmation** — it runs the full pipeline autonomously, with **one exception**: if no issue is referenced, Step 4b asks a single yes/no question about creating one for traceability. This is the only user prompt in the entire pipeline.
+- **This skill does NOT ask for user confirmation** — it runs the full pipeline autonomously
 - If tests fail after one fix attempt, mark the MR/PR as **Draft** and document the failures
 - If the implementation scope is too large (architectural, multi-service), abort and suggest `/meeting` instead
 - The user's working tree is always protected: implementation runs in an isolated git worktree — no stash, no branch switch, no risk of state corruption. If worktree creation fails, the pipeline aborts cleanly rather than falling back to stash/checkout
