@@ -44,15 +44,16 @@ fast-meeting : refactorer le module d'authentification pour OAuth2
 3. **Sélectionne 3-4 personas automatiquement** — Selon le domaine du sujet
 4. **Anime une réunion rapide** — 1 tour de positions parallèles + synthèse
 5. **Vérifie le consensus** — Lance un avocat du diable si toutes les personas sont d'accord
-6. **Évalue le périmètre** — Réduit au premier pas critique si le scope est trop large
-7. **Protège le working tree** — Implémentation dans un worktree Git isolé
-8. **Produit une analyse concise** — Recommandation, risques, plan d'implémentation
-9. **Implémente la recommandation** — Code, tests, modifications de fichiers
-10. **Exécute les tests** — Lance la suite de tests du projet, tente une correction si échec
-11. **Crée une branche, commit et push** — Branche `feat/fm-*`, `fix/fm-*` ou `refactor/fm-*`
-12. **Crée la MR/PR** — Description en français, Draft si les tests échouent
-13. **Nettoie le worktree** — Suppression automatique après exécution
-14. **Poste sur l'issue** — Si applicable, ajoute un lien vers la MR/PR
+6. **Assure la traçabilité** — Si aucune issue n'est liée, en crée une automatiquement avec un résumé orienté PO
+7. **Évalue le périmètre** — Réduit au premier pas critique si le scope est trop large
+8. **Protège le working tree** — Implémentation dans un worktree Git isolé
+9. **Produit une analyse concise** — Recommandation, risques, plan d'implémentation
+10. **Implémente la recommandation** — Code, tests, modifications de fichiers
+11. **Exécute les tests** — Lance la suite de tests du projet, tente une correction si échec
+12. **Crée une branche, commit et push** — Branche `feat/fm-*`, `fix/fm-*` ou `refactor/fm-*`
+13. **Crée la MR/PR** — Description en français, Draft si les tests échouent, `Closes #XX` si issue liée
+14. **Nettoie le worktree** — Suppression automatique après exécution
+15. **Poste sur l'issue** — Résumé PO/consultant avec lien vers la MR/PR (si une issue existe)
 
 ## Personas disponibles
 
@@ -84,12 +85,14 @@ La sélection est automatique selon le contexte. Des personas spécialisées son
 | **Consensus trop facile** | Lancement d'un avocat du diable si toutes les personas sont d'accord |
 | **Scope trop large** | Réduction au premier pas critique, ou abandon + suggestion de `/meeting` |
 | **Tests en échec** | Une tentative de correction, puis MR/PR en Draft avec détails des échecs |
+| **Pas d'issue liée** | Crée une issue automatiquement pour assurer la traçabilité (sans intervention de l'utilisateur) |
 | **Exécutions parallèles** | Step 0 vérifie les processus actifs avant de nettoyer — pas de risque de supprimer un worktree en cours d'utilisation |
 
 ## Exemple de résultat
 
 Le skill produit :
 - Une **analyse affichée** dans la conversation (question, participants, recommandation, risques)
+- Une **issue** créée automatiquement si aucune n'existait (après confirmation de l'utilisateur), avec résumé orienté PO
 - Une **branche** `feat/fm-<sujet>`, `fix/fm-<sujet>` ou `refactor/fm-<sujet>` avec le code implémenté
-- Une **MR/PR** avec description technique orientée développeur (changements fichier par fichier, justifications techniques, points d'attention pour la revue)
-- Un **commentaire sur l'issue** (si applicable) orienté Product Owner / consultant (valeur métier, impact utilisateur, risques projet) avec lien vers la MR/PR
+- Une **MR/PR** avec description technique orientée développeur (changements fichier par fichier, justifications techniques, points d'attention pour la revue) et `Closes #XX` si une issue est liée
+- Un **commentaire sur l'issue** orienté Product Owner / consultant (valeur métier, impact utilisateur, risques projet) avec lien vers la MR/PR

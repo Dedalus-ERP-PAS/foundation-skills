@@ -1,8 +1,8 @@
 ---
 name: fast-meeting
 description: "Lance une réunion autonome rapide avec des personas sélectionnés automatiquement, implémente la décision, crée une MR/PR, commite, pousse et publie un résumé en français — le tout sans intervention de l'utilisateur."
-allowed-tools: gitlab-mcp(get_issue), gitlab-mcp(create_issue_note), gitlab-mcp(update_issue), gitlab-mcp(list_issues), gitlab-mcp(create_merge_request), gitlab-mcp(update_merge_request)
-version: 1.4.0
+allowed-tools: gitlab-mcp(get_issue), gitlab-mcp(create_issue), gitlab-mcp(create_issue_note), gitlab-mcp(update_issue), gitlab-mcp(list_issues), gitlab-mcp(create_merge_request), gitlab-mcp(update_merge_request)
+version: 1.5.0
 license: MIT
 metadata:
   author: Foundation Skills
@@ -63,11 +63,13 @@ This ensures a clean starting state without disrupting parallel fast-meeting run
 1. **Read the user's prompt** — extract the topic, constraints, and goals
 2. **If an issue is referenced** (GitLab `#123` or GitHub `#123`):
    - Fetch the issue details (description, labels, comments)
-3. **If code is involved**, read relevant files to understand the current state
-4. **Detect the remote repository type:**
+   - Store the issue reference (number, URL, project) for Steps 8 and 9
+3. **If no issue is referenced**, note this — an issue may be created later in Step 4b
+4. **If code is involved**, read relevant files to understand the current state
+5. **Detect the remote repository type:**
    - Run `git remote -v` to determine if the remote is GitLab or GitHub
    - Store this for Step 8 (MR/PR creation)
-5. **Identify the decision to make** — frame it as a clear one-line question
+6. **Identify the decision to make** — frame it as a clear one-line question
 
 Output the decision question before proceeding. Example:
 > "Question: Should we migrate the authentication system from session-based to JWT tokens?"
@@ -206,6 +208,48 @@ Write a compact analysis displayed to the user:
 3. [Step 3]
 ```
 
+### Step 4b: Ensure Issue Exists
+
+If an issue was already referenced in Step 1, it is already available — skip to Step 5.
+
+If **no issue was referenced**, create one automatically for traceability — no user prompt, no confirmation. This is consistent with the full-autonomy contract of fast-meeting.
+
+1. **Build the issue from the meeting analysis:**
+   - **Title:** Short form of the decision question (under 70 chars, in French)
+   - **Description:** PO-oriented summary using the template below
+2. **Create the issue immediately:**
+   - **GitLab:** Use `gitlab-mcp(create_issue)` with `project_id`, `title`, and `description`
+   - **GitHub:** Use `gh issue create --title "<title>" --body "<description>"`
+   - Store the newly created issue number and URL for Steps 8 and 9
+   - **Do not add labels** unless you have verified they already exist in the project (list them first)
+3. **If issue creation fails** (API error, permission denied, no project found): log the error in the Run Summary, proceed without an issue — Steps 8 and 9 will adapt accordingly
+
+#### Auto-Created Issue Description Template (French — PO / Consultant Oriented)
+
+```markdown
+## Contexte
+[Business context derived from the user's prompt — what problem or opportunity triggered this analysis]
+
+## Question analysée
+[The decision question from Step 1, framed in business terms]
+
+## Participants
+| Expert | Rôle |
+|--------|------|
+| [Name] | [Role] |
+| ... | ... |
+
+## Recommandation
+[The recommended approach in 2-3 sentences, focusing on user/business value rather than technical details]
+
+## Risques identifiés
+- [Risk 1 in business impact terms → Mitigation]
+- [Risk 2 in business impact terms → Mitigation]
+
+---
+_Issue créée automatiquement par un fast-meeting IA_
+```
+
 ### Step 5: Scope Guard
 
 Before implementing, estimate the scope of the recommended changes:
@@ -306,12 +350,14 @@ Based on the remote type detected in Step 1:
 Use `gitlab-mcp(create_merge_request)` to create a merge request with:
 - **Title:** Short description (under 70 chars, in English)
 - **Description:** The French meeting analysis and implementation summary (see template below)
+- **Issue link:** If an issue exists (referenced or created in Step 4b), include `Closes #XX` in the description to auto-close the issue on merge
 
 #### If GitHub:
 
 Use `gh pr create` to create a pull request with:
 - **Title:** Short description (under 70 chars, in English)
 - **Body:** The French meeting analysis and implementation summary (see template below)
+- **Issue link:** If an issue exists (referenced or created in Step 4b), include `Closes #XX` in the body to auto-close the issue on merge
 
 #### If MR/PR creation fails:
 
@@ -361,9 +407,16 @@ The MR/PR description targets **developers reviewing the code**. Focus on techni
 _Implémentation générée automatiquement par IA_
 ```
 
-### Step 9: Post to Issue (If Applicable — PO / Consultant Oriented)
+**Issue linking:** if an issue exists (referenced in Step 1 or created in Step 4b), append `Closes #<issue_number>` on its own line after the `---` separator and before the italic footer. If no issue exists, omit this line entirely.
 
-If the subject is linked to a GitLab or GitHub issue, post a **Product Owner / consultant oriented** comment. This comment targets stakeholders, not developers — focus on business value, user impact, and strategic reasoning rather than technical details.
+### Step 9: Post to Issue (PO / Consultant Oriented)
+
+Post a **Product Owner / consultant oriented** comment to the linked issue. This comment targets stakeholders, not developers — focus on business value, user impact, and strategic reasoning rather than technical details.
+
+**Issue resolution:**
+- **Issue was referenced in Step 1:** post the comment on that issue
+- **Issue was created in Step 4b:** post the comment on the newly created issue
+- **Issue creation failed in Step 4b:** skip this step — log the failure in the Run Summary
 
 #### Issue Comment Template (French)
 
@@ -418,7 +471,8 @@ Post the comment using the appropriate tool:
 - **Push :** succès / échec ([erreur si applicable])
 - **MR/PR :** [URL] / non créé ([raison si applicable])
 - **Tests :** [N exécutés, N passés, N échoués] / non détectés
-- **Commentaire issue :** publié / ignoré (pas d'issue liée)
+- **Issue :** liée (#XX) / créée (#XX) / échec de création ([erreur])
+- **Commentaire issue :** publié (#XX) / ignoré (pas d'issue)
 - **Durée totale :** [durée wall-clock de l'ensemble du pipeline]
 ```
 
@@ -482,6 +536,20 @@ User: fast-meeting : refactorer le module d'authentification pour supporter OAut
 → Lance le fast meeting
 → Implémente le refactoring
 → Crée la MR/PR avec analyse en français
+```
+
+### Example 4: No Issue Referenced — Auto-Creation
+
+```
+User: fast-meeting : migrer le cache Redis vers Valkey
+
+→ Pas d'issue référencée
+→ Auto-sélection : SOLID Alex (Backend), Pipeline Mo (DevOps), Whiteboard Damien (Architecte)
+→ Lance le fast meeting (1 tour + synthèse)
+→ Crée automatiquement l'issue #58 avec résumé PO (aucune confirmation requise)
+→ Implémente la migration dans un worktree isolé
+→ Commit, push, crée la MR/PR (Closes #58) avec description technique
+→ Poste le résumé PO sur l'issue #58
 ```
 
 ## Important Notes
