@@ -1,7 +1,7 @@
 ---
 name: write-a-skill
 description: "Guide la création d'un nouveau skill d'agent IA pour le dépôt foundation-skills. Génère le squelette du SKILL.md et du fichier docs, applique les conventions du dépôt (frontmatter, versionnage, structure). À utiliser quand l'utilisateur demande de créer un nouveau skill, écrire un skill, ajouter un skill ou générer le squelette d'un skill."
-version: 1.0.0
+version: 1.2.0
 license: MIT
 ---
 
@@ -48,6 +48,7 @@ version: 1.0.0
 - Use progressive disclosure: put detailed content in `reference/` files
 - Include concrete examples
 - No time-sensitive information
+- If the skill requires external CLI tools (e.g., `gh`, `glab`, `jq`, `playwright`), add a `## Prerequisites` section listing each tool with its install command. If the tool is not already handled by `skills/setup/reference/setup.sh`, add it there and bump `setup`'s version (the setup script is maintained manually).
 
 ### Step 4: Create reference files (if needed)
 
@@ -86,6 +87,8 @@ See existing files in `docs/` for style reference.
 - [ ] No time-sensitive info, consistent terminology
 - [ ] Concrete examples included
 - [ ] Reference files only one level deep
+- [ ] If external CLI tools are required, a `## Prerequisites` section is present with install commands
+- [ ] If the skill requires a new CLI tool not already handled by `setup.sh`, add it to `skills/setup/reference/setup.sh` and bump `setup`'s version
 
 ## Versioning rules
 
