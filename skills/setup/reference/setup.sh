@@ -3,6 +3,10 @@
 # Installs prerequisite CLI tools for Foundation Skills on Linux (apt).
 # Idempotent: safe to run multiple times — skips already-installed tools.
 #
+# MAINTENANCE NOTE: This script is maintained manually.
+# When a new skill requires a new installable CLI tool, add it here.
+# See skills/write-a-skill/SKILL.md for the convention.
+#
 # Tools installed:
 #   gh    — GitHub CLI
 #   glab  — GitLab CLI
