@@ -43,6 +43,7 @@ graph LR
 | Skill | Description | Doc |
 |-------|-------------|-----|
 | **design-compliance** | Audit de conformité au design system Hexagone avec auto-correction | [doc](docs/design-compliance.md) |
+| **business-compliance** | Audit de conformité aux règles métier (`docs/domain/`) — report-only, santé | [doc](docs/business-compliance.md) |
 
 ### Tests et qualité
 
