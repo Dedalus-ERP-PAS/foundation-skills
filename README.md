@@ -51,6 +51,8 @@ graph LR
 |-------|-------------|-----|
 | **tdd** | Développement piloté par les tests (red-green-refactor) | [doc](docs/tdd.md) |
 | **testing-patterns** | Patterns de test : unitaire, intégration, E2E, mocking | [doc](docs/testing-patterns.md) |
+| **manual-test-designer** | Génération de cas de test manuels CSV (Xray) et JDD JSON depuis des user stories | [doc](docs/manual-test-designer.md) |
+| **qa-automation** | Automatisation Playwright/TypeScript avec architecture 3 couches (Spec → Steps → POM) | [doc](docs/qa-automation.md) |
 | **security-review** | Audit de sécurité et OWASP Top 10 | [doc](docs/security-review.md) |
 | **git-guardrails** | Bloque les commandes git dangereuses (push --force, reset --hard) | [doc](docs/git-guardrails.md) |
 
