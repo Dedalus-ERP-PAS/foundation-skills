@@ -6,7 +6,7 @@ Génération automatique de comptes-rendus de réunion en français à partir d'
 
 Rédiger un compte-rendu de réunion prend du temps : écouter ou relire la transcription, réorganiser les échanges par sujet, extraire les décisions, identifier les actions à mener. Ce skill automatise toute la chaîne à partir du fichier `.vtt` exporté depuis Teams, avec en option le rapport de présence `.csv`.
 
-**Spécifique au projet hexagone-monorepo.** Le compte-rendu est rangé automatiquement dans le bon sous-dossier de `docs/reports/` selon le domaine concerné.
+**Agnostique par défaut, enrichi pour hexagone-monorepo.** Le skill fonctionne sur n'importe quel projet. Quand il détecte le projet **hexagone-monorepo**, il active automatiquement la classification par sous-domaine et le routage vers `docs/reports/<sous-domaine>/`. Sur tout autre projet, il écrit dans un dossier unique (`docs/reports/`, `docs/meetings/`, etc.).
 
 ## Utilisation
 
@@ -20,20 +20,35 @@ transforme cette transcription en rapport /chemin/vers/reunion.vtt
 
 Le skill détecte les fichiers automatiquement grâce à leur extension (`.vtt` = transcription, `.csv` = présence).
 
+## Détection du mode projet
+
+Avant tout traitement, le skill détermine le mode en fonction du projet courant :
+
+- **Mode `hexagone-monorepo`** activé si l'un de ces critères est vrai :
+  - `docs/reports/foundation/` ET `docs/reports/interoperability/` existent
+  - Le remote git mentionne `hexagone-monorepo`
+  - Le `package.json` racine a un `name` contenant `hexagone-monorepo`
+- **Mode générique** dans tous les autres cas.
+
+L'utilisateur peut forcer le mode avec « mode générique » ou « mode hexagone ». Le skill annonce le mode détecté en une phrase avant de produire le compte-rendu.
+
 ## Fonctionnement
 
 ```mermaid
 graph LR
     A[.vtt + .csv optionnel] --> B[Parse transcription]
-    B --> C[Classification domaine]
+    B --> M{Mode}
+    M -- hexagone-monorepo --> C[Classification domaine]
+    M -- générique --> G[Dossier unique]
     C --> D[Rewrite par sujet]
+    G --> D
     D --> E[Extraction actions]
-    E --> F[docs/reports/&lt;domaine&gt;/&lt;fichier&gt;.md]
+    E --> F[Fichier .md]
 ```
 
-## Domaines supportés
+## Mode hexagone-monorepo
 
-Le skill classe automatiquement le compte-rendu dans le bon sous-dossier de `docs/reports/` :
+En mode hexagone-monorepo, le skill classe automatiquement le compte-rendu dans le bon sous-dossier de `docs/reports/` :
 
 | Dossier | Contenu |
 |---|---|
@@ -51,16 +66,30 @@ Si la réunion couvre plusieurs domaines, le skill choisit le domaine **dominant
 
 **Cas particulier interop vs GAP.** Les messages HL7 véhiculent des données patient (PID, PV1, NK1…), donc les mots-clés GAP apparaissent naturellement dans une réunion d'interop. Quand des signaux HL7/interop sont présents, le skill classe en `interoperability/` — même si « patient » ou « admission » reviennent souvent — car la réunion parle d'**intégration technique**, pas de workflow métier.
 
+## Mode générique
+
+Aucune classification de domaine. Le skill écrit dans le premier dossier qui existe parmi :
+
+1. `docs/reports/`
+2. `docs/meetings/`
+3. `meetings/`
+4. `reports/`
+
+Si aucun n'existe, il crée `docs/reports/` et l'utilise.
+
 ## Convention de nommage
 
-- **Réunions Foundation** : `YYYY-MM-DD.md` (date seule — une réunion d'équipe par jour au maximum)
-- **Autres domaines** : `YYYY-MM-DD-<slug>.md` (slug généré à partir du sujet détecté)
+| Mode | Cas | Format |
+|---|---|---|
+| hexagone-monorepo | Réunions Foundation | `YYYY-MM-DD.md` (date seule) |
+| hexagone-monorepo | Autres domaines | `YYYY-MM-DD-<slug>.md` |
+| générique | Tous | `YYYY-MM-DD-<slug>.md` |
 
 Le nom de fichier utilise toujours le format ISO `YYYY-MM-DD`, tandis que la date dans le corps du compte-rendu est au format français `DD/MM/YYYY`.
 
 ## Format du compte-rendu
 
-Le compte-rendu respecte exactement la structure existante des rapports hexagone-monorepo :
+Le compte-rendu suit la même structure dans les deux modes :
 
 - **Titre** : `# Compte-rendu — <Type> <Sujet>`
 - **Métadonnées** : date (`DD/MM/YYYY`), organisateur identifié
@@ -93,13 +122,13 @@ Le skill n'invente jamais de noms.
 
 ## Comportement
 
-- Écrit le fichier directement dans `docs/reports/<domaine>/<fichier>.md`
+- Écrit le fichier directement à l'emplacement résolu selon le mode
 - **Ne commite pas** et ne pousse pas — la revue et le commit restent manuels
 - **N'écrase jamais** un compte-rendu existant ; si un fichier avec le même nom existe déjà, un suffixe numérique (`-2`, `-3`) est ajouté
 - **Pas de censure** — les réunions sont considérées comme internes et sûres, les noms et contenus sont conservés tels quels
 
 ## Prérequis
 
-- Être dans le projet **hexagone-monorepo** (le skill suppose que `docs/reports/<domaine>/` existe pour les six domaines)
 - Avoir exporté la transcription `.vtt` depuis Teams
 - Optionnel : avoir exporté le rapport de présence `.csv` pour enrichir la section Participants
+- Mode hexagone-monorepo : le skill suppose que `docs/reports/<domaine>/` existe pour les sous-dossiers concernés (et les crée au besoin si manquants)
