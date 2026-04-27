@@ -1,8 +1,8 @@
 ---
 name: meeting-report
-description: "Génère automatiquement un compte-rendu de réunion en français à partir d'une transcription Teams (.vtt) et optionnellement d'un rapport de présence (.csv). Spécifique au projet hexagone-monorepo. À utiliser quand l'utilisateur dépose un ou deux chemins de fichiers Teams dans le prompt et demande la génération d'un compte-rendu."
+description: "Génère automatiquement un compte-rendu de réunion en français à partir d'une transcription Teams (.vtt) et optionnellement d'un rapport de présence (.csv). Agnostique par défaut, avec un mode enrichi auto-détecté pour le projet hexagone-monorepo. À utiliser quand l'utilisateur dépose un ou deux chemins de fichiers Teams dans le prompt et demande la génération d'un compte-rendu."
 allowed-tools: Read, Write, Bash, Grep, Glob
-version: 1.1.0
+version: 1.2.0
 license: MIT
 metadata:
   author: Foundation Skills
@@ -10,9 +10,9 @@ metadata:
 
 # Meeting Report
 
-Generate a structured French meeting report from a Microsoft Teams `.vtt` transcript, optionally enriched with a Teams `.csv` attendance report. The report is written to the correct sub-domain folder under `docs/reports/` inside the **hexagone-monorepo** project.
+Generate a structured French meeting report from a Microsoft Teams `.vtt` transcript, optionally enriched with a Teams `.csv` attendance report.
 
-**This skill is specific to the hexagone-monorepo project.** It assumes the working directory is hexagone-monorepo and that `docs/reports/` exists with the following sub-domain folders: `foundation/`, `core/`, `interoperability/`, `gap/`, `grh/`, `gef/`, `ui-ux/`.
+The skill works on **any project**. It auto-detects the **hexagone-monorepo** project and, when detected, applies project-specific rules (sub-domain classification, sub-folder routing, foundation date-only naming). On any other project, it falls back to a generic single-folder output.
 
 ## When to Use This Skill
 
@@ -31,6 +31,24 @@ The skill expects **one or two file paths** dropped in the user prompt:
 - **Optional:** `.csv` file — Teams attendance report
 
 Detection: inspect file extensions in the user prompt. If both are present, `.vtt` is the transcript and `.csv` is the attendance report. If only one file is dropped, it must be the `.vtt`.
+
+## Project Mode Detection
+
+Before processing, decide whether the current working directory is the **hexagone-monorepo** project. This sets the routing behavior for the rest of the workflow.
+
+Run these checks (any one of them is sufficient to enter `hexagone-monorepo` mode):
+
+1. **Folder layout** — `docs/reports/foundation/` AND `docs/reports/interoperability/` both exist
+2. **Git remote** — `git remote -v` mentions `hexagone-monorepo`
+3. **Package name** — root `package.json` has a `name` containing `hexagone-monorepo`
+
+If none match → **generic mode**.
+
+The user may also explicitly override:
+- « mode générique » / « generic mode » → force generic
+- « mode hexagone » → force hexagone-monorepo (only valid if the layout exists)
+
+State the detected mode in one short sentence to the user before producing the report (e.g. « Mode détecté : hexagone-monorepo. » or « Mode détecté : générique. »).
 
 ## Workflow
 
@@ -78,9 +96,11 @@ Priority order:
 
    > « La transcription est anonyme et aucun fichier de présence n'est fourni. Peux-tu me donner la liste des participants ? »
 
-### Step 4: Classify the Sub-Domain
+### Step 4: Classify the Sub-Domain (hexagone-monorepo mode only)
 
-Analyze transcript content for domain signals using the table below (case-insensitive keyword matching):
+**Skip this step in generic mode.** In generic mode, there is no domain classification — the report goes to a single output folder (see Step 11).
+
+In **hexagone-monorepo mode**, analyze transcript content for domain signals using the table below (case-insensitive keyword matching):
 
 | Folder | Signals (French / technical keywords) |
 |---|---|
@@ -167,7 +187,7 @@ Place the diagram **inside the relevant topic section**, not at the top of the r
 
 ### Step 9: Assemble the Report
 
-Use this exact template (matches the hexagone-monorepo existing convention):
+Use this exact template:
 
 ```markdown
 # Compte-rendu — <Type de réunion> <Sujet>
@@ -225,64 +245,103 @@ Use this exact template (matches the hexagone-monorepo existing convention):
 
 ### Step 10: Determine the Filename
 
-Rule:
+**hexagone-monorepo mode:**
+- Foundation team meetings (`foundation/` folder) → `YYYY-MM-DD.md` (date only, no slug — one standing team meeting per day maximum)
+- All other folders → `YYYY-MM-DD-<slug>.md`
 
-- **Foundation team meetings** (`foundation/` folder) → `YYYY-MM-DD.md` (date only, no slug — one standing team meeting per day maximum)
-- **All other folders** → `YYYY-MM-DD-<slug>.md`
+**Generic mode:**
+- Always `YYYY-MM-DD-<slug>.md`
 
 The filename always uses the **ISO date format** `YYYY-MM-DD`, different from the French `DD/MM/YYYY` used in the report body.
 
-### Step 11: Write the File
+### Step 11: Resolve the Output Folder and Write the File
 
-1. Build the target path: `docs/reports/<folder>/<filename>.md`
-2. Verify the target folder exists using Bash (`ls docs/reports/<folder>/`)
-3. Check if a file with the same name already exists — if yes, append `-2`, `-3`, etc. before writing (do NOT overwrite)
-4. Write the file with the Write tool
+**hexagone-monorepo mode:**
+1. Target path: `docs/reports/<sub-domain>/<filename>.md`
+2. Verify the sub-domain folder exists (`ls docs/reports/<sub-domain>/`). If missing, create it.
+
+**Generic mode:**
+1. Pick the first existing folder among:
+   - `docs/reports/`
+   - `docs/meetings/`
+   - `meetings/`
+   - `reports/`
+2. If none exists, create `docs/reports/` and use it.
+3. Target path: `<chosen-folder>/<filename>.md`
+
+**Common to both modes:**
+1. Check if a file with the same name already exists — if yes, append `-2`, `-3`, etc. before writing (do NOT overwrite)
+2. Write the file with the Write tool
 
 ### Step 12: Report to the User
 
 Show a concise summary:
 
-1. ✓ Target path: `docs/reports/<folder>/<filename>.md`
-2. One-line summary: domain detected, number of topics, number of actions, number of participants
-3. Note any fallback that was triggered (no attendance CSV, no voice tags, today's date used because no date found, etc.)
-4. **Stop.** Do not run `git add`, `git commit`, or `git push`. The user commits the file manually after review.
+1. ✓ Mode: `hexagone-monorepo` or `generic`
+2. ✓ Target path
+3. One-line summary: (sub-domain in hexagone mode), number of topics, number of actions, number of participants
+4. Note any fallback that was triggered (no attendance CSV, no voice tags, today's date used because no date found, default folder created, etc.)
+5. **Stop.** Do not run `git add`, `git commit`, or `git push`. The user commits the file manually after review.
 
 ## Important Notes
 
-- **This skill is specific to the hexagone-monorepo project.** It assumes the current working directory is hexagone-monorepo and that `docs/reports/<sub-domain>/` exists for the six domains.
-- **No redaction or pseudonymization.** Team meetings are considered internal and trusted. Patient names, client hospitals, commercial info, and personnel names may appear verbatim in reports.
+- **Project-agnostic by default.** Sub-domain classification and `docs/reports/<sub-domain>/` routing only apply when the hexagone-monorepo project is detected.
+- **No redaction or pseudonymization.** Team meetings are considered internal and trusted. Names and content may appear verbatim in reports.
 - **No git actions.** The skill writes the file and stops. Commit and push are manual.
 - **Rewrite heavily — do not transcribe.** The output is a thematic synthesis, not chronological minutes.
 - **Fix French accents aggressively.** Teams `.vtt` French transcripts routinely miss accents and punctuation.
-- **Foundation meetings use date-only naming.** All other folders use `YYYY-MM-DD-<slug>.md`.
+- **Foundation date-only naming applies only in hexagone-monorepo mode.** Generic mode always uses `YYYY-MM-DD-<slug>.md`.
 - **Mermaid is optional, rare, and only when useful.** Default is no diagram.
 - **Participants fallback order:** `.csv` first, then `<v>` voice tags, then ask the user. Never invent names.
 - **Never overwrite an existing report.** Append a numeric suffix if a file with the same name already exists.
 
 ## Examples
 
-### Example 1: UX/UI atelier with attendance CSV
+### Example 1: Generic project, simple meeting
+
+```
+User: crée un compte-rendu de cette transcription Teams /tmp/kickoff.vtt
+
+→ Detection: no docs/reports/foundation/ found → generic mode
+→ Skill reads the .vtt
+→ Parses <v> voice tags → 5 speakers
+→ Extracts date 2026-04-22
+→ Picks docs/reports/ (exists) as output folder
+→ Writes docs/reports/2026-04-22-kickoff-projet.md
+→ Reports: « Mode détecté : générique. »
+```
+
+### Example 2: Generic project, no docs/reports folder yet
+
+```
+User: génère le compte-rendu /tmp/atelier.vtt /tmp/attendees.csv
+
+→ Detection: generic mode
+→ No docs/reports/, no docs/meetings/, no meetings/, no reports/ → creates docs/reports/
+→ Writes docs/reports/2026-04-15-atelier-architecture.md
+→ Reports: « Mode détecté : générique. Dossier docs/reports/ créé. »
+```
+
+### Example 3 (hexagone-monorepo): UX/UI atelier with attendance CSV
 
 ```
 User: crée un compte-rendu de cette transcription Teams /tmp/atelier_recherche_patient.vtt /tmp/attendees.csv
 
+→ Detection: docs/reports/foundation/ + interoperability/ exist → hexagone-monorepo mode
 → Skill reads both files
 → Extracts date from .vtt NOTE header: 2026-03-18
 → Participants from .csv: Chloé Julenon, Richard Gill, Adrien Marcos, Myriam Fatoux, Damien Battistella
 → Detects ui-ux signals (atelier, écran, maquette, recherche patient)
 → Classifies as ui-ux/
-→ Extracts topics, decisions, actions
 → Writes docs/reports/ui-ux/2026-03-18-atelier-recherche-patient.md
-→ Reports path to user
 ```
 
-### Example 2: Foundation team sprint review, no CSV
+### Example 4 (hexagone-monorepo): Foundation team sprint review, no CSV
 
 ```
 User: génère le compte-rendu de cette réunion /tmp/sprint_review.vtt
 
-→ Skill reads the .vtt
+→ Detection: hexagone-monorepo mode
 → Parses <v Speaker> voice tags → extracts 4 speakers
 → Extracts date from NOTE header: 2026-04-10
 → Detects foundation signals (sprint, rétro, point équipe)
@@ -291,36 +350,23 @@ User: génère le compte-rendu de cette réunion /tmp/sprint_review.vtt
 → Writes docs/reports/foundation/2026-04-10.md
 ```
 
-### Example 3: Anonymous transcript with no CSV
+### Example 5: Anonymous transcript with no CSV (any mode)
 
 ```
 User: transforme cette transcription en rapport /tmp/meeting.vtt
 
-→ Skill reads the .vtt
 → No <v> tags found
 → No .csv provided
 → Stops and asks: « La transcription est anonyme et aucun fichier de présence n'est fourni. Peux-tu me donner la liste des participants ? »
 → Waits for the user, then continues with the provided names
 ```
 
-### Example 4: Multi-domain transcript
-
-```
-User: compte-rendu /tmp/point_facturation_ght.vtt
-
-→ Skill reads the .vtt
-→ Detects signals for both gap (facturation, venue, séjour) and gef (HA GHT, pharmacie mentioned in passing)
-→ gap has significantly more keyword hits → picks gap as dominant
-→ Classifies as gap/
-→ Writes docs/reports/gap/2026-04-08-point-facturation-ght.md
-```
-
-### Example 5: Hexaflux weekly — HL7 discussion, not GAP
+### Example 6 (hexagone-monorepo): Hexaflux weekly — HL7 discussion, not GAP
 
 ```
 User: crée un compte-rendu /tmp/hexaflux_weekly.vtt
 
-→ Skill reads the .vtt
+→ Detection: hexagone-monorepo mode
 → Detects HL7 / ADT / PID / PV1 / NK1 / OBX / segment / mapping signals
 → Patient and admission keywords are present BUT tied to HL7 message segments, not business workflows
 → Applies the interop-vs-gap disambiguation rule → picks interoperability/
