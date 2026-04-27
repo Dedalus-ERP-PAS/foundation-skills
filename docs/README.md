@@ -39,9 +39,11 @@ Index de la documentation disponible pour les Foundation Skills.
 
 ### Automatisation & Tests
 
-| Skill                                   | Documentation                             |
-| --------------------------------------- | ----------------------------------------- |
-| [playwright-skill](playwright-skill.md) | Automatisation navigateur avec Playwright |
+| Skill                                                         | Documentation                                                          |
+| ------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| [playwright-skill](playwright-skill.md)                       | Automatisation navigateur avec Playwright                              |
+| [manual-test-designer](manual-test-designer.md)               | Génération de cas de test manuels CSV (Xray) et JDD JSON               |
+| [qa-automation](qa-automation.md)                             | Automatisation Playwright/TypeScript — architecture 3 couches (Spec → Steps → POM) |
 
 ### Documents Office
 
